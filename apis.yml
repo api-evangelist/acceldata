@@ -6,9 +6,9 @@ apis:
     name: Acceldata
     tags:
       - API
-    humanURL: ' https://docs.acceldata.io/'
+    humanURL: https://docs.acceldata.io/
     properties:
-      - url: ' https://docs.acceldata.io/'
+      - url: https://docs.acceldata.io/
         type: Documentation
     description: 'All-in-OneDocumentationExplore Our Products '
 name: Acceldata
@@ -19,7 +19,7 @@ type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
 created: '2025-02-24'
-modified: '2025-02-24'
+modified: '2025-04-10'
 position: Consuming
 description: >-
   Acceldata is a technology company that specializes in data observability and
