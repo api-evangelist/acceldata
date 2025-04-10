@@ -35,3 +35,10 @@ maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
 specificationVersion: '0.19'
+common:
+  - name: >-
+      Acceldata | Agentic Data Management Platform | Enterprise Data
+      Observability
+    description: 'null'
+    url: https://www.acceldata.io/
+    type: Website
