@@ -62,7 +62,7 @@ common:
   - type: PrivacyPolicy
     url: https://www.acceldata.io//privacy-policy
 created: '2025-02-24'
-modified: '2025-04-10'
+modified: '2026-03-16'
 position: Consuming
 description: >-
   Acceldata is a technology company that specializes in data observability and
@@ -76,5 +76,5 @@ description: >-
   business success.
 maintainers:
   - FN: Kin Lane
-    email: info@apievangelist.com
+    email: kin@apievangelist.com
 specificationVersion: '0.19'
