@@ -4,8 +4,7 @@ url: >-
 apis:
   - aid: acceldata:acceldata
     name: Acceldata
-    tags:
-      - API
+    tags: []
     humanURL: https://docs.acceldata.io/
     properties:
       - url: https://docs.acceldata.io/
@@ -14,8 +13,8 @@ apis:
       All-in-OneDocumentationExplore Our Products.
 name: Acceldata
 tags:
-  - Observability
   - Intelligence
+  - Observability
 type: Contract
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
