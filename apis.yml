@@ -10,7 +10,8 @@ apis:
     properties:
       - url: https://docs.acceldata.io/
         type: Documentation
-    description: 'All-in-OneDocumentationExplore Our Products '
+    description: >-
+      All-in-OneDocumentationExplore Our Products.
 name: Acceldata
 tags:
   - Observability
@@ -65,15 +66,12 @@ created: '2025-02-24'
 modified: '2026-03-16'
 position: Consuming
 description: >-
-  Acceldata is a technology company that specializes in data observability and
-  intelligence solutions for enterprises. Their platform is designed to help
-  organizations monitor and optimize their data pipelines, ensuring data
-  reliability, efficiency, and security. By providing real-time insights into
-  data flow, quality, and performance, Acceldata enables businesses to identify
-  and resolve issues quickly, improve data governance, and drive better
-  decision-making. With their innovative tools and expertise, Acceldata empowers
-  companies to harness the full potential of their data assets and drive
-  business success.
+  Acceldata is a technology company that specializes in data observability and intelligence
+  solutions for enterprises. Their platform is designed to help organizations monitor
+  and optimize their data pipelines, ensuring data reliability, efficiency, and security.
+  By providing real-time insights into data flow, quality, and performance, Acceldata
+  enables businesses to identify and resolve issues quickly, improve data governance,
+  and drive better decision-making.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
