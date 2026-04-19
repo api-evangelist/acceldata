@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-alert.json",
+  "title": "Alert",
+  "type": "object",
+  "description": "A data quality or pipeline monitoring alert",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique alert identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Alert title"
+    },
+    "severity": {
+      "type": "string",
+      "description": "Alert severity level",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current alert status",
+      "enum": [
+        "open",
+        "resolved",
+        "acknowledged"
+      ]
+    },
+    "ruleId": {
+      "type": "string",
+      "description": "Data quality rule that triggered this alert"
+    },
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset associated with the alert"
+    },
+    "datasetName": {
+      "type": "string",
+      "description": "Dataset name"
+    },
+    "metricValue": {
+      "type": "number",
+      "description": "Actual metric value that triggered the alert"
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Threshold that was exceeded"
+    },
+    "triggeredAt": {
+      "type": "string",
+      "description": "When the alert was triggered"
+    }
+  }
+}

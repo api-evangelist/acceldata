@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/alert-list.json",
+  "title": "AlertList",
+  "type": "object",
+  "description": "Paginated list of alerts",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "alert.json"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total alert count"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

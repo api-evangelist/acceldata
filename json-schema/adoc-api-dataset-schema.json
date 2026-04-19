@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/dataset.json",
+  "title": "Dataset",
+  "type": "object",
+  "description": "A registered dataset in Acceldata",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique dataset identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Dataset name (table or file name)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Data source platform",
+      "enum": [
+        "snowflake",
+        "databricks",
+        "bigquery",
+        "redshift",
+        "s3",
+        "hdfs",
+        "hive",
+        "postgres"
+      ]
+    },
+    "database": {
+      "type": "string",
+      "description": "Database name"
+    },
+    "schema": {
+      "type": "string",
+      "description": "Schema name"
+    },
+    "qualityScore": {
+      "type": "number",
+      "format": "double",
+      "description": "Overall data quality score (0-100)"
+    },
+    "lastScanned": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time the dataset was scanned"
+    },
+    "rowCount": {
+      "type": "integer",
+      "description": "Number of rows in the dataset"
+    },
+    "columnCount": {
+      "type": "integer",
+      "description": "Number of columns in the dataset"
+    }
+  }
+}

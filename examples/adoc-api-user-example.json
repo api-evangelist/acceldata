@@ -1,0 +1,10 @@
+{
+  "id": "user-001",
+  "username": "jane.smith",
+  "email": "jane.smith@example.com",
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "role": "DATA_ENGINEER",
+  "active": true,
+  "createdAt": "2023-01-15T00:00:00Z"
+}

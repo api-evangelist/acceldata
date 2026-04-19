@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-user.json",
+  "title": "User",
+  "type": "object",
+  "description": "A user in the Acceldata platform",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "User identifier"
+    },
+    "email": {
+      "type": "string",
+      "description": "User email address"
+    },
+    "name": {
+      "type": "string",
+      "description": "User full name"
+    },
+    "role": {
+      "type": "string",
+      "description": "Assigned role"
+    },
+    "status": {
+      "type": "string",
+      "description": "User account status",
+      "enum": [
+        "active",
+        "inactive",
+        "invited"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "Account creation timestamp"
+    }
+  }
+}

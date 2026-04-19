@@ -1,0 +1,13 @@
+{
+  "total": 1,
+  "page": 1,
+  "pageSize": 20,
+  "rules": [
+    {
+      "id": "rule-null-check-001",
+      "name": "Null Check - Email Column",
+      "ruleType": "NULL_CHECK",
+      "enabled": true
+    }
+  ]
+}

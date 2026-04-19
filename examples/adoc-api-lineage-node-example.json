@@ -1,0 +1,8 @@
+{
+  "id": "node-customers-001",
+  "name": "customers",
+  "type": "TABLE",
+  "platform": "SNOWFLAKE",
+  "database": "prod_db",
+  "schema": "public"
+}

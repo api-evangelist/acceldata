@@ -1,0 +1,13 @@
+{
+  "total": 1,
+  "page": 1,
+  "pageSize": 20,
+  "jobs": [
+    {
+      "id": "job-etl-customers-001",
+      "name": "ETL - Raw to Customers",
+      "status": "SUCCEEDED",
+      "platform": "DATABRICKS"
+    }
+  ]
+}

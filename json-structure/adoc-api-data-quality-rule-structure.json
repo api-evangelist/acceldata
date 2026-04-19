@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-data-quality-rule.json",
+  "title": "DataQualityRule",
+  "type": "object",
+  "description": "A data quality monitoring rule",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique rule identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Rule name"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of data quality check",
+      "enum": [
+        "null_check",
+        "uniqueness_check",
+        "range_check",
+        "pattern_check",
+        "freshness_check",
+        "schema_check",
+        "custom"
+      ]
+    },
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset the rule applies to"
+    },
+    "datasetName": {
+      "type": "string",
+      "description": "Dataset name"
+    },
+    "columnName": {
+      "type": "string",
+      "description": "Column the rule monitors"
+    },
+    "threshold": {
+      "type": "number",
+      "description": "Alert threshold value (percentage or absolute)"
+    },
+    "severity": {
+      "type": "string",
+      "description": "Alert severity when rule is violated",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Rule activation status",
+      "enum": [
+        "active",
+        "inactive"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "Rule creation timestamp"
+    }
+  }
+}

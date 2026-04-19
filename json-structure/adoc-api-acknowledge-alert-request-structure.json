@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-acknowledge-alert-request.json",
+  "title": "AcknowledgeAlertRequest",
+  "type": "object",
+  "description": "Request body for acknowledging an alert",
+  "properties": {
+    "comment": {
+      "type": "string",
+      "description": "Optional comment explaining the acknowledgement"
+    }
+  }
+}

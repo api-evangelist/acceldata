@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-alert-list.json",
+  "title": "AlertList",
+  "type": "object",
+  "description": "Paginated list of alerts",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "alert.json"
+      }
+    },
+    "total": {
+      "type": "integer",
+      "description": "Total alert count"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

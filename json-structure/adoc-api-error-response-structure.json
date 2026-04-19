@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-error-response.json",
+  "title": "ErrorResponse",
+  "type": "object",
+  "description": "Error response",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Human-readable error message"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error code"
+    },
+    "code": {
+      "type": "integer",
+      "description": "HTTP-style error code"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://schema.org/",
+    "adoc": "https://acceldata.io/vocab/",
+
+    "Alert": "adoc:Alert",
+    "DataQualityRule": "adoc:DataQualityRule",
+    "Dataset": "adoc:Dataset",
+    "LineageNode": "adoc:LineageNode",
+    "LineageGraph": "adoc:LineageGraph",
+    "PipelineJob": "adoc:PipelineJob",
+    "User": "schema:Person",
+    "Role": "adoc:Role",
+
+    "id": "@id",
+    "name": "schema:name",
+    "description": "schema:description",
+    "createdAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+
+    "severity": "adoc:severity",
+    "status": "adoc:status",
+    "message": "schema:description",
+    "datasetId": "adoc:dataset",
+    "ruleId": "adoc:rule",
+
+    "ruleType": "adoc:ruleType",
+    "columnName": "adoc:columnName",
+    "threshold": "adoc:threshold",
+    "enabled": "adoc:enabled",
+
+    "databaseName": "adoc:databaseName",
+    "schemaName": "adoc:schemaName",
+    "dataSourceType": "adoc:dataSourceType",
+    "rowCount": "adoc:rowCount",
+    "columnCount": "adoc:columnCount",
+    "qualityScore": "adoc:qualityScore",
+    "lastProfiledAt": {
+      "@id": "adoc:lastProfiledAt",
+      "@type": "xsd:dateTime"
+    },
+
+    "type": "@type",
+    "platform": "adoc:platform",
+    "database": "adoc:database",
+    "schema": "adoc:schema",
+    "nodes": "adoc:nodes",
+    "edges": "adoc:edges",
+    "rootNodeId": "adoc:rootNodeId",
+    "sourceId": "adoc:sourceId",
+    "targetId": "adoc:targetId",
+    "transformationType": "adoc:transformationType",
+
+    "startTime": {
+      "@id": "schema:startTime",
+      "@type": "xsd:dateTime"
+    },
+    "endTime": {
+      "@id": "schema:endTime",
+      "@type": "xsd:dateTime"
+    },
+    "durationSeconds": "adoc:durationSeconds",
+    "recordsProcessed": "adoc:recordsProcessed",
+
+    "username": "schema:identifier",
+    "email": "schema:email",
+    "firstName": "schema:givenName",
+    "lastName": "schema:familyName",
+    "active": "adoc:active",
+
+    "permissions": "adoc:permissions",
+
+    "total": "adoc:total",
+    "page": "adoc:page",
+    "pageSize": "adoc:pageSize",
+    "alerts": "adoc:alerts",
+    "rules": "adoc:rules",
+    "datasets": "adoc:datasets",
+    "jobs": "adoc:jobs",
+    "users": "adoc:users",
+    "roles": "adoc:roles",
+
+    "code": "adoc:errorCode",
+    "details": "schema:description"
+  }
+}

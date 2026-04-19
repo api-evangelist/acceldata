@@ -1,0 +1,17 @@
+{
+  "total": 2,
+  "page": 1,
+  "pageSize": 20,
+  "roles": [
+    {
+      "id": "role-001",
+      "name": "DATA_ENGINEER",
+      "description": "Full access to pipelines, datasets, and quality rules"
+    },
+    {
+      "id": "role-002",
+      "name": "DATA_ANALYST",
+      "description": "Read-only access to datasets and lineage"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+apiVersion: naftiko.io/v1alpha1
+kind: SharedCapability
+metadata:
+  name: acceldata-adoc-api
+  version: 1.0.0
+  description: Acceldata Data Observability Cloud API shared capability for monitoring data quality, alerts, lineage, and pipeline health
+  provider: Acceldata
+  tags:
+    - Data Observability
+    - Data Quality
+    - Alerts
+    - Data Lineage
+    - Pipeline Monitoring
+spec:
+  openapi: openapi/acceldata-adoc-api.yaml
+  baseUrl: https://api.acceldata.app/v1
+  authentication:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  operations:
+    - operationId: listAlerts
+      summary: List data quality and pipeline alerts
+      method: GET
+      path: /alerts
+      tags: [Alerts]
+    - operationId: acknowledgeAlert
+      summary: Acknowledge an alert
+      method: POST
+      path: /alerts/acknowledge
+      tags: [Alerts]
+    - operationId: listDataQualityRules
+      summary: List data quality rules
+      method: GET
+      path: /data-quality/rules
+      tags: [Data Quality]
+    - operationId: createDataQualityRule
+      summary: Create a new data quality rule
+      method: POST
+      path: /data-quality/rules
+      tags: [Data Quality]
+    - operationId: listDatasets
+      summary: List monitored datasets
+      method: GET
+      path: /datasets
+      tags: [Datasets]
+    - operationId: getDatasetLineage
+      summary: Get lineage graph for a dataset
+      method: GET
+      path: /datasets/{datasetId}/lineage
+      tags: [Lineage]
+    - operationId: listPipelineJobs
+      summary: List pipeline job executions
+      method: GET
+      path: /pipeline-jobs
+      tags: [Pipelines]
+    - operationId: listUsers
+      summary: List users
+      method: GET
+      path: /users
+      tags: [Users]
+    - operationId: listRoles
+      summary: List roles
+      method: GET
+      path: /roles
+      tags: [Roles]
+  schemas:
+    - Alert
+    - AlertList
+    - DataQualityRule
+    - DataQualityRuleList
+    - Dataset
+    - DatasetList
+    - LineageGraph
+    - PipelineJob
+    - PipelineJobList
+    - User
+    - UserList
+    - Role
+    - RoleList

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-dataset.json",
+  "title": "Dataset",
+  "type": "object",
+  "description": "A registered dataset in Acceldata",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique dataset identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Dataset name (table or file name)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Data source platform",
+      "enum": [
+        "snowflake",
+        "databricks",
+        "bigquery",
+        "redshift",
+        "s3",
+        "hdfs",
+        "hive",
+        "postgres"
+      ]
+    },
+    "database": {
+      "type": "string",
+      "description": "Database name"
+    },
+    "schema": {
+      "type": "string",
+      "description": "Schema name"
+    },
+    "qualityScore": {
+      "type": "number",
+      "description": "Overall data quality score (0-100)"
+    },
+    "lastScanned": {
+      "type": "string",
+      "description": "Last time the dataset was scanned"
+    },
+    "rowCount": {
+      "type": "integer",
+      "description": "Number of rows in the dataset"
+    },
+    "columnCount": {
+      "type": "integer",
+      "description": "Number of columns in the dataset"
+    }
+  }
+}

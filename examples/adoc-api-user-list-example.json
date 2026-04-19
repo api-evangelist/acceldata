@@ -1,0 +1,21 @@
+{
+  "total": 2,
+  "page": 1,
+  "pageSize": 20,
+  "users": [
+    {
+      "id": "user-001",
+      "username": "jane.smith",
+      "email": "jane.smith@example.com",
+      "role": "DATA_ENGINEER",
+      "active": true
+    },
+    {
+      "id": "user-002",
+      "username": "bob.jones",
+      "email": "bob.jones@example.com",
+      "role": "DATA_ANALYST",
+      "active": true
+    }
+  ]
+}

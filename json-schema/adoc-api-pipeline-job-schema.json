@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/pipeline-job.json",
+  "title": "PipelineJob",
+  "type": "object",
+  "description": "A monitored data pipeline job execution",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Job execution identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Pipeline job name"
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform running the job",
+      "enum": [
+        "databricks",
+        "airflow",
+        "glue",
+        "dataflow",
+        "spark"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Job execution status",
+      "enum": [
+        "running",
+        "succeeded",
+        "failed",
+        "pending"
+      ]
+    },
+    "startTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Job start time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Job end time"
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "description": "Job duration in seconds"
+    },
+    "slaStatus": {
+      "type": "string",
+      "description": "SLA compliance status",
+      "enum": [
+        "met",
+        "violated",
+        "at_risk"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/lineage-node.json",
+  "title": "LineageNode",
+  "type": "object",
+  "description": "A node in the data lineage graph",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Dataset or table identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Dataset or table name"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source platform"
+    }
+  }
+}

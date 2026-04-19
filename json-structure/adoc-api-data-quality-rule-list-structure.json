@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-data-quality-rule-list.json",
+  "title": "DataQualityRuleList",
+  "type": "object",
+  "description": "Paginated list of data quality rules",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "data-quality-rule.json"
+      }
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/error-response.json",
+  "title": "ErrorResponse",
+  "type": "object",
+  "description": "Error response",
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "Human-readable error message"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error code"
+    },
+    "code": {
+      "type": "integer",
+      "description": "HTTP-style error code"
+    }
+  }
+}

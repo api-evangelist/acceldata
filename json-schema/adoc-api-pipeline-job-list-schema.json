@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/pipeline-job-list.json",
+  "title": "PipelineJobList",
+  "type": "object",
+  "description": "Paginated list of pipeline jobs",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "pipeline-job.json"
+      }
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

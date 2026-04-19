@@ -1,0 +1,21 @@
+{
+  "total": 2,
+  "page": 1,
+  "pageSize": 20,
+  "alerts": [
+    {
+      "id": "alert-001",
+      "name": "Missing Values Detected",
+      "severity": "HIGH",
+      "status": "OPEN",
+      "createdAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "alert-002",
+      "name": "Schema Change Detected",
+      "severity": "CRITICAL",
+      "status": "ACKNOWLEDGED",
+      "createdAt": "2024-01-14T08:00:00Z"
+    }
+  ]
+}

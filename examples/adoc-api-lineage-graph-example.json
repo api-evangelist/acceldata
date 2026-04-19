@@ -1,0 +1,24 @@
+{
+  "rootNodeId": "node-customers-001",
+  "nodes": [
+    {
+      "id": "node-raw-001",
+      "name": "raw_customers",
+      "type": "TABLE",
+      "platform": "S3"
+    },
+    {
+      "id": "node-customers-001",
+      "name": "customers",
+      "type": "TABLE",
+      "platform": "SNOWFLAKE"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "node-raw-001",
+      "targetId": "node-customers-001",
+      "transformationType": "ETL"
+    }
+  ]
+}

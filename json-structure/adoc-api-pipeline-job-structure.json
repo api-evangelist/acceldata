@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-pipeline-job.json",
+  "title": "PipelineJob",
+  "type": "object",
+  "description": "A monitored data pipeline job execution",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Job execution identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Pipeline job name"
+    },
+    "platform": {
+      "type": "string",
+      "description": "Platform running the job",
+      "enum": [
+        "databricks",
+        "airflow",
+        "glue",
+        "dataflow",
+        "spark"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Job execution status",
+      "enum": [
+        "running",
+        "succeeded",
+        "failed",
+        "pending"
+      ]
+    },
+    "startTime": {
+      "type": "string",
+      "description": "Job start time"
+    },
+    "endTime": {
+      "type": "string",
+      "description": "Job end time"
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "description": "Job duration in seconds"
+    },
+    "slaStatus": {
+      "type": "string",
+      "description": "SLA compliance status",
+      "enum": [
+        "met",
+        "violated",
+        "at_risk"
+      ]
+    }
+  }
+}

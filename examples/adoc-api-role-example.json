@@ -1,0 +1,15 @@
+{
+  "id": "role-001",
+  "name": "DATA_ENGINEER",
+  "description": "Full access to pipelines, datasets, and quality rules",
+  "permissions": [
+    "alerts:read",
+    "alerts:write",
+    "rules:read",
+    "rules:write",
+    "datasets:read",
+    "lineage:read",
+    "pipelines:read"
+  ],
+  "createdAt": "2023-01-01T00:00:00Z"
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/role-list.json",
+  "title": "RoleList",
+  "type": "object",
+  "description": "Paginated list of roles",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "role.json"
+      }
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

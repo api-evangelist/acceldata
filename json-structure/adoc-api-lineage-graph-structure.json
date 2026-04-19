@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-lineage-graph.json",
+  "title": "LineageGraph",
+  "type": "object",
+  "description": "Data lineage graph for a dataset",
+  "properties": {
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset identifier"
+    },
+    "datasetName": {
+      "type": "string",
+      "description": "Dataset name"
+    },
+    "upstream": {
+      "type": "array",
+      "description": "Upstream data sources",
+      "items": {
+        "$ref": "lineage-node.json"
+      }
+    },
+    "downstream": {
+      "type": "array",
+      "description": "Downstream data consumers",
+      "items": {
+        "$ref": "lineage-node.json"
+      }
+    }
+  }
+}

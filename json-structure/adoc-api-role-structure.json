@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-role.json",
+  "title": "Role",
+  "type": "object",
+  "description": "A role with associated permissions",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Role identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Role name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Role description"
+    },
+    "permissions": {
+      "type": "array",
+      "description": "List of permissions assigned to this role",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

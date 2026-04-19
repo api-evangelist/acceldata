@@ -1,0 +1,10 @@
+{
+  "id": "job-etl-customers-001",
+  "name": "ETL - Raw to Customers",
+  "status": "SUCCEEDED",
+  "platform": "DATABRICKS",
+  "startTime": "2024-01-15T05:00:00Z",
+  "endTime": "2024-01-15T05:45:00Z",
+  "durationSeconds": 2700,
+  "recordsProcessed": 1500000
+}

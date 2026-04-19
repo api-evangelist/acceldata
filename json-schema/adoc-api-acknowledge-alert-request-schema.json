@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/acknowledge-alert-request.json",
+  "title": "AcknowledgeAlertRequest",
+  "type": "object",
+  "description": "Request body for acknowledging an alert",
+  "properties": {
+    "comment": {
+      "type": "string",
+      "description": "Optional comment explaining the acknowledgement"
+    }
+  }
+}

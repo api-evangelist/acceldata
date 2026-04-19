@@ -1,0 +1,12 @@
+{
+  "id": "dataset-customers-001",
+  "name": "customers",
+  "databaseName": "prod_db",
+  "schemaName": "public",
+  "dataSourceType": "SNOWFLAKE",
+  "rowCount": 1500000,
+  "columnCount": 24,
+  "lastProfiledAt": "2024-01-15T06:00:00Z",
+  "qualityScore": 94.5,
+  "createdAt": "2023-06-01T00:00:00Z"
+}

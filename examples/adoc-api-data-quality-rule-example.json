@@ -1,0 +1,12 @@
+{
+  "id": "rule-null-check-001",
+  "name": "Null Check - Email Column",
+  "description": "Ensures email column has less than 5% null values",
+  "ruleType": "NULL_CHECK",
+  "datasetId": "dataset-customers-001",
+  "columnName": "email",
+  "threshold": 5.0,
+  "severity": "HIGH",
+  "enabled": true,
+  "createdAt": "2024-01-01T00:00:00Z"
+}

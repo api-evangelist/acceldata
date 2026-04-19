@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-lineage-node.json",
+  "title": "LineageNode",
+  "type": "object",
+  "description": "A node in the data lineage graph",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Dataset or table identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Dataset or table name"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source platform"
+    }
+  }
+}

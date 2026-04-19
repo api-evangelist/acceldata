@@ -1,0 +1,5 @@
+{
+  "code": "UNAUTHORIZED",
+  "message": "Invalid or missing API key",
+  "details": "Please provide a valid X-API-Key header"
+}

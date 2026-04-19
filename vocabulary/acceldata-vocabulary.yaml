@@ -1,0 +1,71 @@
+vocabulary:
+  name: Acceldata Vocabulary
+  description: Controlled vocabulary for Acceldata Data Observability Cloud platform concepts, operations, and stakeholder roles
+  version: 1.0.0
+  provider: Acceldata
+
+  resources:
+    - name: Alert
+      description: A notification triggered when a data quality rule threshold is breached or a pipeline anomaly is detected
+      aliases: [notification, incident, issue]
+      properties: [id, name, severity, status, message, datasetId, ruleId, createdAt]
+    - name: DataQualityRule
+      description: A configurable rule that defines thresholds and checks for monitoring data quality on a dataset column
+      aliases: [rule, quality check, monitor]
+      properties: [id, name, ruleType, columnName, threshold, severity, enabled]
+    - name: Dataset
+      description: A table, view, or file tracked by the platform for quality monitoring and lineage
+      aliases: [table, data asset, data object]
+      properties: [id, name, databaseName, schemaName, dataSourceType, rowCount, qualityScore]
+    - name: LineageGraph
+      description: A directed graph representing the upstream and downstream data flow relationships between datasets
+      aliases: [lineage, data lineage, dependency graph]
+      properties: [rootNodeId, nodes, edges]
+    - name: PipelineJob
+      description: An execution instance of a data pipeline or ETL job tracked for health, performance, and SLA monitoring
+      aliases: [job, pipeline run, ETL job, workflow run]
+      properties: [id, name, status, platform, startTime, endTime, durationSeconds, recordsProcessed]
+    - name: User
+      description: A person or service account with access to the Acceldata platform
+      aliases: [account, member, principal]
+      properties: [id, username, email, firstName, lastName, role, active]
+    - name: Role
+      description: A named set of permissions that defines what actions a user can perform within the platform
+      aliases: [permission set, access role, IAM role]
+      properties: [id, name, description, permissions]
+
+  actions:
+    - name: Monitor
+      description: Continuously observe data assets and pipeline jobs for quality issues and anomalies
+      verbs: [monitor, observe, watch, track]
+    - name: Alert
+      description: Trigger and manage notifications when data quality thresholds are breached
+      verbs: [alert, notify, acknowledge, dismiss]
+    - name: Profile
+      description: Analyze dataset columns to compute statistical profiles and quality scores
+      verbs: [profile, analyze, scan, assess]
+    - name: Trace
+      description: Follow data lineage upstream or downstream to identify root cause of quality issues
+      verbs: [trace, lineage, track, discover]
+    - name: Remediate
+      description: Create or update quality rules to address identified data issues
+      verbs: [remediate, fix, repair, update, create]
+
+  workflows:
+    - name: Data Quality Incident Response
+      description: End-to-end workflow for detecting, investigating, and resolving data quality alerts using lineage and pipeline analysis
+      steps: [monitor-alerts, investigate-dataset, trace-lineage, check-pipeline, create-rule, acknowledge-alert]
+
+  personas:
+    - name: Data Engineer
+      description: Builds and maintains data pipelines; uses platform to monitor job health, trace failures, and create quality rules
+      primaryResources: [PipelineJob, DataQualityRule, Dataset]
+    - name: Data Analyst
+      description: Consumes datasets for analysis; uses platform to verify data quality scores and understand data lineage
+      primaryResources: [Dataset, Alert, LineageGraph]
+    - name: Data Steward
+      description: Owns data governance; uses platform to define quality standards, review alerts, and manage role-based access
+      primaryResources: [DataQualityRule, Alert, Role, User]
+    - name: Platform Administrator
+      description: Manages users, roles, and integrations; configures platform settings and API access
+      primaryResources: [User, Role]

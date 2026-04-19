@@ -1,0 +1,9 @@
+{
+  "name": "Null Check - Phone Column",
+  "description": "Ensures phone column has less than 10% null values",
+  "ruleType": "NULL_CHECK",
+  "datasetId": "dataset-customers-001",
+  "columnName": "phone",
+  "threshold": 10.0,
+  "severity": "MEDIUM"
+}

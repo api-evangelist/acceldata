@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-structure.org/meta/extended/v0/#",
+  "$id": "https://acceldata.io/structures/adoc-api-role-list.json",
+  "title": "RoleList",
+  "type": "object",
+  "description": "Paginated list of roles",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "role.json"
+      }
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

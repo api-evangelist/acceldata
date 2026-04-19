@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/create-data-quality-rule-request.json",
+  "title": "CreateDataQualityRuleRequest",
+  "type": "object",
+  "description": "Request body for creating a data quality rule",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Rule name"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of data quality check"
+    },
+    "datasetId": {
+      "type": "string",
+      "description": "Dataset identifier to apply the rule to"
+    },
+    "columnName": {
+      "type": "string",
+      "description": "Column to monitor"
+    },
+    "threshold": {
+      "type": "number",
+      "format": "double",
+      "description": "Alert threshold as percentage (0-100)"
+    },
+    "severity": {
+      "type": "string",
+      "description": "Severity of alerts triggered by this rule"
+    }
+  },
+  "required": [
+    "name",
+    "type",
+    "datasetId",
+    "columnName"
+  ]
+}

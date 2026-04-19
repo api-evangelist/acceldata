@@ -1,0 +1,80 @@
+apiVersion: naftiko.io/v1alpha1
+kind: WorkflowCapability
+metadata:
+  name: data-observability
+  version: 1.0.0
+  description: End-to-end data observability workflow for monitoring data quality, tracing lineage, and managing pipeline health across cloud and hybrid environments
+  provider: Acceldata
+  tags:
+    - Data Observability
+    - Data Quality
+    - Pipeline Monitoring
+    - Data Lineage
+    - Alerts
+spec:
+  sharedCapabilities:
+    - acceldata-adoc-api
+  workflow:
+    name: Data Quality Incident Response
+    description: Detect data quality alerts, trace root cause through lineage, and remediate with updated quality rules
+    steps:
+      - id: monitor-alerts
+        name: Monitor Active Alerts
+        description: Continuously poll for open data quality and pipeline alerts
+        operation: listAlerts
+        parameters:
+          status: OPEN
+          severity: ["HIGH", "CRITICAL"]
+      - id: investigate-dataset
+        name: Investigate Affected Dataset
+        description: Retrieve dataset profile and quality score for affected data asset
+        operation: listDatasets
+        dependsOn: [monitor-alerts]
+      - id: trace-lineage
+        name: Trace Data Lineage
+        description: Get upstream lineage to identify root cause data source
+        operation: getDatasetLineage
+        dependsOn: [investigate-dataset]
+      - id: check-pipeline
+        name: Check Pipeline Jobs
+        description: Review recent pipeline job executions for failures or anomalies
+        operation: listPipelineJobs
+        dependsOn: [trace-lineage]
+      - id: create-rule
+        name: Create Remediation Rule
+        description: Create or update data quality rule to prevent recurrence
+        operation: createDataQualityRule
+        dependsOn: [check-pipeline]
+      - id: acknowledge-alert
+        name: Acknowledge Alert
+        description: Acknowledge alert after root cause is identified and rule is created
+        operation: acknowledgeAlert
+        dependsOn: [create-rule]
+  mcpTools:
+    - name: list_alerts
+      description: List open data quality and pipeline alerts with optional severity filtering
+      capability: acceldata-adoc-api
+      operation: listAlerts
+    - name: get_dataset_lineage
+      description: Retrieve the full upstream and downstream lineage graph for a dataset
+      capability: acceldata-adoc-api
+      operation: getDatasetLineage
+    - name: list_pipeline_jobs
+      description: List recent pipeline job executions with status and performance metrics
+      capability: acceldata-adoc-api
+      operation: listPipelineJobs
+    - name: create_data_quality_rule
+      description: Create a new data quality rule to monitor a dataset column for anomalies
+      capability: acceldata-adoc-api
+      operation: createDataQualityRule
+    - name: acknowledge_alert
+      description: Acknowledge an alert with a comment after investigation
+      capability: acceldata-adoc-api
+      operation: acknowledgeAlert
+    - name: list_datasets
+      description: List all monitored datasets with quality scores and profile metadata
+      capability: acceldata-adoc-api
+      operation: listDatasets
+  ports:
+    http: 8080
+    grpc: 9090

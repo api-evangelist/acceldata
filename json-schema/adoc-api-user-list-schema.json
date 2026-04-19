@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acceldata.io/schemas/user-list.json",
+  "title": "UserList",
+  "type": "object",
+  "description": "Paginated list of users",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "user.json"
+      }
+    },
+    "total": {
+      "type": "integer"
+    },
+    "page": {
+      "type": "integer"
+    },
+    "limit": {
+      "type": "integer"
+    }
+  }
+}

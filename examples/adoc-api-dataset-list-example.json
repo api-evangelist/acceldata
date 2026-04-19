@@ -1,0 +1,19 @@
+{
+  "total": 2,
+  "page": 1,
+  "pageSize": 20,
+  "datasets": [
+    {
+      "id": "dataset-customers-001",
+      "name": "customers",
+      "dataSourceType": "SNOWFLAKE",
+      "qualityScore": 94.5
+    },
+    {
+      "id": "dataset-orders-001",
+      "name": "orders",
+      "dataSourceType": "DATABRICKS",
+      "qualityScore": 87.2
+    }
+  ]
+}
