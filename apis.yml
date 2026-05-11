@@ -213,6 +213,13 @@ common:
   type: Vocabulary
 - url: json-ld/acceldata-adoc-api-context.jsonld
   type: JSON-LD
+- type: Integrations
+  url: https://www.acceldata.io/integrations
+integrations:
+  - name: Acceldata Logo blue SVG
+  - name: Acceldata Logo White SVG
+  - name: Acceldata as Information security management certified
+  - name: Acceldata as AICPA SOC Certified
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
