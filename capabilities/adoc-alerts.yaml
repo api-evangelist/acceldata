@@ -1,0 +1,166 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Acceldata - Data Observability Cloud API — Alerts
+  description: 'Acceldata - Data Observability Cloud API — Alerts. 2 operations. Lead operation: Acceldata List Alerts. Self-contained
+    Naftiko capability covering one Acceldata business surface.'
+  tags:
+  - Acceldata
+  - Alerts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ACCELDATA_API_KEY: ACCELDATA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: adoc-alerts
+    baseUri: https://api.acceldata.app/v1
+    description: Acceldata - Data Observability Cloud API — Alerts business capability. Self-contained, no shared references.
+    resources:
+    - name: alerts
+      path: /alerts
+      operations:
+      - name: listalerts
+        method: GET
+        description: Acceldata List Alerts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter alerts by status (open, resolved, acknowledged).
+        - name: severity
+          in: query
+          type: string
+          description: Filter alerts by severity level.
+        - name: dataset_id
+          in: query
+          type: string
+          description: Filter alerts by dataset identifier.
+        - name: from_time
+          in: query
+          type: string
+          description: Start time for alert query (ISO 8601 format).
+        - name: to_time
+          in: query
+          type: string
+          description: End time for alert query (ISO 8601 format).
+        - name: page
+          in: query
+          type: integer
+          description: Page number for pagination.
+        - name: limit
+          in: query
+          type: integer
+          description: Number of alerts per page (max 100).
+    - name: alerts-id-acknowledge
+      path: /alerts/{id}/acknowledge
+      operations:
+      - name: acknowledgealert
+        method: POST
+        description: Acceldata Acknowledge Alert
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Alert identifier to acknowledge.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ACCELDATA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: adoc-alerts-rest
+    port: 8080
+    description: REST adapter for Acceldata - Data Observability Cloud API — Alerts. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/alerts
+      name: alerts
+      description: REST surface for alerts.
+      operations:
+      - method: GET
+        name: listalerts
+        description: Acceldata List Alerts
+        call: adoc-alerts.listalerts
+        with:
+          status: rest.status
+          severity: rest.severity
+          dataset_id: rest.dataset_id
+          from_time: rest.from_time
+          to_time: rest.to_time
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alerts/{id}/acknowledge
+      name: alerts-id-acknowledge
+      description: REST surface for alerts-id-acknowledge.
+      operations:
+      - method: POST
+        name: acknowledgealert
+        description: Acceldata Acknowledge Alert
+        call: adoc-alerts.acknowledgealert
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: adoc-alerts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Acceldata - Data Observability Cloud API — Alerts. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: acceldata-list-alerts
+      description: Acceldata List Alerts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: adoc-alerts.listalerts
+      with:
+        status: tools.status
+        severity: tools.severity
+        dataset_id: tools.dataset_id
+        from_time: tools.from_time
+        to_time: tools.to_time
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: acceldata-acknowledge-alert
+      description: Acceldata Acknowledge Alert
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: adoc-alerts.acknowledgealert
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

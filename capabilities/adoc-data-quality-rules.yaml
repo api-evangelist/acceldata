@@ -1,0 +1,135 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Acceldata - Data Observability Cloud API — Data Quality Rules
+  description: 'Acceldata - Data Observability Cloud API — Data Quality Rules. 2 operations. Lead operation: Acceldata List
+    Data Quality Rules. Self-contained Naftiko capability covering one Acceldata business surface.'
+  tags:
+  - Acceldata
+  - Data Quality Rules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ACCELDATA_API_KEY: ACCELDATA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: adoc-data-quality-rules
+    baseUri: https://api.acceldata.app/v1
+    description: Acceldata - Data Observability Cloud API — Data Quality Rules business capability. Self-contained, no shared
+      references.
+    resources:
+    - name: data-quality-rules
+      path: /data-quality/rules
+      operations:
+      - name: listdataqualityrules
+        method: GET
+        description: Acceldata List Data Quality Rules
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dataset_id
+          in: query
+          type: string
+          description: Filter rules by dataset identifier.
+        - name: status
+          in: query
+          type: string
+          description: Filter rules by status (active, inactive).
+        - name: page
+          in: query
+          type: integer
+          description: Page number.
+        - name: limit
+          in: query
+          type: integer
+          description: Results per page.
+      - name: createdataqualityrule
+        method: POST
+        description: Acceldata Create Data Quality Rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ACCELDATA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: adoc-data-quality-rules-rest
+    port: 8080
+    description: REST adapter for Acceldata - Data Observability Cloud API — Data Quality Rules. One Spectral-compliant resource
+      per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/data-quality/rules
+      name: data-quality-rules
+      description: REST surface for data-quality-rules.
+      operations:
+      - method: GET
+        name: listdataqualityrules
+        description: Acceldata List Data Quality Rules
+        call: adoc-data-quality-rules.listdataqualityrules
+        with:
+          dataset_id: rest.dataset_id
+          status: rest.status
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createdataqualityrule
+        description: Acceldata Create Data Quality Rule
+        call: adoc-data-quality-rules.createdataqualityrule
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: adoc-data-quality-rules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Acceldata - Data Observability Cloud API — Data Quality Rules. One tool per consumed operation,
+      routed inline through this capability's consumes block.
+    tools:
+    - name: acceldata-list-data-quality-rules
+      description: Acceldata List Data Quality Rules
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: adoc-data-quality-rules.listdataqualityrules
+      with:
+        dataset_id: tools.dataset_id
+        status: tools.status
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: acceldata-create-data-quality-rule
+      description: Acceldata Create Data Quality Rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: adoc-data-quality-rules.createdataqualityrule
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

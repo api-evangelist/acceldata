@@ -1,0 +1,93 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Acceldata - Data Observability Cloud API — Datasets
+  description: 'Acceldata - Data Observability Cloud API — Datasets. 1 operations. Lead operation: Acceldata List Datasets.
+    Self-contained Naftiko capability covering one Acceldata business surface.'
+  tags:
+  - Acceldata
+  - Datasets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    ACCELDATA_API_KEY: ACCELDATA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: adoc-datasets
+    baseUri: https://api.acceldata.app/v1
+    description: Acceldata - Data Observability Cloud API — Datasets business capability. Self-contained, no shared references.
+    resources:
+    - name: datasets
+      path: /datasets
+      operations:
+      - name: listdatasets
+        method: GET
+        description: Acceldata List Datasets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: source
+          in: query
+          type: string
+          description: Filter datasets by data source (snowflake, databricks, bigquery, etc.).
+        - name: page
+          in: query
+          type: integer
+          description: Page number.
+        - name: limit
+          in: query
+          type: integer
+          description: Results per page.
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.ACCELDATA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: adoc-datasets-rest
+    port: 8080
+    description: REST adapter for Acceldata - Data Observability Cloud API — Datasets. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/datasets
+      name: datasets
+      description: REST surface for datasets.
+      operations:
+      - method: GET
+        name: listdatasets
+        description: Acceldata List Datasets
+        call: adoc-datasets.listdatasets
+        with:
+          source: rest.source
+          page: rest.page
+          limit: rest.limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: adoc-datasets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Acceldata - Data Observability Cloud API — Datasets. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: acceldata-list-datasets
+      description: Acceldata List Datasets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: adoc-datasets.listdatasets
+      with:
+        source: tools.source
+        page: tools.page
+        limit: tools.limit
+      outputParameters:
+      - type: object
+        mapping: $.

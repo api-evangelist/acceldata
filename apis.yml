@@ -119,6 +119,8 @@ apis:
   - url: examples/adoc-api-role-example.json
     type: Example
 common:
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/acceldata
 - type: Website
   url: https://www.acceldata.io/
 - type: Portal
