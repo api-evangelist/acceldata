@@ -219,6 +219,8 @@ common:
     type: JSONLD
   - type: Integrations
     url: https://www.acceldata.io/integrations
+  - type: LLMsTxt
+    url: https://docs.acceldata.io/llms.txt
 integrations:
   - name: Acceldata Logo blue SVG
   - name: Acceldata Logo White SVG
