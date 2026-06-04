@@ -1,0 +1,119 @@
+arazzo: 1.0.1
+info:
+  title: Acceldata Create and Verify Data Quality Rule
+  summary: Resolve a dataset, create a data quality rule on it, and confirm the rule is registered.
+  description: >-
+    A rule provisioning flow. The workflow resolves a target dataset by source,
+    creates a new data quality monitoring rule against one of its columns, and
+    then lists the dataset's active rules to confirm the new rule is registered.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: acceldataAdocApi
+  url: ../openapi/acceldata-adoc-api.yaml
+  type: openapi
+workflows:
+- workflowId: create-and-verify-rule
+  summary: Create a data quality rule on a dataset and verify it is registered.
+  description: >-
+    Finds a dataset on the given source, creates a data quality rule for a named
+    column, and then lists the active rules for that dataset to confirm the new
+    rule appears.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - source
+    - ruleName
+    - ruleType
+    - columnName
+    properties:
+      apiKey:
+        type: string
+        description: Acceldata API key sent in the X-API-Key header.
+      source:
+        type: string
+        description: Data source platform to filter datasets by (e.g. snowflake).
+      ruleName:
+        type: string
+        description: Name of the data quality rule to create.
+      ruleType:
+        type: string
+        description: Type of data quality check (e.g. null_check, uniqueness_check).
+      columnName:
+        type: string
+        description: Column on the dataset that the rule monitors.
+      threshold:
+        type: number
+        description: Alert threshold as a percentage (0-100).
+      severity:
+        type: string
+        description: Severity of alerts triggered by this rule.
+  steps:
+  - stepId: findDataset
+    description: >-
+      List datasets on the given source and capture the first dataset id to
+      create the rule against.
+    operationId: listDatasets
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: source
+      in: query
+      value: $inputs.source
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      datasetId: $response.body#/data/0/id
+      datasetName: $response.body#/data/0/name
+  - stepId: createRule
+    description: >-
+      Create a new data quality monitoring rule on the resolved dataset's
+      column using the supplied rule definition.
+    operationId: createDataQualityRule
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.ruleName
+        type: $inputs.ruleType
+        datasetId: $steps.findDataset.outputs.datasetId
+        columnName: $inputs.columnName
+        threshold: $inputs.threshold
+        severity: $inputs.severity
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      ruleId: $response.body#/id
+      ruleStatus: $response.body#/status
+  - stepId: verifyRule
+    description: >-
+      List the active data quality rules for the dataset to confirm the newly
+      created rule is registered.
+    operationId: listDataQualityRules
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: dataset_id
+      in: query
+      value: $steps.findDataset.outputs.datasetId
+    - name: status
+      in: query
+      value: active
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      activeRuleCount: $response.body#/total
+  outputs:
+    datasetId: $steps.findDataset.outputs.datasetId
+    createdRuleId: $steps.createRule.outputs.ruleId
+    activeRuleCount: $steps.verifyRule.outputs.activeRuleCount

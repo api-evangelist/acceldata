@@ -1,0 +1,70 @@
+arazzo: 1.0.1
+info:
+  title: Acceldata Access Review
+  summary: List organization users and the platform roles so access can be reviewed against defined permissions.
+  description: >-
+    A governance flow for periodic access reviews. The workflow lists the users
+    in the organization and then lists the roles and their permissions defined
+    in the platform, providing the two sides needed to confirm each user's
+    assigned role maps to an approved set of permissions. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: acceldataAdocApi
+  url: ../openapi/acceldata-adoc-api.yaml
+  type: openapi
+workflows:
+- workflowId: access-review
+  summary: Pull users and roles for an access review.
+  description: >-
+    Lists the organization's users and the platform's roles with their
+    permissions so user-to-role assignments can be reviewed against the
+    permissions each role grants.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    properties:
+      apiKey:
+        type: string
+        description: Acceldata API key sent in the X-API-Key header.
+      limit:
+        type: integer
+        description: Number of users to return per page.
+  steps:
+  - stepId: listUsers
+    description: >-
+      List the users in the organization along with their assigned role and
+      account status.
+    operationId: listUsers
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: limit
+      in: query
+      value: $inputs.limit
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/data
+      userTotal: $response.body#/total
+  - stepId: listRoles
+    description: >-
+      List the roles defined in the platform with their permission sets so each
+      user's role can be evaluated against what it grants.
+    operationId: listRoles
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roles: $response.body#/data
+      roleTotal: $response.body#/total
+  outputs:
+    users: $steps.listUsers.outputs.users
+    userTotal: $steps.listUsers.outputs.userTotal
+    roles: $steps.listRoles.outputs.roles

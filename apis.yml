@@ -119,6 +119,30 @@ apis:
     - url: examples/adoc-api-role-example.json
       type: Example
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/acceldata-access-review-workflow.yml
+      name: Acceldata Access Review
+      summary: List organization users and the platform roles so access can be reviewed against defined permissions.
+    - url: arazzo/acceldata-create-and-verify-rule-workflow.yml
+      name: Acceldata Create and Verify Data Quality Rule
+      summary: Resolve a dataset, create a data quality rule on it, and confirm the rule is registered.
+    - url: arazzo/acceldata-critical-alert-sweep-workflow.yml
+      name: Acceldata Critical Alert Sweep
+      summary: List open critical alerts and acknowledge the first one when any are present.
+    - url: arazzo/acceldata-dataset-quality-audit-workflow.yml
+      name: Acceldata Dataset Quality Audit
+      summary: Resolve a dataset, list its data quality rules, and map its lineage for impact analysis.
+    - url: arazzo/acceldata-onboard-rule-with-impact-workflow.yml
+      name: Acceldata Onboard Rule With Impact
+      summary: Resolve a dataset, review its existing rules, create a new rule, and map downstream impact.
+    - url: arazzo/acceldata-pipeline-failure-investigation-workflow.yml
+      name: Acceldata Pipeline Failure Investigation
+      summary: Find failed pipeline jobs, pull related critical alerts, and acknowledge the first one.
+    - url: arazzo/acceldata-triage-dataset-alerts-workflow.yml
+      name: Acceldata Triage Dataset Alerts
+      summary: Resolve a dataset, pull its open alerts, and acknowledge the most severe one.
   - type: GitHubOrganization
     url: https://github.com/acceldata-io
   - type: LinkedIn

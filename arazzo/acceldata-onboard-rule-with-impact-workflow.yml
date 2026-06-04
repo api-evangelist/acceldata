@@ -1,0 +1,136 @@
+arazzo: 1.0.1
+info:
+  title: Acceldata Onboard Rule With Impact
+  summary: Resolve a dataset, review its existing rules, create a new rule, and map downstream impact.
+  description: >-
+    A guided rule onboarding flow. The workflow resolves a dataset by source,
+    reviews the rules already monitoring it, creates a new data quality rule on
+    a column, and then retrieves the dataset's downstream lineage so the teams
+    affected by the new rule's alerts are known. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: acceldataAdocApi
+  url: ../openapi/acceldata-adoc-api.yaml
+  type: openapi
+workflows:
+- workflowId: onboard-rule-with-impact
+  summary: Create a data quality rule and map the datasets it will impact.
+  description: >-
+    Finds a dataset on the given source, lists its current rules, creates a new
+    data quality rule on a column, and retrieves the dataset's downstream
+    lineage to surface the consumers that the rule's alerts will affect.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - source
+    - ruleName
+    - ruleType
+    - columnName
+    properties:
+      apiKey:
+        type: string
+        description: Acceldata API key sent in the X-API-Key header.
+      source:
+        type: string
+        description: Data source platform to filter datasets by (e.g. snowflake).
+      ruleName:
+        type: string
+        description: Name of the data quality rule to create.
+      ruleType:
+        type: string
+        description: Type of data quality check (e.g. null_check, uniqueness_check).
+      columnName:
+        type: string
+        description: Column on the dataset that the rule monitors.
+      threshold:
+        type: number
+        description: Alert threshold as a percentage (0-100).
+      severity:
+        type: string
+        description: Severity of alerts triggered by this rule.
+  steps:
+  - stepId: findDataset
+    description: >-
+      List datasets on the given source and capture the first dataset id to
+      onboard the rule against.
+    operationId: listDatasets
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: source
+      in: query
+      value: $inputs.source
+    - name: limit
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      datasetId: $response.body#/data/0/id
+      datasetName: $response.body#/data/0/name
+  - stepId: reviewExistingRules
+    description: >-
+      List the rules already monitoring the dataset so the new rule does not
+      duplicate existing coverage.
+    operationId: listDataQualityRules
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: dataset_id
+      in: query
+      value: $steps.findDataset.outputs.datasetId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      existingRuleCount: $response.body#/total
+  - stepId: createRule
+    description: >-
+      Create the new data quality rule on the dataset's column using the
+      supplied definition.
+    operationId: createDataQualityRule
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.ruleName
+        type: $inputs.ruleType
+        datasetId: $steps.findDataset.outputs.datasetId
+        columnName: $inputs.columnName
+        threshold: $inputs.threshold
+        severity: $inputs.severity
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      ruleId: $response.body#/id
+  - stepId: mapDownstreamImpact
+    description: >-
+      Retrieve the dataset's downstream lineage so the consumers affected by
+      this rule's alerts are identified.
+    operationId: getDatasetLineage
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: id
+      in: path
+      value: $steps.findDataset.outputs.datasetId
+    - name: direction
+      in: query
+      value: downstream
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      downstream: $response.body#/downstream
+  outputs:
+    datasetId: $steps.findDataset.outputs.datasetId
+    existingRuleCount: $steps.reviewExistingRules.outputs.existingRuleCount
+    createdRuleId: $steps.createRule.outputs.ruleId
+    downstream: $steps.mapDownstreamImpact.outputs.downstream

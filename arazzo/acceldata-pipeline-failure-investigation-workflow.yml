@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Acceldata Pipeline Failure Investigation
+  summary: Find failed pipeline jobs, pull related critical alerts, and acknowledge the first one.
+  description: >-
+    A pipeline incident flow. The workflow lists failed pipeline jobs in a time
+    window, queries the open critical alerts raised during that period, and when
+    at least one such alert exists it acknowledges the first one. When no
+    critical alerts are open the flow ends. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: acceldataAdocApi
+  url: ../openapi/acceldata-adoc-api.yaml
+  type: openapi
+workflows:
+- workflowId: pipeline-failure-investigation
+  summary: Correlate failed pipeline jobs with critical alerts and acknowledge one.
+  description: >-
+    Lists failed pipeline jobs from a start time, queries open critical alerts
+    from that same start time, and branches: when one or more open critical
+    alerts exist it acknowledges the first, otherwise it ends.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - fromTime
+    properties:
+      apiKey:
+        type: string
+        description: Acceldata API key sent in the X-API-Key header.
+      fromTime:
+        type: string
+        description: Start time (ISO 8601) for the failed-job and alert query range.
+      acknowledgeComment:
+        type: string
+        description: Comment recorded when acknowledging the alert.
+  steps:
+  - stepId: listFailedJobs
+    description: >-
+      List pipeline jobs that failed since the start time to identify the
+      incident window.
+    operationId: listPipelineJobs
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: status
+      in: query
+      value: failed
+    - name: from_time
+      in: query
+      value: $inputs.fromTime
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      failedJobCount: $response.body#/total
+      firstJobId: $response.body#/data/0/id
+  - stepId: listCriticalAlerts
+    description: >-
+      Query open critical alerts raised since the start time to correlate with
+      the failed pipeline jobs.
+    operationId: listAlerts
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: status
+      in: query
+      value: open
+    - name: severity
+      in: query
+      value: critical
+    - name: from_time
+      in: query
+      value: $inputs.fromTime
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstAlertId: $response.body#/data/0/id
+      alertCount: $response.body#/total
+    onSuccess:
+    - name: criticalAlertsPresent
+      type: goto
+      stepId: acknowledgeAlert
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noCriticalAlerts
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: acknowledgeAlert
+    description: >-
+      Acknowledge the first open critical alert to mark the incident as under
+      investigation.
+    operationId: acknowledgeAlert
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: id
+      in: path
+      value: $steps.listCriticalAlerts.outputs.firstAlertId
+    requestBody:
+      contentType: application/json
+      payload:
+        comment: $inputs.acknowledgeComment
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      alertId: $response.body#/id
+      alertStatus: $response.body#/status
+  outputs:
+    failedJobCount: $steps.listFailedJobs.outputs.failedJobCount
+    criticalAlertCount: $steps.listCriticalAlerts.outputs.alertCount
+    acknowledgedAlertId: $steps.acknowledgeAlert.outputs.alertId

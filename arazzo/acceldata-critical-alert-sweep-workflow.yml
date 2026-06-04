@@ -1,0 +1,92 @@
+arazzo: 1.0.1
+info:
+  title: Acceldata Critical Alert Sweep
+  summary: List open critical alerts and acknowledge the first one when any are present.
+  description: >-
+    An alert sweep flow for on-call responders. The workflow lists all open
+    critical alerts across the platform and branches: when one or more open
+    critical alerts exist it acknowledges the first one with a triage comment,
+    otherwise it ends. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: acceldataAdocApi
+  url: ../openapi/acceldata-adoc-api.yaml
+  type: openapi
+workflows:
+- workflowId: critical-alert-sweep
+  summary: Sweep open critical alerts and acknowledge the first.
+  description: >-
+    Lists open critical alerts ordered by the platform default and branches:
+    when at least one alert is returned it acknowledges the first, otherwise the
+    flow ends with nothing to do.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    properties:
+      apiKey:
+        type: string
+        description: Acceldata API key sent in the X-API-Key header.
+      acknowledgeComment:
+        type: string
+        description: Comment recorded when acknowledging the alert.
+  steps:
+  - stepId: listCriticalAlerts
+    description: >-
+      List open alerts at critical severity across the platform to find the
+      highest-priority items needing attention.
+    operationId: listAlerts
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: status
+      in: query
+      value: open
+    - name: severity
+      in: query
+      value: critical
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstAlertId: $response.body#/data/0/id
+      total: $response.body#/total
+    onSuccess:
+    - name: alertsPresent
+      type: goto
+      stepId: acknowledgeFirstAlert
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noAlerts
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: acknowledgeFirstAlert
+    description: >-
+      Acknowledge the first open critical alert with a triage comment so it is
+      marked as being handled.
+    operationId: acknowledgeAlert
+    parameters:
+    - name: X-API-Key
+      in: header
+      value: $inputs.apiKey
+    - name: id
+      in: path
+      value: $steps.listCriticalAlerts.outputs.firstAlertId
+    requestBody:
+      contentType: application/json
+      payload:
+        comment: $inputs.acknowledgeComment
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      alertId: $response.body#/id
+      alertStatus: $response.body#/status
+  outputs:
+    openCriticalCount: $steps.listCriticalAlerts.outputs.total
+    acknowledgedAlertId: $steps.acknowledgeFirstAlert.outputs.alertId
