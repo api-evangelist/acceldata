@@ -119,6 +119,8 @@ apis:
     - url: examples/adoc-api-role-example.json
       type: Example
 common:
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/acceldata/overview
   - type: ArazzoWorkflows
     url: arazzo/
     workflows:
