@@ -1,0 +1,1735 @@
+{
+  "info": {
+    "_postman_id": "281b0520-ce40-4f7c-84db-f42fa92c69d8",
+    "name": "Acceldata - Data Observability Cloud API",
+    "description": "The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:02:31.000Z",
+    "updatedAt": "2026-06-05T15:02:32.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-281b0520-ce40-4f7c-84db-f42fa92c69d8"
+  },
+  "item": [
+    {
+      "name": "alerts",
+      "item": [
+        {
+          "name": "{id}",
+          "item": [
+            {
+              "name": "acknowledge",
+              "item": [
+                {
+                  "name": "Acceldata Acknowledge Alert",
+                  "id": "daf5b97b-76ce-433e-8d6a-f8c61abe2cc0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"comment\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/alerts/:id/acknowledge",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "alerts",
+                        ":id",
+                        "acknowledge"
+                      ],
+                      "variable": [
+                        {
+                          "id": "cfba3b96-fa75-4b9f-90ce-22520c4294c5",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Alert identifier to acknowledge."
+                        }
+                      ]
+                    },
+                    "description": "Acknowledge an active alert to indicate it is being investigated."
+                  },
+                  "response": [
+                    {
+                      "id": "482a8a08-640b-4186-bcdf-007f9778303a",
+                      "name": "Alert acknowledged successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-API-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"comment\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/alerts/:id/acknowledge",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "alerts",
+                            ":id",
+                            "acknowledge"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"severity\": \"medium\",\n  \"status\": \"acknowledged\",\n  \"ruleId\": \"<string>\",\n  \"datasetId\": \"<string>\",\n  \"datasetName\": \"<string>\",\n  \"metricValue\": \"<double>\",\n  \"threshold\": \"<double>\",\n  \"triggeredAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-06-05T15:02:32.000Z",
+                      "updatedAt": "2026-06-05T15:02:32.000Z",
+                      "uid": "35240-482a8a08-640b-4186-bcdf-007f9778303a"
+                    },
+                    {
+                      "id": "9922e204-ff29-4757-96f6-22dba6092c65",
+                      "name": "Alert not found",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-API-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"comment\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/alerts/:id/acknowledge",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "alerts",
+                            ":id",
+                            "acknowledge"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+                      "createdAt": "2026-06-05T15:02:32.000Z",
+                      "updatedAt": "2026-06-05T15:02:32.000Z",
+                      "uid": "35240-9922e204-ff29-4757-96f6-22dba6092c65"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-daf5b97b-76ce-433e-8d6a-f8c61abe2cc0"
+                }
+              ],
+              "id": "3720a7ab-0f74-4530-b396-47fc22e79741",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-3720a7ab-0f74-4530-b396-47fc22e79741"
+            }
+          ],
+          "id": "dec0ea32-5888-4610-822e-ac8a7927ed64",
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-dec0ea32-5888-4610-822e-ac8a7927ed64"
+        },
+        {
+          "name": "Acceldata List Alerts",
+          "id": "b40d6806-3229-4fc3-9bfd-3f380ec55063",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alerts?status=resolved&severity=medium&dataset_id=<string>&from_time=<dateTime>&to_time=<dateTime>&page=1&limit=25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alerts"
+              ],
+              "query": [
+                {
+                  "description": "Filter alerts by status (open, resolved, acknowledged).",
+                  "key": "status",
+                  "value": "resolved"
+                },
+                {
+                  "description": "Filter alerts by severity level.",
+                  "key": "severity",
+                  "value": "medium"
+                },
+                {
+                  "description": "Filter alerts by dataset identifier.",
+                  "key": "dataset_id",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Start time for alert query (ISO 8601 format).",
+                  "key": "from_time",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "End time for alert query (ISO 8601 format).",
+                  "key": "to_time",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "Page number for pagination.",
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "description": "Number of alerts per page (max 100).",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ]
+            },
+            "description": "List all active and historical alerts from data quality rules and pipeline monitoring."
+          },
+          "response": [
+            {
+              "id": "b41c8c5a-6dc5-42ee-883a-4c5fa61355f7",
+              "name": "List of alerts",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/alerts?status=resolved&severity=medium&dataset_id=<string>&from_time=<dateTime>&to_time=<dateTime>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "alerts"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter alerts by status (open, resolved, acknowledged).",
+                      "key": "status",
+                      "value": "resolved"
+                    },
+                    {
+                      "description": "Filter alerts by severity level.",
+                      "key": "severity",
+                      "value": "medium"
+                    },
+                    {
+                      "description": "Filter alerts by dataset identifier.",
+                      "key": "dataset_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start time for alert query (ISO 8601 format).",
+                      "key": "from_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "End time for alert query (ISO 8601 format).",
+                      "key": "to_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Page number for pagination.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of alerts per page (max 100).",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"severity\": \"medium\",\n      \"status\": \"resolved\",\n      \"ruleId\": \"<string>\",\n      \"datasetId\": \"<string>\",\n      \"datasetName\": \"<string>\",\n      \"metricValue\": \"<double>\",\n      \"threshold\": \"<double>\",\n      \"triggeredAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"severity\": \"low\",\n      \"status\": \"acknowledged\",\n      \"ruleId\": \"<string>\",\n      \"datasetId\": \"<string>\",\n      \"datasetName\": \"<string>\",\n      \"metricValue\": \"<double>\",\n      \"threshold\": \"<double>\",\n      \"triggeredAt\": \"<dateTime>\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-b41c8c5a-6dc5-42ee-883a-4c5fa61355f7"
+            },
+            {
+              "id": "6decde20-0f62-463b-996a-70831f8894a0",
+              "name": "Unauthorized - invalid API key",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/alerts?status=resolved&severity=medium&dataset_id=<string>&from_time=<dateTime>&to_time=<dateTime>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "alerts"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter alerts by status (open, resolved, acknowledged).",
+                      "key": "status",
+                      "value": "resolved"
+                    },
+                    {
+                      "description": "Filter alerts by severity level.",
+                      "key": "severity",
+                      "value": "medium"
+                    },
+                    {
+                      "description": "Filter alerts by dataset identifier.",
+                      "key": "dataset_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Start time for alert query (ISO 8601 format).",
+                      "key": "from_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "End time for alert query (ISO 8601 format).",
+                      "key": "to_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Page number for pagination.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of alerts per page (max 100).",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-6decde20-0f62-463b-996a-70831f8894a0"
+            }
+          ],
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-b40d6806-3229-4fc3-9bfd-3f380ec55063"
+        }
+      ],
+      "id": "73afd07c-0403-4af9-88e2-beb6930c66b2",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-73afd07c-0403-4af9-88e2-beb6930c66b2"
+    },
+    {
+      "name": "data-quality",
+      "item": [
+        {
+          "name": "rules",
+          "item": [
+            {
+              "name": "Acceldata List Data Quality Rules",
+              "id": "f7ba3edb-c67f-4bf4-8d39-4b5f03d88853",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/data-quality/rules?dataset_id=<string>&status=inactive&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "data-quality",
+                    "rules"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter rules by dataset identifier.",
+                      "key": "dataset_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter rules by status (active, inactive).",
+                      "key": "status",
+                      "value": "inactive"
+                    },
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                },
+                "description": "List all data quality monitoring rules configured in the platform."
+              },
+              "response": [
+                {
+                  "id": "7fc67f07-e8ce-4a3d-bf56-c5de2c793aeb",
+                  "name": "List of data quality rules",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/data-quality/rules?dataset_id=<string>&status=inactive&page=1&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "data-quality",
+                        "rules"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter rules by dataset identifier.",
+                          "key": "dataset_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter rules by status (active, inactive).",
+                          "key": "status",
+                          "value": "inactive"
+                        },
+                        {
+                          "description": "Page number.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Results per page.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"freshness_check\",\n      \"datasetId\": \"<string>\",\n      \"datasetName\": \"<string>\",\n      \"columnName\": \"<string>\",\n      \"threshold\": \"<double>\",\n      \"severity\": \"low\",\n      \"status\": \"inactive\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"type\": \"pattern_check\",\n      \"datasetId\": \"<string>\",\n      \"datasetName\": \"<string>\",\n      \"columnName\": \"<string>\",\n      \"threshold\": \"<double>\",\n      \"severity\": \"high\",\n      \"status\": \"inactive\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-7fc67f07-e8ce-4a3d-bf56-c5de2c793aeb"
+                },
+                {
+                  "id": "da1225d5-13a5-4f9f-bd2f-50ba770ca831",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/data-quality/rules?dataset_id=<string>&status=inactive&page=1&limit=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "data-quality",
+                        "rules"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter rules by dataset identifier.",
+                          "key": "dataset_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter rules by status (active, inactive).",
+                          "key": "status",
+                          "value": "inactive"
+                        },
+                        {
+                          "description": "Page number.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Results per page.",
+                          "key": "limit",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-da1225d5-13a5-4f9f-bd2f-50ba770ca831"
+                }
+              ],
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-f7ba3edb-c67f-4bf4-8d39-4b5f03d88853"
+            },
+            {
+              "name": "Acceldata Create Data Quality Rule",
+              "id": "dd93b5d6-84d2-40ca-b1c1-8dde88f71742",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"datasetId\": \"<string>\",\n  \"columnName\": \"<string>\",\n  \"threshold\": \"<double>\",\n  \"severity\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/data-quality/rules",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "data-quality",
+                    "rules"
+                  ]
+                },
+                "description": "Create a new data quality monitoring rule for a dataset column."
+              },
+              "response": [
+                {
+                  "id": "90e21f37-432e-4bde-ad03-20c9db24639e",
+                  "name": "Data quality rule created",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"datasetId\": \"<string>\",\n  \"columnName\": \"<string>\",\n  \"threshold\": \"<double>\",\n  \"severity\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/data-quality/rules",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "data-quality",
+                        "rules"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"type\": \"schema_check\",\n  \"datasetId\": \"<string>\",\n  \"datasetName\": \"<string>\",\n  \"columnName\": \"<string>\",\n  \"threshold\": \"<double>\",\n  \"severity\": \"critical\",\n  \"status\": \"inactive\",\n  \"createdAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-90e21f37-432e-4bde-ad03-20c9db24639e"
+                },
+                {
+                  "id": "f5f0c362-e0db-40d2-970b-1fc858df2d86",
+                  "name": "Bad request - invalid rule configuration",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"datasetId\": \"<string>\",\n  \"columnName\": \"<string>\",\n  \"threshold\": \"<double>\",\n  \"severity\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/data-quality/rules",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "data-quality",
+                        "rules"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-f5f0c362-e0db-40d2-970b-1fc858df2d86"
+                },
+                {
+                  "id": "f5752c48-b5af-4bee-900e-251c193e238e",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "X-API-Key",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"datasetId\": \"<string>\",\n  \"columnName\": \"<string>\",\n  \"threshold\": \"<double>\",\n  \"severity\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/data-quality/rules",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "data-quality",
+                        "rules"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-f5752c48-b5af-4bee-900e-251c193e238e"
+                }
+              ],
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-dd93b5d6-84d2-40ca-b1c1-8dde88f71742"
+            }
+          ],
+          "id": "05630cf1-b422-4014-adad-719916a561d8",
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-05630cf1-b422-4014-adad-719916a561d8"
+        }
+      ],
+      "id": "235a605b-3e6a-4cb2-acac-9621e15441b4",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-235a605b-3e6a-4cb2-acac-9621e15441b4"
+    },
+    {
+      "name": "datasets",
+      "item": [
+        {
+          "name": "{id}",
+          "item": [
+            {
+              "name": "lineage",
+              "item": [
+                {
+                  "name": "Acceldata Get Dataset Lineage",
+                  "id": "193827ed-5175-4ef6-b634-71eb0bc0e61d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/datasets/:id/lineage?direction=both&depth=3",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "datasets",
+                        ":id",
+                        "lineage"
+                      ],
+                      "query": [
+                        {
+                          "description": "Direction of lineage to retrieve (upstream, downstream, both).",
+                          "key": "direction",
+                          "value": "both"
+                        },
+                        {
+                          "description": "Maximum depth of lineage graph to return.",
+                          "key": "depth",
+                          "value": "3"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "a1551d14-ab29-498b-bd6e-f0760a7eda5f",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Dataset identifier."
+                        }
+                      ]
+                    },
+                    "description": "Get the data lineage graph for a dataset, showing upstream sources and downstream consumers."
+                  },
+                  "response": [
+                    {
+                      "id": "29a6c0d7-22b6-427c-b1df-bc423a8377c3",
+                      "name": "Dataset lineage graph",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-API-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/datasets/:id/lineage?direction=both&depth=3",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "datasets",
+                            ":id",
+                            "lineage"
+                          ],
+                          "query": [
+                            {
+                              "description": "Direction of lineage to retrieve (upstream, downstream, both).",
+                              "key": "direction",
+                              "value": "both"
+                            },
+                            {
+                              "description": "Maximum depth of lineage graph to return.",
+                              "key": "depth",
+                              "value": "3"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"datasetId\": \"<string>\",\n  \"datasetName\": \"<string>\",\n  \"upstream\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ],\n  \"downstream\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:02:32.000Z",
+                      "updatedAt": "2026-06-05T15:02:32.000Z",
+                      "uid": "35240-29a6c0d7-22b6-427c-b1df-bc423a8377c3"
+                    },
+                    {
+                      "id": "39b1f307-7a3b-4eb8-ad90-b122493384e8",
+                      "name": "Dataset not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "X-API-Key",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/datasets/:id/lineage?direction=both&depth=3",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "datasets",
+                            ":id",
+                            "lineage"
+                          ],
+                          "query": [
+                            {
+                              "description": "Direction of lineage to retrieve (upstream, downstream, both).",
+                              "key": "direction",
+                              "value": "both"
+                            },
+                            {
+                              "description": "Maximum depth of lineage graph to return.",
+                              "key": "depth",
+                              "value": "3"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+                      "createdAt": "2026-06-05T15:02:32.000Z",
+                      "updatedAt": "2026-06-05T15:02:32.000Z",
+                      "uid": "35240-39b1f307-7a3b-4eb8-ad90-b122493384e8"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:02:32.000Z",
+                  "updatedAt": "2026-06-05T15:02:32.000Z",
+                  "uid": "35240-193827ed-5175-4ef6-b634-71eb0bc0e61d"
+                }
+              ],
+              "id": "0feaee6f-3560-40b7-b54d-31635f99a380",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-0feaee6f-3560-40b7-b54d-31635f99a380"
+            }
+          ],
+          "id": "5c6c6a05-ff40-4681-bdd5-41ed145a27a9",
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-5c6c6a05-ff40-4681-bdd5-41ed145a27a9"
+        },
+        {
+          "name": "Acceldata List Datasets",
+          "id": "f5b67cd8-24b0-4e04-b59b-f74681e6c349",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/datasets?source=<string>&page=1&limit=25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "datasets"
+              ],
+              "query": [
+                {
+                  "description": "Filter datasets by data source (snowflake, databricks, bigquery, etc.).",
+                  "key": "source",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Page number.",
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "description": "Results per page.",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ]
+            },
+            "description": "List all datasets registered in the Acceldata platform with their quality scores."
+          },
+          "response": [
+            {
+              "id": "acd9f445-8109-4b52-9d9b-b9c2f2063eb8",
+              "name": "List of datasets",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/datasets?source=<string>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "datasets"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter datasets by data source (snowflake, databricks, bigquery, etc.).",
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"bigquery\",\n      \"database\": \"<string>\",\n      \"schema\": \"<string>\",\n      \"qualityScore\": \"<double>\",\n      \"lastScanned\": \"<dateTime>\",\n      \"rowCount\": \"<integer>\",\n      \"columnCount\": \"<integer>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"source\": \"databricks\",\n      \"database\": \"<string>\",\n      \"schema\": \"<string>\",\n      \"qualityScore\": \"<double>\",\n      \"lastScanned\": \"<dateTime>\",\n      \"rowCount\": \"<integer>\",\n      \"columnCount\": \"<integer>\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-acd9f445-8109-4b52-9d9b-b9c2f2063eb8"
+            },
+            {
+              "id": "c7114266-6eb9-455e-a81c-c9541cd908e4",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/datasets?source=<string>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "datasets"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter datasets by data source (snowflake, databricks, bigquery, etc.).",
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-c7114266-6eb9-455e-a81c-c9541cd908e4"
+            }
+          ],
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-f5b67cd8-24b0-4e04-b59b-f74681e6c349"
+        }
+      ],
+      "id": "b3168b1f-9ef6-428a-9bc1-709977e57fa4",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-b3168b1f-9ef6-428a-9bc1-709977e57fa4"
+    },
+    {
+      "name": "pipeline-jobs",
+      "item": [
+        {
+          "name": "Acceldata List Pipeline Jobs",
+          "id": "b9d56a24-e477-4234-a607-534832388d63",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pipeline-jobs?status=running&from_time=<dateTime>&page=1&limit=25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pipeline-jobs"
+              ],
+              "query": [
+                {
+                  "description": "Filter by pipeline job status.",
+                  "key": "status",
+                  "value": "running"
+                },
+                {
+                  "description": "Start time for job query range.",
+                  "key": "from_time",
+                  "value": "<dateTime>"
+                },
+                {
+                  "description": "Page number.",
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "description": "Results per page.",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ]
+            },
+            "description": "List all monitored data pipeline jobs with their execution status and health metrics."
+          },
+          "response": [
+            {
+              "id": "374181e1-8221-47e8-85ec-ec1d5b8a8a5e",
+              "name": "List of pipeline jobs",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline-jobs?status=running&from_time=<dateTime>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline-jobs"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by pipeline job status.",
+                      "key": "status",
+                      "value": "running"
+                    },
+                    {
+                      "description": "Start time for job query range.",
+                      "key": "from_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"spark\",\n      \"status\": \"failed\",\n      \"startTime\": \"<dateTime>\",\n      \"endTime\": \"<dateTime>\",\n      \"durationSeconds\": \"<integer>\",\n      \"slaStatus\": \"met\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"databricks\",\n      \"status\": \"failed\",\n      \"startTime\": \"<dateTime>\",\n      \"endTime\": \"<dateTime>\",\n      \"durationSeconds\": \"<integer>\",\n      \"slaStatus\": \"violated\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-374181e1-8221-47e8-85ec-ec1d5b8a8a5e"
+            },
+            {
+              "id": "727ff721-c5ce-4583-a1a6-9eea1da805e4",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/pipeline-jobs?status=running&from_time=<dateTime>&page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "pipeline-jobs"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter by pipeline job status.",
+                      "key": "status",
+                      "value": "running"
+                    },
+                    {
+                      "description": "Start time for job query range.",
+                      "key": "from_time",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-727ff721-c5ce-4583-a1a6-9eea1da805e4"
+            }
+          ],
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-b9d56a24-e477-4234-a607-534832388d63"
+        }
+      ],
+      "id": "e2851793-359a-4e3f-ae03-42728349b65e",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-e2851793-359a-4e3f-ae03-42728349b65e"
+    },
+    {
+      "name": "users",
+      "item": [
+        {
+          "name": "Acceldata List Users",
+          "id": "4add1c38-7596-456f-8b13-68d650b8fb14",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=25",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "description": "Page number.",
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "description": "Results per page.",
+                  "key": "limit",
+                  "value": "25"
+                }
+              ]
+            },
+            "description": "List all users in the Acceldata organization."
+          },
+          "response": [
+            {
+              "id": "6a4f16d4-ca38-4738-b8f2-02985a159838",
+              "name": "List of users",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/users?page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"email\": \"<email>\",\n      \"name\": \"<string>\",\n      \"role\": \"<string>\",\n      \"status\": \"inactive\",\n      \"createdAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"email\": \"<email>\",\n      \"name\": \"<string>\",\n      \"role\": \"<string>\",\n      \"status\": \"active\",\n      \"createdAt\": \"<dateTime>\"\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-6a4f16d4-ca38-4738-b8f2-02985a159838"
+            },
+            {
+              "id": "93b49b34-cd19-41dc-85bc-bfe6ef4efb01",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/users?page=1&limit=25",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number.",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Results per page.",
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-93b49b34-cd19-41dc-85bc-bfe6ef4efb01"
+            }
+          ],
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-4add1c38-7596-456f-8b13-68d650b8fb14"
+        }
+      ],
+      "id": "88ca6855-1b1a-412e-b3b1-22bf8a101007",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-88ca6855-1b1a-412e-b3b1-22bf8a101007"
+    },
+    {
+      "name": "roles",
+      "item": [
+        {
+          "name": "Acceldata List Roles",
+          "id": "285725cf-628f-4734-af65-0a7447cd3436",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "roles"
+              ]
+            },
+            "description": "List all roles and permissions defined in the Acceldata platform."
+          },
+          "response": [
+            {
+              "id": "ac566c19-0189-4c3c-ba2a-e754d90f2b77",
+              "name": "List of roles",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "roles"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"permissions\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"permissions\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"total\": \"<integer>\",\n  \"page\": \"<integer>\",\n  \"limit\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-ac566c19-0189-4c3c-ba2a-e754d90f2b77"
+            },
+            {
+              "id": "d04d7888-4916-4509-a729-e70e40d80d26",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "roles"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"message\": \"<string>\",\n  \"error\": \"<string>\",\n  \"code\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:02:32.000Z",
+              "updatedAt": "2026-06-05T15:02:32.000Z",
+              "uid": "35240-d04d7888-4916-4509-a729-e70e40d80d26"
+            }
+          ],
+          "createdAt": "2026-06-05T15:02:32.000Z",
+          "updatedAt": "2026-06-05T15:02:32.000Z",
+          "uid": "35240-285725cf-628f-4734-af65-0a7447cd3436"
+        }
+      ],
+      "id": "60816e04-da3f-4d84-bff1-ca04f8b7bc31",
+      "createdAt": "2026-06-05T15:02:32.000Z",
+      "updatedAt": "2026-06-05T15:02:32.000Z",
+      "uid": "35240-60816e04-da3f-4d84-bff1-ca04f8b7bc31"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.acceldata.app/v1"
+    }
+  ]
+}
