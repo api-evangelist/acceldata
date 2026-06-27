@@ -3,12 +3,12 @@
   "feeds": [
     {
       "source": "https://www.acceldata.io/blog",
-      "feed_url": "https://www.acceldata.io/blog",
-      "title": "Acceldata Blog",
-      "saved": 6,
-      "method": "html-scrape"
+      "feed_url": "",
+      "saved": 7,
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 6,
-  "fetched": "2026-06-21T17:00:00Z"
+  "post_count": 13,
+  "fetched": "2026-06-27T12:21:03Z",
+  "agent_pulled": "2026-06-27"
 }
