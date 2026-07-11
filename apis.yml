@@ -119,6 +119,12 @@ apis:
     - url: examples/adoc-api-role-example.json
       type: Examples
 common:
+  - type: TrustCenter
+    url: security/acceldata-trust-center.yml
+  - type: DomainSecurity
+    url: security/acceldata-domain-security.yml
+  - type: Authentication
+    url: authentication/acceldata-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/acceldata/overview
   - type: Arazzo
