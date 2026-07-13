@@ -1,247 +1,287 @@
-extends: spectral:oas
+# acceldata — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - servers-expected-domain: 1/1 servers on acceldata.app
+#   - query-params-casing: snake @ 100% (n=22)
+#   - operationid-casing: camel @ 100% (n=9)
+#   - schema-names-casing: pascal @ 100% (n=17)
+#   - schema-properties-casing: snake @ 75% (n=88)
+#   - security: global (root) — NOT emitting operation-security-required
+#   - error-schema-defined: ErrorResponse
+#   - pagination params observed: ['limit', 'page']
+#   - merge: kept 25 existing, added 7 measured, upgraded 0
+#   - added: servers-https-only, servers-expected-domain, query-params-casing, schema-names-casing, schema-properties-casing, error-schema-defined, no-empty-descriptions
+extends:
+  - spectral:oas
 rules:
-  # Authentication Rules
   acceldata-require-api-key-security:
     description: All operations must require the X-API-Key security scheme
-    message: "Operation '{{path}}' must include apiKey security requirement"
+    message: Operation '{{path}}' must include apiKey security requirement
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: security
       function: truthy
-
   acceldata-api-key-header-name:
     description: API key must use X-API-Key header name
-    message: "Security scheme must use 'X-API-Key' as the header name"
+    message: Security scheme must use 'X-API-Key' as the header name
     severity: error
-    given: "$.components.securitySchemes[*][?(@.in == 'header')]"
+    given: $.components.securitySchemes[*][?(@.in == 'header')]
     then:
       field: name
       function: pattern
       functionOptions:
-        match: "^X-API-Key$"
-
-  # Path Naming Rules
+        match: ^X-API-Key$
   acceldata-path-kebab-case:
     description: API paths must use kebab-case
-    message: "Path '{{value}}' must use kebab-case (lowercase with hyphens)"
+    message: Path '{{value}}' must use kebab-case (lowercase with hyphens)
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(/[a-z0-9-]+({[a-zA-Z]+})?)*$"
-
+        match: ^(/[a-z0-9-]+({[a-zA-Z]+})?)*$
   acceldata-no-trailing-slash:
     description: API paths must not have trailing slashes
-    message: "Path '{{value}}' must not have a trailing slash"
+    message: Path '{{value}}' must not have a trailing slash
     severity: warn
-    given: "$.paths[*]~"
+    given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        notMatch: "/$"
-
-  # Response Rules
+        notMatch: /$
   acceldata-require-200-response:
     description: GET operations must define a 200 response
-    message: "GET operation at '{{path}}' must define a 200 response"
+    message: GET operation at '{{path}}' must define a 200 response
     severity: error
-    given: "$.paths[*].get.responses"
+    given: $.paths[*].get.responses
     then:
-      field: "200"
+      field: '200'
       function: truthy
-
   acceldata-require-400-response:
     description: Operations must define a 400 error response
-    message: "Operation at '{{path}}' must define a 400 response"
+    message: Operation at '{{path}}' must define a 400 response
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete].responses"
+    given: $.paths[*][get,post,put,patch,delete].responses
     then:
-      field: "400"
+      field: '400'
       function: truthy
-
   acceldata-require-401-response:
     description: Operations must define a 401 unauthorized response
-    message: "Operation at '{{path}}' must define a 401 response"
+    message: Operation at '{{path}}' must define a 401 response
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete].responses"
+    given: $.paths[*][get,post,put,patch,delete].responses
     then:
-      field: "401"
+      field: '401'
       function: truthy
-
   acceldata-require-500-response:
     description: Operations must define a 500 server error response
-    message: "Operation at '{{path}}' must define a 500 response"
+    message: Operation at '{{path}}' must define a 500 response
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete].responses"
+    given: $.paths[*][get,post,put,patch,delete].responses
     then:
-      field: "500"
+      field: '500'
       function: truthy
-
-  # Schema Rules
   acceldata-schema-require-description:
     description: All schema components must have a description
-    message: "Schema '{{path}}' must have a description"
+    message: Schema '{{path}}' must have a description
     severity: warn
-    given: "$.components.schemas[*]"
+    given: $.components.schemas[*]
     then:
       field: description
       function: truthy
-
   acceldata-schema-properties-require-description:
     description: Schema properties should have descriptions
-    message: "Property at '{{path}}' should have a description"
+    message: Property at '{{path}}' should have a description
     severity: info
-    given: "$.components.schemas[*].properties[*]"
+    given: $.components.schemas[*].properties[*]
     then:
       field: description
       function: truthy
-
   acceldata-require-id-property:
     description: Resource schemas should include an id property
-    message: "Schema '{{path}}' should include an 'id' property"
+    message: Schema '{{path}}' should include an 'id' property
     severity: info
-    given: "$.components.schemas[?(@.type == 'object' && !@.properties.total)]"
+    given: $.components.schemas[?(@.type == 'object' && !@.properties.total)]
     then:
       field: properties.id
       function: truthy
-
   acceldata-timestamp-format:
     description: Timestamp fields must use date-time format
-    message: "Timestamp property '{{path}}' must use format: date-time"
+    message: 'Timestamp property ''{{path}}'' must use format: date-time'
     severity: error
-    given: "$.components.schemas[*].properties[?(@.description =~ /time|date|at$/i)]"
+    given: $.components.schemas[*].properties[?(@.description =~ /time|date|at$/i)]
     then:
       field: format
       function: enumeration
       functionOptions:
         values:
-          - date-time
-          - date
-
-  # Pagination Rules
+        - date-time
+        - date
   acceldata-list-schema-require-total:
     description: List/collection schemas must include a total count property
-    message: "List schema '{{path}}' must include a 'total' property"
+    message: List schema '{{path}}' must include a 'total' property
     severity: warn
-    given: "$.components.schemas[?(@.title =~ /List$/)]"
+    given: $.components.schemas[?(@.title =~ /List$/)]
     then:
       field: properties.total
       function: truthy
-
   acceldata-list-schema-require-page:
     description: List/collection schemas must include page and pageSize for pagination
-    message: "List schema '{{path}}' must include 'page' property"
+    message: List schema '{{path}}' must include 'page' property
     severity: warn
-    given: "$.components.schemas[?(@.title =~ /List$/)]"
+    given: $.components.schemas[?(@.title =~ /List$/)]
     then:
       field: properties.page
       function: truthy
-
-  # Operation Rules
   acceldata-operations-require-tags:
     description: All operations must have at least one tag
-    message: "Operation at '{{path}}' must have at least one tag"
+    message: Operation at '{{path}}' must have at least one tag
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: tags
       function: truthy
-
   acceldata-operations-require-summary:
     description: All operations must have a summary
-    message: "Operation at '{{path}}' must have a summary"
+    message: Operation at '{{path}}' must have a summary
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: summary
       function: truthy
-
   acceldata-operations-require-operation-id:
     description: All operations must have an operationId
-    message: "Operation at '{{path}}' must have an operationId"
+    message: Operation at '{{path}}' must have an operationId
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete]"
+    given: $.paths[*][get,post,put,patch,delete]
     then:
       field: operationId
       function: truthy
-
   acceldata-operation-id-camel-case:
     description: OperationIds must use camelCase
-    message: "OperationId '{{value}}' must use camelCase"
+    message: OperationId '{{value}}' must use camelCase
     severity: warn
-    given: "$.paths[*][get,post,put,patch,delete].operationId"
+    given: $.paths[*][get,post,put,patch,delete].operationId
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-zA-Z0-9]*$"
-
-  # Query Parameter Rules
+        match: ^[a-z][a-zA-Z0-9]*$
   acceldata-list-operations-support-pagination:
     description: List operations should support page and pageSize query parameters
-    message: "List operation at '{{path}}' should support pagination query parameters"
+    message: List operation at '{{path}}' should support pagination query parameters
     severity: info
-    given: "$.paths[?(!@~.match(/\\{.*\\}/))].get.parameters[*]"
+    given: $.paths[?(!@~.match(/\{.*\}/))].get.parameters[*]
     then:
       field: name
       function: pattern
       functionOptions:
-        match: "^(page|pageSize|limit|offset|filter|sort)$"
-
-  # Content Type Rules
+        match: ^(page|pageSize|limit|offset|filter|sort)$
   acceldata-require-json-content-type:
     description: Request bodies must use application/json content type
-    message: "Request body at '{{path}}' must use application/json"
+    message: Request body at '{{path}}' must use application/json
     severity: error
-    given: "$.paths[*][post,put,patch].requestBody.content"
+    given: $.paths[*][post,put,patch].requestBody.content
     then:
       field: application/json
       function: truthy
-
   acceldata-response-require-json-content-type:
     description: Success responses must return application/json
-    message: "Response at '{{path}}' must return application/json content"
+    message: Response at '{{path}}' must return application/json content
     severity: error
-    given: "$.paths[*][get,post,put,patch,delete].responses[200,201].content"
+    given: $.paths[*][get,post,put,patch,delete].responses[200,201].content
     then:
       field: application/json
       function: truthy
-
-  # Info Rules
   acceldata-info-require-version:
     description: API info must include a version
-    message: "API info must include a version"
+    message: API info must include a version
     severity: error
-    given: "$.info"
+    given: $.info
     then:
       field: version
       function: truthy
-
   acceldata-info-require-description:
     description: API info must include a description
-    message: "API info must include a description"
+    message: API info must include a description
     severity: error
-    given: "$.info"
+    given: $.info
     then:
       field: description
       function: truthy
-
-  # Data Quality Specific Rules
   acceldata-severity-values:
     description: Alert and rule severity must use standard values
-    message: "Severity at '{{path}}' must be LOW, MEDIUM, HIGH, or CRITICAL"
+    message: Severity at '{{path}}' must be LOW, MEDIUM, HIGH, or CRITICAL
     severity: warn
-    given: "$.components.schemas[*].properties.severity"
+    given: $.components.schemas[*].properties.severity
     then:
       field: enum
       function: truthy
-
   acceldata-status-values:
     description: Alert status must use standard values
-    message: "Status at '{{path}}' must use defined enum values"
+    message: Status at '{{path}}' must use defined enum values
     severity: warn
-    given: "$.components.schemas[*].properties.status"
+    given: $.components.schemas[*].properties.status
     then:
       field: enum
+      function: truthy
+  servers-https-only:
+    description: Server URLs must use HTTPS.
+    severity: error
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: ^https://
+  servers-expected-domain:
+    description: Server URLs should be on the acceldata.app domain.
+    severity: warn
+    given: $.servers[*].url
+    then:
+      function: pattern
+      functionOptions:
+        match: acceldata\.app
+  query-params-casing:
+    description: Query parameters should be snake_case (the dominant convention in this API).
+    severity: warn
+    given: $.paths[*][get,post,put,patch,delete].parameters[?(@.in=='query')]
+    then:
+      field: name
+      function: casing
+      functionOptions:
+        type: snake
+  schema-names-casing:
+    description: Component schema names should be PascalCase (the dominant convention in this API).
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: pascal
+  schema-properties-casing:
+    description: Schema properties should be snake_case (the dominant convention in this API).
+    severity: info
+    given: $.components.schemas[*].properties
+    then:
+      field: '@key'
+      function: casing
+      functionOptions:
+        type: snake
+  error-schema-defined:
+    description: A shared error schema (ErrorResponse) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: ErrorResponse
+      function: truthy
+  no-empty-descriptions:
+    description: Descriptions must not be empty strings.
+    severity: warn
+    given: $..description
+    then:
       function: truthy
