@@ -119,6 +119,8 @@ apis:
     - url: examples/adoc-api-role-example.json
       type: Examples
 common:
+  - type: AgenticAccess
+    url: agentic-access/acceldata-agentic-access.yml
   - type: TrustCenter
     url: security/acceldata-trust-center.yml
   - type: DomainSecurity
