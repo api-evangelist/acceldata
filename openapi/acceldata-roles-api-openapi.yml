@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Acceldata - Data Observability Cloud Alerts Roles API
+  description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
+  version: 1.0.0
+  contact:
+    url: https://www.acceldata.io/
+  x-generated-from: documentation
+servers:
+- url: https://api.acceldata.app/v1
+  description: Acceldata ADOC API v1
+security:
+- apiKey: []
+tags:
+- name: Roles
+  description: Manage roles and permissions
+paths:
+  /roles:
+    get:
+      operationId: listRoles
+      summary: Acceldata List Roles
+      description: List all roles and permissions defined in the Acceldata platform.
+      tags:
+      - Roles
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleList'
+              examples:
+                listRoles200Example:
+                  summary: Default listRoles 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                    - id: role-admin
+                      name: admin
+                      description: Full administrative access to all platform features
+                      permissions:
+                      - read:all
+                      - write:all
+                      - admin:users
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RoleList:
+      type: object
+      description: Paginated list of roles
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        total:
+          type: integer
+          example: 5
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+    Role:
+      type: object
+      description: A role with associated permissions
+      properties:
+        id:
+          type: string
+          description: Role identifier
+          example: role-admin
+        name:
+          type: string
+          description: Role name
+          example: admin
+        description:
+          type: string
+          description: Role description
+          example: Full administrative access to all platform features
+        permissions:
+          type: array
+          description: List of permissions assigned to this role
+          items:
+            type: string
+          example:
+          - read:all
+          - write:all
+          - admin:users
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Acceldata API key for authentication

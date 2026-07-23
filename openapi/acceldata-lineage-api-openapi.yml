@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Acceldata - Data Observability Cloud Alerts Lineage API
+  description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
+  version: 1.0.0
+  contact:
+    url: https://www.acceldata.io/
+  x-generated-from: documentation
+servers:
+- url: https://api.acceldata.app/v1
+  description: Acceldata ADOC API v1
+security:
+- apiKey: []
+tags:
+- name: Lineage
+  description: Query data lineage and impact analysis
+paths:
+  /datasets/{id}/lineage:
+    get:
+      operationId: getDatasetLineage
+      summary: Acceldata Get Dataset Lineage
+      description: Get the data lineage graph for a dataset, showing upstream sources and downstream consumers.
+      tags:
+      - Lineage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Dataset identifier.
+        schema:
+          type: string
+        example: dataset-abc123
+      - name: direction
+        in: query
+        required: false
+        description: Direction of lineage to retrieve (upstream, downstream, both).
+        schema:
+          type: string
+          enum:
+          - upstream
+          - downstream
+          - both
+          default: both
+        example: both
+      - name: depth
+        in: query
+        required: false
+        description: Maximum depth of lineage graph to return.
+        schema:
+          type: integer
+          default: 3
+        example: 3
+      responses:
+        '200':
+          description: Dataset lineage graph
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineageGraph'
+              examples:
+                getDatasetLineage200Example:
+                  summary: Default getDatasetLineage 200 response
+                  x-microcks-default: true
+                  value:
+                    datasetId: dataset-abc123
+                    datasetName: orders_table
+                    upstream:
+                    - id: dataset-source-001
+                      name: raw_orders
+                      source: s3
+                    downstream:
+                    - id: dataset-consumer-001
+                      name: orders_summary
+                      source: snowflake
+        '404':
+          description: Dataset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    LineageGraph:
+      type: object
+      description: Data lineage graph for a dataset
+      properties:
+        datasetId:
+          type: string
+          description: Dataset identifier
+          example: dataset-abc123
+        datasetName:
+          type: string
+          description: Dataset name
+          example: orders_table
+        upstream:
+          type: array
+          description: Upstream data sources
+          items:
+            $ref: '#/components/schemas/LineageNode'
+        downstream:
+          type: array
+          description: Downstream data consumers
+          items:
+            $ref: '#/components/schemas/LineageNode'
+    LineageNode:
+      type: object
+      description: A node in the data lineage graph
+      properties:
+        id:
+          type: string
+          description: Dataset or table identifier
+          example: dataset-source-001
+        name:
+          type: string
+          description: Dataset or table name
+          example: raw_orders
+        source:
+          type: string
+          description: Source platform
+          example: s3
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Acceldata API key for authentication

@@ -1,0 +1,174 @@
+openapi: 3.0.3
+info:
+  title: Acceldata - Data Observability Cloud Alerts Datasets API
+  description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
+  version: 1.0.0
+  contact:
+    url: https://www.acceldata.io/
+  x-generated-from: documentation
+servers:
+- url: https://api.acceldata.app/v1
+  description: Acceldata ADOC API v1
+security:
+- apiKey: []
+tags:
+- name: Datasets
+  description: Manage and query dataset metadata and quality metrics
+paths:
+  /datasets:
+    get:
+      operationId: listDatasets
+      summary: Acceldata List Datasets
+      description: List all datasets registered in the Acceldata platform with their quality scores.
+      tags:
+      - Datasets
+      parameters:
+      - name: source
+        in: query
+        required: false
+        description: Filter datasets by data source (snowflake, databricks, bigquery, etc.).
+        schema:
+          type: string
+        example: snowflake
+      - name: page
+        in: query
+        required: false
+        description: Page number.
+        schema:
+          type: integer
+          default: 1
+        example: 1
+      - name: limit
+        in: query
+        required: false
+        description: Results per page.
+        schema:
+          type: integer
+          default: 25
+        example: 25
+      responses:
+        '200':
+          description: List of datasets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetList'
+              examples:
+                listDatasets200Example:
+                  summary: Default listDatasets 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                    - id: dataset-abc123
+                      name: orders_table
+                      source: snowflake
+                      database: PROD_DB
+                      schema: PUBLIC
+                      qualityScore: 94.2
+                      lastScanned: '2026-04-19T06:00:00Z'
+                      rowCount: 5234891
+                      columnCount: 24
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Dataset:
+      type: object
+      description: A registered dataset in Acceldata
+      properties:
+        id:
+          type: string
+          description: Unique dataset identifier
+          example: dataset-abc123
+        name:
+          type: string
+          description: Dataset name (table or file name)
+          example: orders_table
+        source:
+          type: string
+          description: Data source platform
+          example: snowflake
+          enum:
+          - snowflake
+          - databricks
+          - bigquery
+          - redshift
+          - s3
+          - hdfs
+          - hive
+          - postgres
+        database:
+          type: string
+          description: Database name
+          example: PROD_DB
+        schema:
+          type: string
+          description: Schema name
+          example: PUBLIC
+        qualityScore:
+          type: number
+          format: double
+          description: Overall data quality score (0-100)
+          example: 94.2
+        lastScanned:
+          type: string
+          format: date-time
+          description: Last time the dataset was scanned
+          example: '2026-04-19T06:00:00Z'
+        rowCount:
+          type: integer
+          description: Number of rows in the dataset
+          example: 5234891
+        columnCount:
+          type: integer
+          description: Number of columns in the dataset
+          example: 24
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+    DatasetList:
+      type: object
+      description: Paginated list of datasets
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+        total:
+          type: integer
+          example: 120
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Acceldata API key for authentication

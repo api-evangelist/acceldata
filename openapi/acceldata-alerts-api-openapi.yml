@@ -1,0 +1,271 @@
+openapi: 3.0.3
+info:
+  title: Acceldata - Data Observability Cloud Alerts API
+  description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
+  version: 1.0.0
+  contact:
+    url: https://www.acceldata.io/
+  x-generated-from: documentation
+servers:
+- url: https://api.acceldata.app/v1
+  description: Acceldata ADOC API v1
+security:
+- apiKey: []
+tags:
+- name: Alerts
+  description: Monitor and manage data quality and pipeline alerts
+paths:
+  /alerts:
+    get:
+      operationId: listAlerts
+      summary: Acceldata List Alerts
+      description: List all active and historical alerts from data quality rules and pipeline monitoring.
+      tags:
+      - Alerts
+      parameters:
+      - name: status
+        in: query
+        required: false
+        description: Filter alerts by status (open, resolved, acknowledged).
+        schema:
+          type: string
+          enum:
+          - open
+          - resolved
+          - acknowledged
+        example: open
+      - name: severity
+        in: query
+        required: false
+        description: Filter alerts by severity level.
+        schema:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        example: critical
+      - name: dataset_id
+        in: query
+        required: false
+        description: Filter alerts by dataset identifier.
+        schema:
+          type: string
+        example: dataset-abc123
+      - name: from_time
+        in: query
+        required: false
+        description: Start time for alert query (ISO 8601 format).
+        schema:
+          type: string
+          format: date-time
+        example: '2026-04-01T00:00:00Z'
+      - name: to_time
+        in: query
+        required: false
+        description: End time for alert query (ISO 8601 format).
+        schema:
+          type: string
+          format: date-time
+        example: '2026-04-19T00:00:00Z'
+      - name: page
+        in: query
+        required: false
+        description: Page number for pagination.
+        schema:
+          type: integer
+          default: 1
+        example: 1
+      - name: limit
+        in: query
+        required: false
+        description: Number of alerts per page (max 100).
+        schema:
+          type: integer
+          default: 25
+        example: 25
+      responses:
+        '200':
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertList'
+              examples:
+                listAlerts200Example:
+                  summary: Default listAlerts 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                    - id: alert-def456
+                      title: Null Value Rate Exceeded Threshold
+                      severity: critical
+                      status: open
+                      ruleId: rule-abc123
+                      datasetId: dataset-abc123
+                      datasetName: orders_table
+                      metricValue: 15.3
+                      threshold: 5.0
+                      triggeredAt: '2026-04-19T08:30:00Z'
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized - invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /alerts/{id}/acknowledge:
+    post:
+      operationId: acknowledgeAlert
+      summary: Acceldata Acknowledge Alert
+      description: Acknowledge an active alert to indicate it is being investigated.
+      tags:
+      - Alerts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Alert identifier to acknowledge.
+        schema:
+          type: string
+        example: alert-def456
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeAlertRequest'
+            examples:
+              acknowledgeAlertRequestExample:
+                summary: Default acknowledgeAlert request
+                x-microcks-default: true
+                value:
+                  comment: Investigating root cause — data pipeline delayed
+      responses:
+        '200':
+          description: Alert acknowledged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        '404':
+          description: Alert not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AlertList:
+      type: object
+      description: Paginated list of alerts
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+        total:
+          type: integer
+          description: Total alert count
+          example: 42
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+    Alert:
+      type: object
+      description: A data quality or pipeline monitoring alert
+      properties:
+        id:
+          type: string
+          description: Unique alert identifier
+          example: alert-def456
+        title:
+          type: string
+          description: Alert title
+          example: Null Value Rate Exceeded Threshold
+        severity:
+          type: string
+          description: Alert severity level
+          example: critical
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+        status:
+          type: string
+          description: Current alert status
+          example: open
+          enum:
+          - open
+          - resolved
+          - acknowledged
+        ruleId:
+          type: string
+          description: Data quality rule that triggered this alert
+          example: rule-abc123
+        datasetId:
+          type: string
+          description: Dataset associated with the alert
+          example: dataset-abc123
+        datasetName:
+          type: string
+          description: Dataset name
+          example: orders_table
+        metricValue:
+          type: number
+          format: double
+          description: Actual metric value that triggered the alert
+          example: 15.3
+        threshold:
+          type: number
+          format: double
+          description: Threshold that was exceeded
+          example: 5.0
+        triggeredAt:
+          type: string
+          format: date-time
+          description: When the alert was triggered
+          example: '2026-04-19T08:30:00Z'
+    AcknowledgeAlertRequest:
+      type: object
+      description: Request body for acknowledging an alert
+      properties:
+        comment:
+          type: string
+          description: Optional comment explaining the acknowledgement
+          example: Investigating root cause — data pipeline delayed
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Acceldata API key for authentication
