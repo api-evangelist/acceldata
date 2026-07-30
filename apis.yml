@@ -3,7 +3,20 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/acceldata/refs/heads/main/apis.yml
 name: Acceldata
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/acceldata.png
 tags:
   - AI Agents
   - Data Management
@@ -25,99 +38,608 @@ created: '2025-02-24'
 modified: '2026-04-19'
 specificationVersion: '0.19'
 apis:
-  - aid: acceldata:adoc-api
-    name: Acceldata Data Observability Cloud API
-    description: >-
-      The ADOC API provides programmatic access to data observability features
-      including alerts, data quality rules, pipeline monitoring, data lineage,
-      users, groups, roles, and permissions within the Acceldata Data
-      Observability Cloud platform.
-    humanURL: https://docs.acceldata.io/api/introduction
-    baseURL: https://api.acceldata.app/v1
-    tags:
-    - Data Observability
-    - Data Quality
-    - Alerts
-    - Data Pipeline
-    properties:
-    - url: https://docs.acceldata.io/api/introduction
-      type: Documentation
-    - url: https://docs.acceldata.io/api/authentication
-      type: Authentication
-    - url: openapi/acceldata-adoc-api.yaml
-      type: OpenAPI
-    - url: json-schema/adoc-api-alert-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-alert-list-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-data-quality-rule-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-data-quality-rule-list-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-dataset-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-dataset-list-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-lineage-node-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-lineage-graph-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-pipeline-job-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-pipeline-job-list-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-user-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-user-list-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-role-schema.json
-      type: JSONSchema
-    - url: json-schema/adoc-api-role-list-schema.json
-      type: JSONSchema
-    - url: json-structure/adoc-api-alert-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-alert-list-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-data-quality-rule-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-data-quality-rule-list-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-dataset-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-dataset-list-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-lineage-node-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-lineage-graph-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-pipeline-job-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-pipeline-job-list-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-user-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-user-list-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-role-structure.json
-      type: JSONStructure
-    - url: json-structure/adoc-api-role-list-structure.json
-      type: JSONStructure
-    - url: examples/adoc-api-alert-example.json
-      type: Examples
-    - url: examples/adoc-api-alert-list-example.json
-      type: Examples
-    - url: examples/adoc-api-data-quality-rule-example.json
-      type: Examples
-    - url: examples/adoc-api-dataset-example.json
-      type: Examples
-    - url: examples/adoc-api-lineage-graph-example.json
-      type: Examples
-    - url: examples/adoc-api-pipeline-job-example.json
-      type: Examples
-    - url: examples/adoc-api-user-example.json
-      type: Examples
-    - url: examples/adoc-api-role-example.json
-      type: Examples
+- aid: acceldata:acceldata-alerts-api
+  name: Acceldata Alerts API
+  description: Monitor and manage data quality and pipeline alerts
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-data-quality-rules-api
+  name: Acceldata Data Quality Rules API
+  description: Manage data quality rules and monitoring policies
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Data Quality Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-data-quality-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-datasets-api
+  name: Acceldata Datasets API
+  description: Manage and query dataset metadata and quality metrics
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-datasets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-lineage-api
+  name: Acceldata Lineage API
+  description: Query data lineage and impact analysis
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Lineage
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-lineage-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-pipeline-jobs-api
+  name: Acceldata Pipeline Jobs API
+  description: Monitor data pipeline job execution and health
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Pipeline Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-pipeline-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-roles-api
+  name: Acceldata Roles API
+  description: Manage roles and permissions
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-roles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-users-api
+  name: Acceldata Users API
+  description: Manage users and user invitations
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-alert-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-data-quality-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-dataset-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-node-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-lineage-graph-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-pipeline-job-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-user-list-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-schema.json
+  - type: JSONSchema
+    url: json-schema/adoc-api-role-list-schema.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-alert-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-data-quality-rule-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-dataset-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-node-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-lineage-graph-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-pipeline-job-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-user-list-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-structure.json
+  - type: JSONStructure
+    url: json-structure/adoc-api-role-list-structure.json
+  - type: Examples
+    url: examples/adoc-api-alert-example.json
+  - type: Examples
+    url: examples/adoc-api-alert-list-example.json
+  - type: Examples
+    url: examples/adoc-api-data-quality-rule-example.json
+  - type: Examples
+    url: examples/adoc-api-dataset-example.json
+  - type: Examples
+    url: examples/adoc-api-lineage-graph-example.json
+  - type: Examples
+    url: examples/adoc-api-pipeline-job-example.json
+  - type: Examples
+    url: examples/adoc-api-user-example.json
+  - type: Examples
+    url: examples/adoc-api-role-example.json
 common:
   - type: AgenticAccess
     url: agentic-access/acceldata-agentic-access.yml
