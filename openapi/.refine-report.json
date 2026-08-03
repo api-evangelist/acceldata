@@ -1,0 +1,26 @@
+{
+  "provider": "acceldata",
+  "sources": [
+    "acceldata-alerts-api-openapi.yml",
+    "acceldata-data-quality-rules-api-openapi.yml",
+    "acceldata-datasets-api-openapi.yml",
+    "acceldata-lineage-api-openapi.yml",
+    "acceldata-pipeline-jobs-api-openapi.yml",
+    "acceldata-roles-api-openapi.yml",
+    "acceldata-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "acceldata-alerts-api-openapi.yml",
+    "acceldata-data-quality-rules-api-openapi.yml",
+    "acceldata-datasets-api-openapi.yml",
+    "acceldata-lineage-api-openapi.yml",
+    "acceldata-pipeline-jobs-api-openapi.yml",
+    "acceldata-roles-api-openapi.yml",
+    "acceldata-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

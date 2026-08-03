@@ -1,0 +1,1095 @@
+openapi: 3.0.3
+info:
+  title: Acceldata - Data Observability Cloud API
+  description: >-
+    The Acceldata Data Observability Cloud (ADOC) API provides programmatic
+    access to data observability, data quality, pipeline monitoring, alerts,
+    data lineage, and administration features. It enables enterprise teams to
+    integrate Acceldata's observability data into custom workflows, dashboards,
+    and automation pipelines.
+  version: 1.0.0
+  contact:
+    url: https://www.acceldata.io/
+  x-generated-from: documentation
+servers:
+  - url: https://api.acceldata.app/v1
+    description: Acceldata ADOC API v1
+security:
+  - apiKey: []
+tags:
+  - name: Alerts
+    description: Monitor and manage data quality and pipeline alerts
+  - name: Data Quality Rules
+    description: Manage data quality rules and monitoring policies
+  - name: Datasets
+    description: Manage and query dataset metadata and quality metrics
+  - name: Pipeline Jobs
+    description: Monitor data pipeline job execution and health
+  - name: Lineage
+    description: Query data lineage and impact analysis
+  - name: Users
+    description: Manage users and user invitations
+  - name: Groups
+    description: Manage user groups and group memberships
+  - name: Roles
+    description: Manage roles and permissions
+paths:
+  /alerts:
+    get:
+      operationId: listAlerts
+      summary: Acceldata List Alerts
+      description: List all active and historical alerts from data quality rules and pipeline monitoring.
+      tags:
+        - Alerts
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter alerts by status (open, resolved, acknowledged).
+          schema:
+            type: string
+            enum:
+              - open
+              - resolved
+              - acknowledged
+          example: open
+        - name: severity
+          in: query
+          required: false
+          description: Filter alerts by severity level.
+          schema:
+            type: string
+            enum:
+              - critical
+              - high
+              - medium
+              - low
+          example: critical
+        - name: dataset_id
+          in: query
+          required: false
+          description: Filter alerts by dataset identifier.
+          schema:
+            type: string
+          example: dataset-abc123
+        - name: from_time
+          in: query
+          required: false
+          description: Start time for alert query (ISO 8601 format).
+          schema:
+            type: string
+            format: date-time
+          example: '2026-04-01T00:00:00Z'
+        - name: to_time
+          in: query
+          required: false
+          description: End time for alert query (ISO 8601 format).
+          schema:
+            type: string
+            format: date-time
+          example: '2026-04-19T00:00:00Z'
+        - name: page
+          in: query
+          required: false
+          description: Page number for pagination.
+          schema:
+            type: integer
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Number of alerts per page (max 100).
+          schema:
+            type: integer
+            default: 25
+          example: 25
+      responses:
+        '200':
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertList'
+              examples:
+                listAlerts200Example:
+                  summary: Default listAlerts 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: alert-def456
+                        title: Null Value Rate Exceeded Threshold
+                        severity: critical
+                        status: open
+                        ruleId: rule-abc123
+                        datasetId: dataset-abc123
+                        datasetName: orders_table
+                        metricValue: 15.3
+                        threshold: 5.0
+                        triggeredAt: '2026-04-19T08:30:00Z'
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized - invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /alerts/{id}/acknowledge:
+    post:
+      operationId: acknowledgeAlert
+      summary: Acceldata Acknowledge Alert
+      description: Acknowledge an active alert to indicate it is being investigated.
+      tags:
+        - Alerts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Alert identifier to acknowledge.
+          schema:
+            type: string
+          example: alert-def456
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgeAlertRequest'
+            examples:
+              acknowledgeAlertRequestExample:
+                summary: Default acknowledgeAlert request
+                x-microcks-default: true
+                value:
+                  comment: Investigating root cause — data pipeline delayed
+      responses:
+        '200':
+          description: Alert acknowledged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        '404':
+          description: Alert not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /data-quality/rules:
+    get:
+      operationId: listDataQualityRules
+      summary: Acceldata List Data Quality Rules
+      description: List all data quality monitoring rules configured in the platform.
+      tags:
+        - Data Quality Rules
+      parameters:
+        - name: dataset_id
+          in: query
+          required: false
+          description: Filter rules by dataset identifier.
+          schema:
+            type: string
+          example: dataset-abc123
+        - name: status
+          in: query
+          required: false
+          description: Filter rules by status (active, inactive).
+          schema:
+            type: string
+            enum:
+              - active
+              - inactive
+          example: active
+        - name: page
+          in: query
+          required: false
+          description: Page number.
+          schema:
+            type: integer
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Results per page.
+          schema:
+            type: integer
+            default: 25
+          example: 25
+      responses:
+        '200':
+          description: List of data quality rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQualityRuleList'
+              examples:
+                listDataQualityRules200Example:
+                  summary: Default listDataQualityRules 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: rule-abc123
+                        name: Null Check - order_id
+                        type: null_check
+                        datasetId: dataset-abc123
+                        datasetName: orders_table
+                        columnName: order_id
+                        threshold: 0.0
+                        severity: critical
+                        status: active
+                        createdAt: '2026-01-10T12:00:00Z'
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createDataQualityRule
+      summary: Acceldata Create Data Quality Rule
+      description: Create a new data quality monitoring rule for a dataset column.
+      tags:
+        - Data Quality Rules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDataQualityRuleRequest'
+            examples:
+              createDataQualityRuleRequestExample:
+                summary: Default createDataQualityRule request
+                x-microcks-default: true
+                value:
+                  name: Null Check - email
+                  type: null_check
+                  datasetId: dataset-abc123
+                  columnName: email
+                  threshold: 1.0
+                  severity: high
+      responses:
+        '201':
+          description: Data quality rule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQualityRule'
+        '400':
+          description: Bad request - invalid rule configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /datasets:
+    get:
+      operationId: listDatasets
+      summary: Acceldata List Datasets
+      description: List all datasets registered in the Acceldata platform with their quality scores.
+      tags:
+        - Datasets
+      parameters:
+        - name: source
+          in: query
+          required: false
+          description: Filter datasets by data source (snowflake, databricks, bigquery, etc.).
+          schema:
+            type: string
+          example: snowflake
+        - name: page
+          in: query
+          required: false
+          description: Page number.
+          schema:
+            type: integer
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Results per page.
+          schema:
+            type: integer
+            default: 25
+          example: 25
+      responses:
+        '200':
+          description: List of datasets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetList'
+              examples:
+                listDatasets200Example:
+                  summary: Default listDatasets 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: dataset-abc123
+                        name: orders_table
+                        source: snowflake
+                        database: PROD_DB
+                        schema: PUBLIC
+                        qualityScore: 94.2
+                        lastScanned: '2026-04-19T06:00:00Z'
+                        rowCount: 5234891
+                        columnCount: 24
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /datasets/{id}/lineage:
+    get:
+      operationId: getDatasetLineage
+      summary: Acceldata Get Dataset Lineage
+      description: Get the data lineage graph for a dataset, showing upstream sources and downstream consumers.
+      tags:
+        - Lineage
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Dataset identifier.
+          schema:
+            type: string
+          example: dataset-abc123
+        - name: direction
+          in: query
+          required: false
+          description: Direction of lineage to retrieve (upstream, downstream, both).
+          schema:
+            type: string
+            enum:
+              - upstream
+              - downstream
+              - both
+            default: both
+          example: both
+        - name: depth
+          in: query
+          required: false
+          description: Maximum depth of lineage graph to return.
+          schema:
+            type: integer
+            default: 3
+          example: 3
+      responses:
+        '200':
+          description: Dataset lineage graph
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineageGraph'
+              examples:
+                getDatasetLineage200Example:
+                  summary: Default getDatasetLineage 200 response
+                  x-microcks-default: true
+                  value:
+                    datasetId: dataset-abc123
+                    datasetName: orders_table
+                    upstream:
+                      - id: dataset-source-001
+                        name: raw_orders
+                        source: s3
+                    downstream:
+                      - id: dataset-consumer-001
+                        name: orders_summary
+                        source: snowflake
+        '404':
+          description: Dataset not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /pipeline-jobs:
+    get:
+      operationId: listPipelineJobs
+      summary: Acceldata List Pipeline Jobs
+      description: List all monitored data pipeline jobs with their execution status and health metrics.
+      tags:
+        - Pipeline Jobs
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter by pipeline job status.
+          schema:
+            type: string
+            enum:
+              - running
+              - succeeded
+              - failed
+              - pending
+          example: failed
+        - name: from_time
+          in: query
+          required: false
+          description: Start time for job query range.
+          schema:
+            type: string
+            format: date-time
+          example: '2026-04-18T00:00:00Z'
+        - name: page
+          in: query
+          required: false
+          description: Page number.
+          schema:
+            type: integer
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Results per page.
+          schema:
+            type: integer
+            default: 25
+          example: 25
+      responses:
+        '200':
+          description: List of pipeline jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PipelineJobList'
+              examples:
+                listPipelineJobs200Example:
+                  summary: Default listPipelineJobs 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: job-ghi789
+                        name: orders_etl_pipeline
+                        platform: databricks
+                        status: failed
+                        startTime: '2026-04-19T04:00:00Z'
+                        endTime: '2026-04-19T04:23:00Z'
+                        durationSeconds: 1380
+                        slaStatus: violated
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /users:
+    get:
+      operationId: listUsers
+      summary: Acceldata List Users
+      description: List all users in the Acceldata organization.
+      tags:
+        - Users
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: Page number.
+          schema:
+            type: integer
+            default: 1
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          description: Results per page.
+          schema:
+            type: integer
+            default: 25
+          example: 25
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+              examples:
+                listUsers200Example:
+                  summary: Default listUsers 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: user-jkl012
+                        email: analyst@example.com
+                        name: Jane Smith
+                        role: data_analyst
+                        status: active
+                        createdAt: '2026-01-05T10:00:00Z'
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /roles:
+    get:
+      operationId: listRoles
+      summary: Acceldata List Roles
+      description: List all roles and permissions defined in the Acceldata platform.
+      tags:
+        - Roles
+      responses:
+        '200':
+          description: List of roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleList'
+              examples:
+                listRoles200Example:
+                  summary: Default listRoles 200 response
+                  x-microcks-default: true
+                  value:
+                    data:
+                      - id: role-admin
+                        name: admin
+                        description: Full administrative access to all platform features
+                        permissions:
+                          - read:all
+                          - write:all
+                          - admin:users
+                    total: 1
+                    page: 1
+                    limit: 25
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Acceldata API key for authentication
+  schemas:
+    Alert:
+      type: object
+      description: A data quality or pipeline monitoring alert
+      properties:
+        id:
+          type: string
+          description: Unique alert identifier
+          example: alert-def456
+        title:
+          type: string
+          description: Alert title
+          example: Null Value Rate Exceeded Threshold
+        severity:
+          type: string
+          description: Alert severity level
+          example: critical
+          enum:
+            - critical
+            - high
+            - medium
+            - low
+        status:
+          type: string
+          description: Current alert status
+          example: open
+          enum:
+            - open
+            - resolved
+            - acknowledged
+        ruleId:
+          type: string
+          description: Data quality rule that triggered this alert
+          example: rule-abc123
+        datasetId:
+          type: string
+          description: Dataset associated with the alert
+          example: dataset-abc123
+        datasetName:
+          type: string
+          description: Dataset name
+          example: orders_table
+        metricValue:
+          type: number
+          format: double
+          description: Actual metric value that triggered the alert
+          example: 15.3
+        threshold:
+          type: number
+          format: double
+          description: Threshold that was exceeded
+          example: 5.0
+        triggeredAt:
+          type: string
+          format: date-time
+          description: When the alert was triggered
+          example: '2026-04-19T08:30:00Z'
+    AlertList:
+      type: object
+      description: Paginated list of alerts
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+        total:
+          type: integer
+          description: Total alert count
+          example: 42
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    AcknowledgeAlertRequest:
+      type: object
+      description: Request body for acknowledging an alert
+      properties:
+        comment:
+          type: string
+          description: Optional comment explaining the acknowledgement
+          example: Investigating root cause — data pipeline delayed
+    DataQualityRule:
+      type: object
+      description: A data quality monitoring rule
+      properties:
+        id:
+          type: string
+          description: Unique rule identifier
+          example: rule-abc123
+        name:
+          type: string
+          description: Rule name
+          example: Null Check - order_id
+        type:
+          type: string
+          description: Type of data quality check
+          example: null_check
+          enum:
+            - null_check
+            - uniqueness_check
+            - range_check
+            - pattern_check
+            - freshness_check
+            - schema_check
+            - custom
+        datasetId:
+          type: string
+          description: Dataset the rule applies to
+          example: dataset-abc123
+        datasetName:
+          type: string
+          description: Dataset name
+          example: orders_table
+        columnName:
+          type: string
+          description: Column the rule monitors
+          example: order_id
+        threshold:
+          type: number
+          format: double
+          description: Alert threshold value (percentage or absolute)
+          example: 0.0
+        severity:
+          type: string
+          description: Alert severity when rule is violated
+          example: critical
+          enum:
+            - critical
+            - high
+            - medium
+            - low
+        status:
+          type: string
+          description: Rule activation status
+          example: active
+          enum:
+            - active
+            - inactive
+        createdAt:
+          type: string
+          format: date-time
+          description: Rule creation timestamp
+          example: '2026-01-10T12:00:00Z'
+    DataQualityRuleList:
+      type: object
+      description: Paginated list of data quality rules
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataQualityRule'
+        total:
+          type: integer
+          example: 35
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    CreateDataQualityRuleRequest:
+      type: object
+      description: Request body for creating a data quality rule
+      required:
+        - name
+        - type
+        - datasetId
+        - columnName
+      properties:
+        name:
+          type: string
+          description: Rule name
+          example: Null Check - email
+        type:
+          type: string
+          description: Type of data quality check
+          example: null_check
+        datasetId:
+          type: string
+          description: Dataset identifier to apply the rule to
+          example: dataset-abc123
+        columnName:
+          type: string
+          description: Column to monitor
+          example: email
+        threshold:
+          type: number
+          format: double
+          description: Alert threshold as percentage (0-100)
+          example: 1.0
+        severity:
+          type: string
+          description: Severity of alerts triggered by this rule
+          example: high
+    Dataset:
+      type: object
+      description: A registered dataset in Acceldata
+      properties:
+        id:
+          type: string
+          description: Unique dataset identifier
+          example: dataset-abc123
+        name:
+          type: string
+          description: Dataset name (table or file name)
+          example: orders_table
+        source:
+          type: string
+          description: Data source platform
+          example: snowflake
+          enum:
+            - snowflake
+            - databricks
+            - bigquery
+            - redshift
+            - s3
+            - hdfs
+            - hive
+            - postgres
+        database:
+          type: string
+          description: Database name
+          example: PROD_DB
+        schema:
+          type: string
+          description: Schema name
+          example: PUBLIC
+        qualityScore:
+          type: number
+          format: double
+          description: Overall data quality score (0-100)
+          example: 94.2
+        lastScanned:
+          type: string
+          format: date-time
+          description: Last time the dataset was scanned
+          example: '2026-04-19T06:00:00Z'
+        rowCount:
+          type: integer
+          description: Number of rows in the dataset
+          example: 5234891
+        columnCount:
+          type: integer
+          description: Number of columns in the dataset
+          example: 24
+    DatasetList:
+      type: object
+      description: Paginated list of datasets
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+        total:
+          type: integer
+          example: 120
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    LineageNode:
+      type: object
+      description: A node in the data lineage graph
+      properties:
+        id:
+          type: string
+          description: Dataset or table identifier
+          example: dataset-source-001
+        name:
+          type: string
+          description: Dataset or table name
+          example: raw_orders
+        source:
+          type: string
+          description: Source platform
+          example: s3
+    LineageGraph:
+      type: object
+      description: Data lineage graph for a dataset
+      properties:
+        datasetId:
+          type: string
+          description: Dataset identifier
+          example: dataset-abc123
+        datasetName:
+          type: string
+          description: Dataset name
+          example: orders_table
+        upstream:
+          type: array
+          description: Upstream data sources
+          items:
+            $ref: '#/components/schemas/LineageNode'
+        downstream:
+          type: array
+          description: Downstream data consumers
+          items:
+            $ref: '#/components/schemas/LineageNode'
+    PipelineJob:
+      type: object
+      description: A monitored data pipeline job execution
+      properties:
+        id:
+          type: string
+          description: Job execution identifier
+          example: job-ghi789
+        name:
+          type: string
+          description: Pipeline job name
+          example: orders_etl_pipeline
+        platform:
+          type: string
+          description: Platform running the job
+          example: databricks
+          enum:
+            - databricks
+            - airflow
+            - glue
+            - dataflow
+            - spark
+        status:
+          type: string
+          description: Job execution status
+          example: failed
+          enum:
+            - running
+            - succeeded
+            - failed
+            - pending
+        startTime:
+          type: string
+          format: date-time
+          description: Job start time
+          example: '2026-04-19T04:00:00Z'
+        endTime:
+          type: string
+          format: date-time
+          description: Job end time
+          example: '2026-04-19T04:23:00Z'
+        durationSeconds:
+          type: integer
+          description: Job duration in seconds
+          example: 1380
+        slaStatus:
+          type: string
+          description: SLA compliance status
+          example: violated
+          enum:
+            - met
+            - violated
+            - at_risk
+    PipelineJobList:
+      type: object
+      description: Paginated list of pipeline jobs
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineJob'
+        total:
+          type: integer
+          example: 85
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    User:
+      type: object
+      description: A user in the Acceldata platform
+      properties:
+        id:
+          type: string
+          description: User identifier
+          example: user-jkl012
+        email:
+          type: string
+          format: email
+          description: User email address
+          example: analyst@example.com
+        name:
+          type: string
+          description: User full name
+          example: Jane Smith
+        role:
+          type: string
+          description: Assigned role
+          example: data_analyst
+        status:
+          type: string
+          description: User account status
+          example: active
+          enum:
+            - active
+            - inactive
+            - invited
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+          example: '2026-01-05T10:00:00Z'
+    UserList:
+      type: object
+      description: Paginated list of users
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        total:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    Role:
+      type: object
+      description: A role with associated permissions
+      properties:
+        id:
+          type: string
+          description: Role identifier
+          example: role-admin
+        name:
+          type: string
+          description: Role name
+          example: admin
+        description:
+          type: string
+          description: Role description
+          example: Full administrative access to all platform features
+        permissions:
+          type: array
+          description: List of permissions assigned to this role
+          items:
+            type: string
+          example:
+            - read:all
+            - write:all
+            - admin:users
+    RoleList:
+      type: object
+      description: Paginated list of roles
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        total:
+          type: integer
+          example: 5
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
