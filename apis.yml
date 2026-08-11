@@ -764,8 +764,6 @@ common:
 
   - url: rules/acceldata-spectral-rules.yml
     type: SpectralRules
-  - url: capabilities/data-observability.yaml
-    type: X-NaftikoCapability
   - url: vocabulary/acceldata-vocabulary.yaml
     type: Vocabulary
   - url: json-ld/acceldata-adoc-api-context.jsonld
