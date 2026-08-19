@@ -1,0 +1,229 @@
+{
+  "item": [
+    {
+      "id": "64b2a252-22fa-4d9c-bdfe-b8a3199a3776",
+      "name": "Pipeline Jobs",
+      "description": {
+        "content": "Monitor data pipeline job execution and health",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f8ddfaa8-8ae9-42a0-994b-a29d2c82c66a",
+          "name": "Acceldata List Pipeline Jobs",
+          "request": {
+            "name": "Acceldata List Pipeline Jobs",
+            "description": {
+              "content": "List all monitored data pipeline jobs with their execution status and health metrics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "pipeline-jobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by pipeline job status."
+                },
+                {
+                  "disabled": false,
+                  "key": "from_time",
+                  "value": "<dateTime>",
+                  "description": "Start time for job query range."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "25",
+                  "description": "Results per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9c5cdbb9-0c8e-4ea8-b7a9-1e5454a05b89",
+              "name": "List of pipeline jobs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pipeline-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "failed"
+                    },
+                    {
+                      "key": "from_time",
+                      "value": "2026-04-18T00:00:00Z"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"job-ghi789\",\n      \"name\": \"orders_etl_pipeline\",\n      \"platform\": \"databricks\",\n      \"status\": \"failed\",\n      \"startTime\": \"2026-04-19T04:00:00Z\",\n      \"endTime\": \"2026-04-19T04:23:00Z\",\n      \"durationSeconds\": 1380,\n      \"slaStatus\": \"violated\"\n    }\n  ],\n  \"total\": 1,\n  \"page\": 1,\n  \"limit\": 25\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fffeeeb4-a26c-41d2-b25b-91025bde9bdb",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "pipeline-jobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "failed"
+                    },
+                    {
+                      "key": "from_time",
+                      "value": "2026-04-18T00:00:00Z"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized - invalid or missing API key\",\n  \"error\": \"unauthorized\",\n  \"code\": 401\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.acceldata.app/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4016c533-aed0-4728-9527-48557a61cec6",
+    "name": "Acceldata - Data Observability Cloud Alerts Pipeline Jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.",
+      "type": "text/plain"
+    }
+  }
+}

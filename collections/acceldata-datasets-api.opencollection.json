@@ -1,0 +1,57 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Acceldata - Data Observability Cloud Alerts Datasets API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Datasets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Acceldata List Datasets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.acceldata.app/v1/datasets",
+            "params": [
+              {
+                "name": "source",
+                "value": "snowflake",
+                "type": "query",
+                "description": "Filter datasets by data source (snowflake, databricks, bigquery, etc.)."
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "limit",
+                "value": "25",
+                "type": "query",
+                "description": "Results per page."
+              }
+            ]
+          },
+          "docs": "List all datasets registered in the Acceldata platform with their quality scores."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

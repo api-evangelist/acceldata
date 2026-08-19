@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Acceldata - Data Observability Cloud Alerts Pipeline Jobs API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pipeline Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Acceldata List Pipeline Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.acceldata.app/v1/pipeline-jobs",
+            "params": [
+              {
+                "name": "status",
+                "value": "failed",
+                "type": "query",
+                "description": "Filter by pipeline job status."
+              },
+              {
+                "name": "from_time",
+                "value": "2026-04-18T00:00:00Z",
+                "type": "query",
+                "description": "Start time for job query range."
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "limit",
+                "value": "25",
+                "type": "query",
+                "description": "Results per page."
+              }
+            ]
+          },
+          "docs": "List all monitored data pipeline jobs with their execution status and health metrics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

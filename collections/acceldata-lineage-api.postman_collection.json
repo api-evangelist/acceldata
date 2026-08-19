@@ -1,0 +1,231 @@
+{
+  "item": [
+    {
+      "id": "e0a350cd-09d4-4c38-8e54-f0aee1441592",
+      "name": "Lineage",
+      "description": {
+        "content": "Query data lineage and impact analysis",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3005c953-23c4-4c3d-97d1-905a88e3f8ef",
+          "name": "Acceldata Get Dataset Lineage",
+          "request": {
+            "name": "Acceldata Get Dataset Lineage",
+            "description": {
+              "content": "Get the data lineage graph for a dataset, showing upstream sources and downstream consumers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "datasets",
+                ":id",
+                "lineage"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "both",
+                  "description": "Direction of lineage to retrieve (upstream, downstream, both)."
+                },
+                {
+                  "disabled": false,
+                  "key": "depth",
+                  "value": "3",
+                  "description": "Maximum depth of lineage graph to return."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Dataset identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6ef8644a-9895-4303-8280-13f20d83beef",
+              "name": "Dataset lineage graph",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasets",
+                    ":id",
+                    "lineage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "direction",
+                      "value": "both"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "3"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Dataset identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"datasetId\": \"dataset-abc123\",\n  \"datasetName\": \"orders_table\",\n  \"upstream\": [\n    {\n      \"id\": \"dataset-source-001\",\n      \"name\": \"raw_orders\",\n      \"source\": \"s3\"\n    }\n  ],\n  \"downstream\": [\n    {\n      \"id\": \"dataset-consumer-001\",\n      \"name\": \"orders_summary\",\n      \"source\": \"snowflake\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aece5edd-1184-4698-9f86-b7370229cef6",
+              "name": "Dataset not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "datasets",
+                    ":id",
+                    "lineage"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "direction",
+                      "value": "both"
+                    },
+                    {
+                      "key": "depth",
+                      "value": "3"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Dataset identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Unauthorized - invalid or missing API key\",\n  \"error\": \"unauthorized\",\n  \"code\": 401\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.acceldata.app/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "040a8405-28d2-4e81-b3ca-296e8ea89243",
+    "name": "Acceldata - Data Observability Cloud Alerts Lineage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Acceldata - Data Observability Cloud Alerts API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Alerts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Acceldata List Alerts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.acceldata.app/v1/alerts",
+            "params": [
+              {
+                "name": "status",
+                "value": "open",
+                "type": "query",
+                "description": "Filter alerts by status (open, resolved, acknowledged)."
+              },
+              {
+                "name": "severity",
+                "value": "critical",
+                "type": "query",
+                "description": "Filter alerts by severity level."
+              },
+              {
+                "name": "dataset_id",
+                "value": "dataset-abc123",
+                "type": "query",
+                "description": "Filter alerts by dataset identifier."
+              },
+              {
+                "name": "from_time",
+                "value": "2026-04-01T00:00:00Z",
+                "type": "query",
+                "description": "Start time for alert query (ISO 8601 format)."
+              },
+              {
+                "name": "to_time",
+                "value": "2026-04-19T00:00:00Z",
+                "type": "query",
+                "description": "End time for alert query (ISO 8601 format)."
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "25",
+                "type": "query",
+                "description": "Number of alerts per page (max 100)."
+              }
+            ]
+          },
+          "docs": "List all active and historical alerts from data quality rules and pipeline monitoring."
+        },
+        {
+          "info": {
+            "name": "Acceldata Acknowledge Alert",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.acceldata.app/v1/alerts/:id/acknowledge",
+            "params": [
+              {
+                "name": "id",
+                "value": "alert-def456",
+                "type": "path",
+                "description": "Alert identifier to acknowledge."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Acknowledge an active alert to indicate it is being investigated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
