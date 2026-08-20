@@ -560,6 +560,8 @@ apis:
   humanURL: https://docs.acceldata.io/api/introduction
   baseURL: https://api.acceldata.app/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
