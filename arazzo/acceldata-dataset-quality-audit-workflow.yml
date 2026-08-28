@@ -11,8 +11,14 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: acceldataAdocApi
-  url: ../openapi/acceldata-adoc-api.yaml
+- name: dataQualityRulesApi
+  url: ../openapi/acceldata-data-quality-rules-api-openapi.yml
+  type: openapi
+- name: datasetsApi
+  url: ../openapi/acceldata-datasets-api-openapi.yml
+  type: openapi
+- name: lineageApi
+  url: ../openapi/acceldata-lineage-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: dataset-quality-audit

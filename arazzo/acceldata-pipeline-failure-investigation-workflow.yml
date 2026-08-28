@@ -11,8 +11,11 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: acceldataAdocApi
-  url: ../openapi/acceldata-adoc-api.yaml
+- name: alertsApi
+  url: ../openapi/acceldata-alerts-api-openapi.yml
+  type: openapi
+- name: pipelineJobsApi
+  url: ../openapi/acceldata-pipeline-jobs-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: pipeline-failure-investigation

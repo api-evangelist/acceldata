@@ -11,8 +11,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: acceldataAdocApi
-  url: ../openapi/acceldata-adoc-api.yaml
+- name: rolesApi
+  url: ../openapi/acceldata-roles-api-openapi.yml
+  type: openapi
+- name: usersApi
+  url: ../openapi/acceldata-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: access-review
