@@ -1,0 +1,52 @@
+generated: '2026-08-29'
+method: generated
+source: openapi/_original/*.json (Acceldata's own published contracts) + https://docs.acceldata.io/
+note: >-
+  Three packaged Agent Skills covering the marquee flows of the Acceldata ADOC APIs. Every
+  operationId referenced was grepped out of a published Acceldata contract; none is
+  invented. Acceldata publishes no skills/ or AGENTS.md of its own — searched 2026-08-29.
+provider_published_skills:
+  found: false
+  probed:
+  - https://docs.acceldata.io/llms.txt
+  - https://www.acceldata.io/llms.txt
+  - https://github.com/acceldata-io
+skills:
+- name: acceldata-create-and-run-data-quality-policy
+  file: acceldata-create-and-run-data-quality-policy.md
+  api: acceldata:acceldata-catalog-api
+  flow: Create a Data Quality policy, schedule it, execute it, read results, and unarchive it if deleted.
+  operations: 10
+  arazzo_mirror: arazzo/acceldata-create-and-verify-rule-workflow.yml
+  teaches:
+  - no idempotency key on create — list before retrying
+  - 422 single-flight on execution trigger is expected behaviour, not a failure
+  - DELETE means archive here, and unarchive restores, with no published window
+  - ADOC auto-archives policies when a referenced column is dropped or renamed
+- name: acceldata-discover-and-tag-assets
+  file: acceldata-discover-and-tag-assets.md
+  api: acceldata:acceldata-catalog-api
+  flow: Locate an asset by id or uid, read metadata and samples, apply unified tags and labels, watch it.
+  operations: 11
+  arazzo_mirror: arazzo/acceldata-dataset-quality-audit-workflow.yml
+  teaches:
+  - dual id/uid addressing with no typed prefixes
+  - two-call async sampling (requestId then result)
+  - updateAssetLabels is a PUT and silently drops omitted labels
+  - three different pagination vocabularies across one product
+- name: acceldata-provision-service-user-and-api-key
+  file: acceldata-provision-service-user-and-api-key.md
+  api: acceldata:acceldata-administration-api
+  flow: Create a machine identity, grant least-privilege roles, issue and revoke its accessKey/secretKey pair.
+  operations: 10
+  arazzo_mirror: arazzo/acceldata-access-review-workflow.yml
+  teaches:
+  - the secret is shown once and has no read-back or restore
+  - keys carry an operator-set expiry
+  - SCIM-managed users and groups return 403 on every write; fix upstream in the IdP
+  - Administration API pagination is first/max, unlike the Catalog API
+cross_links:
+  conventions: conventions/acceldata-conventions.yml
+  errors: errors/acceldata-problem-types.yml
+  scopes: scopes/acceldata-scopes.yml
+  authentication: authentication/acceldata-authentication.yml

@@ -47,7 +47,7 @@ description: >-
   Agent Studio for building custom AI agents. It supports integrations with
   Snowflake, Databricks, AWS, GCP, Azure, and Hadoop.
 created: '2025-02-24'
-modified: '2026-04-19'
+modified: '2026-08-29'
 specificationVersion: '0.23'
 apis:
 - aid: acceldata:acceldata-alerts-api
@@ -654,6 +654,94 @@ apis:
     url: examples/adoc-api-user-example.json
   - type: Examples
     url: examples/adoc-api-role-example.json
+- aid: acceldata:acceldata-catalog-api
+  name: Acceldata Catalog API
+  description: >-
+    The ADOC data catalog surface: discover and search assets, read asset metadata, schema,
+    samples, relationships and lineage, apply tags and labels, and create, schedule, execute
+    and read the results of data reliability policies (data quality, reconciliation, data
+    drift, schema drift, freshness and anomaly). 104 published operations.
+  humanURL: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  baseURL: https://{adoc-host}
+  tags:
+  - Catalog
+  - Data Quality
+  - Data Observability
+  - Lineage
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/acceldata-catalog-api-openapi.json
+  - type: Overlay
+    url: overlays/acceldata-catalog-overlay.yaml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: AgentSkill
+    url: skills/acceldata-create-and-run-data-quality-policy.md
+  - type: AgentSkill
+    url: skills/acceldata-discover-and-tag-assets.md
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+- aid: acceldata:acceldata-administration-api
+  name: Acceldata Administration API
+  description: >-
+    Tenant administration for ADOC: user and service-user lifecycle (create, update,
+    disable), user group management, client role assignment, and API key issuance and
+    revocation. SCIM-managed users and groups carry restricted edit and delete operations.
+    31 published operations.
+  humanURL: https://documentation.acceldata.io/docs/acceldata/api/administration
+  baseURL: https://{adoc-host}
+  tags:
+  - Administration
+  - Identity
+  - RBAC
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/acceldata-administration-api-openapi.json
+  - type: Overlay
+    url: overlays/acceldata-administration-overlay.yaml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: AgentSkill
+    url: skills/acceldata-provision-service-user-and-api-key.md
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+- aid: acceldata:acceldata-tags-api
+  name: Acceldata Tag Services API
+  description: >-
+    Create and manage tag keys and values, search across tagged key/value pairs, and
+    associate or retrieve unified tags on catalog entities — assets, policies, rules,
+    rulesets, UDFs and labelers. A gRPC-transcoded surface carrying the google.rpc.Status
+    error model. 5 published operations.
+  humanURL: https://documentation.acceldata.io/docs/acceldata/api/tags
+  baseURL: https://{adoc-host}
+  tags:
+  - Tags
+  - Governance
+  - Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/acceldata-tags-api-openapi.json
+  - type: Overlay
+    url: overlays/acceldata-tags-overlay.yaml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
 common:
   - type: AgenticAccess
     url: agentic-access/acceldata-agentic-access.yml
@@ -786,6 +874,56 @@ common:
     url: https://www.acceldata.io/integrations
   - type: LlmsText
     url: https://docs.acceldata.io/llms.txt
+  - type: Packages
+    url: packages/acceldata-packages.yml
+  - type: SDKs
+    url: packages/acceldata-packages.yml
+  - type: WellKnown
+    url: well-known/acceldata-well-known.yml
+  - type: MCPServer
+    url: mcp/acceldata-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/acceldata-tool-crosswalk.yml
+  - type: LLMsTxt
+    url: llms/acceldata-llms.txt
+  - type: Conformance
+    url: conformance/acceldata-conformance.yml
+  - type: Compliance
+    url: conformance/acceldata-conformance.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/acceldata-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/acceldata-lifecycle.yml
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: ChangeLog
+    url: changelog/acceldata-changelog.yml
+  - type: CLI
+    url: cli/acceldata-cli.yml
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Plans
+    url: plans/acceldata-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/acceldata-rate-limits.yml
+  - type: VulnerabilityDisclosure
+    url: security/acceldata-vulnerability-disclosure.yml
+  - type: Security
+    url: security/acceldata-vulnerability-disclosure.yml
+  - type: APIReference
+    url: https://documentation.acceldata.io/api
+  - type: SignUp
+    url: https://www.acceldata.io/free-trial
+  - type: Support
+    url: https://acceldatatechnology.my.site.com/s/login/
+  - type: FinOps
+    url: finops/acceldata-finops.yml
 integrations:
   - name: Acceldata Logo blue SVG
   - name: Acceldata Logo White SVG
@@ -794,3 +932,8 @@ integrations:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-29'
+  status: enriched
+  artifacts_added: 26
+  pass: local-v1

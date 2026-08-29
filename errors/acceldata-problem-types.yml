@@ -1,0 +1,144 @@
+generated: '2026-08-29'
+method: derived
+source: openapi/_original/*.json 4xx/5xx responses + https://docs.acceldata.io/api/introduction
+docs: https://docs.acceldata.io/api/introduction
+format: proprietary
+rfc9457: false
+note: >-
+  Acceldata does NOT use RFC 9457 / RFC 7807 problem+json. No operation in any of the three
+  published specs declares application/problem+json. Two different error envelopes are in
+  play, and an agent has to handle both. The published API reference documents a third,
+  narrower shape. All three are recorded verbatim below rather than reconciled into one,
+  because the disagreement is the finding.
+envelopes:
+- id: status-boolean
+  used_by:
+  - Admin API
+  content_type: application/json
+  schema_ref: '#/components/schemas/Status'
+  shape:
+    message: string
+    status: boolean
+  required:
+  - message
+  - status
+  note: Returned on 400 and 500 from the Administration API.
+- id: google-rpc-status
+  used_by:
+  - Tag Services
+  content_type: application/json
+  schema_ref: '#/components/schemas/Status'
+  shape:
+    code: integer (google.rpc.Code)
+    message: string (developer-facing, English)
+    details: array of google.protobuf.Any
+  standard: https://cloud.google.com/apis/design/errors
+  note: >-
+    The Tag Services contract is a gRPC-transcoded surface and carries the Google API
+    Design Guide error model verbatim, including the google.protobuf.Any details array.
+    It is declared on the `default` response, not on numbered codes.
+- id: documented-error-object
+  used_by:
+  - published API reference
+  source: https://docs.acceldata.io/api/introduction
+  shape:
+    error:
+      code: integer
+      message: string
+  example_from_docs: '{ "error": { "code": 401, "message": "Invalid or missing authentication token." } }'
+  note: >-
+    Documented in prose on the API introduction page. No published spec declares this
+    shape, so it is recorded as a docs claim, not a contract guarantee.
+problem_types:
+- status: 400
+  title: Bad Request
+  occurrences: 35
+  envelope: status-boolean
+  common_causes:
+  - missing or non-numeric id (15 operations use this exact wording)
+  - Validation failure — DQCheckResponse
+  - Custom SQL / dataplane compatibility validation failure
+  remediation: Correct the path or body value named in `message` and retry. Not retryable unchanged.
+- status: 403
+  title: Forbidden
+  occurrences: 15
+  envelope: none-declared
+  common_causes:
+  - Either the asset is not present, or the user doesn't have permissions to perform the operation.
+  - Insufficient permissions
+  - Cannot modify SCIM-managed user or group assignments
+  - Cannot rename SCIM-managed groups
+  - Cannot delete SCIM-managed groups
+  remediation: >-
+    Grant the RBAC permission the operation names (see scopes/acceldata-scopes.yml), or, for
+    SCIM-managed identities, make the change in the upstream identity provider instead.
+  note: >-
+    403 is overloaded — it is returned both for missing permission AND for a missing asset,
+    so an agent cannot distinguish authorization failure from a bad id on catalog reads.
+- status: 404
+  title: Not Found
+  occurrences: 72
+  envelope: none-declared
+  common_causes:
+  - 'Rule with the given name: {name} not found'
+  - Service user not found
+  - Execution not found.
+  remediation: Verify the identifier. Not retryable unchanged.
+- status: 422
+  title: Unprocessable Entity
+  occurrences: 25
+  envelope: none-declared
+  common_causes:
+  - "Previous execution of rule '{name}' has not completed. Not running the rule."
+  - Cron not configured, schedule state conflict, or wrong rule type
+  - Rules size should not be zero, or entity is not a data drift rule
+  remediation: >-
+    Semantic conflict, not a syntax error. The execution-in-flight case IS retryable after a
+    delay; the type-mismatch cases are not.
+  note: The most agent-relevant code in this API — it is where policy-execution concurrency surfaces.
+- status: 500
+  title: Internal Server Error
+  occurrences: 7
+  envelope: status-boolean
+  common_causes:
+  - Failed to update user
+  - Failed to remove user
+  - Failed to assign groups
+  remediation: Retry with backoff; escalate if persistent.
+- status: default
+  title: Default error response
+  occurrences: 3
+  envelope: google-rpc-status
+  remediation: Read google.rpc.Code in `code` and the details array.
+documented_status_codes:
+  source: https://docs.acceldata.io/api/introduction
+  note: >-
+    The API introduction publishes a full status-code table beyond what the specs declare.
+    Codes documented but never declared on any published operation are listed here.
+  documented_only:
+  - 401
+  - 405
+  - 408
+  - 409
+  - 415
+  - 429
+  - 503
+  - 504
+  detail:
+    '401': Authentication is required and has either failed or not been provided.
+    '405': A request method is not supported for the requested resource.
+    '408': The client did not produce a request within the time the server was prepared to wait. Repeatable without modification.
+    '409': Conflict with the current state of the resource.
+    '415': Unsupported media type.
+    '429': Rate limits exceeded.
+    '503': Server not ready — maintenance or overload.
+    '504': Upstream gateway timeout.
+summary:
+  error_responses_declared: 157
+  distinct_codes_declared: 6
+  rfc9457: false
+  envelopes: 3
+  gap: >-
+    401 and 429 are documented in prose but declared on ZERO of the 140 published
+    operations, so a generated client will not model the two failures it is most likely
+    to hit first.

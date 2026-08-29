@@ -1,0 +1,111 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.acceldata.io/documentation/sdk + https://docs.acceldata.io/release/version-26-8-0 + openapi/_original/*.json
+docs: https://docs.acceldata.io/documentation/sdk-and-api-changelog
+versioning:
+  scheme: calendar-aligned monthly train, 26.<month>.<patch>
+  current: 26.8.0
+  current_date: '2026-08-08'
+  api_version_in_path: partial
+  detail: >-
+    Tag Services is the only surface with a version segment (/api/tags/v1). The Catalog and
+    Administration APIs are unversioned in the path, so there is no way for a caller to pin
+    a contract version — they get whatever their tenant is upgraded to.
+  compatibility_docs: https://docs.acceldata.io/documentation/compatibility-guidelines-for-control-plane--sdk--and-python-vers
+deprecation:
+  policy_published: true
+  policy_style: per-artifact notice in the docs, not a standing platform policy page
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No RFC 8594 Sunset or Deprecation response header is declared on any of the 140
+    published operations, and no operation carries OpenAPI `deprecated: true`. Deprecation
+    is communicated in prose, on the page of the thing being deprecated.
+  active_deprecations:
+  - subject: acceldata-sdk (Python)
+    status: maintenance mode
+    window: July 2026 - September 2026
+    window_length: 3 months
+    stated_policy: >-
+      "acceldata-sdk is now in maintenance mode for the period July 2026 - September 2026
+      (3 months). Existing integrations continue to work, and Acceldata may still provide
+      compatibility updates, but no new features or ADOC API coverage will be added during
+      this period."
+    successor: acceldata-sdk-python
+    migration_guide: https://docs.acceldata.io/documentation/migrating-from-acceldata-sdk--overview-and-new-features
+    source: https://docs.acceldata.io/documentation/sdk
+    note: >-
+      A dated, bounded window with a named successor and a migration guide — the strongest
+      deprecation signal Acceldata publishes anywhere.
+  - subject: torch-sdk / torch-airflow-sdk (PyPI)
+    status: superseded
+    last_release: '2022-09-28'
+    successor: acceldata-sdk-python
+    note: Legacy "Torch"-era packages. No formal end-of-life notice published; inferred from the successor chain and a four-year release gap.
+  deprecated_operations: []
+  deprecated_operations_note: Zero of the 140 published operations are marked deprecated in the contract.
+breaking_changes:
+  channel: release notes + SDK and API Changelog
+  changelog: https://docs.acceldata.io/documentation/sdk-and-api-changelog
+  api_summary: https://docs.acceldata.io/api/introduction
+  most_recent:
+    version: 26.8.0
+    date: '2026-08-08'
+    change: Domain-Based Alert Visibility
+    impact: >-
+      Alert, asset and policy visibility became scoped to a user's assigned domains and
+      resource groups. Acceldata's own upgrade note states that users with no domain
+      assignment "will not see any assets, alerts, or policies — including assets they
+      own." An unattended integration can start returning empty result sets with a 200.
+    advance_notice: published in the release note for the release that contains it
+sla:
+  published: false
+  note: >-
+    No public SLA, uptime commitment or support-response matrix was found. Support is
+    delivered through a Salesforce Community portal that requires a login
+    (https://acceldatatechnology.my.site.com/s/login/), so any SLA terms live behind it.
+status_page:
+  published: false
+  probed:
+  - url: https://status.acceldata.io/
+    status: no response
+    note: connection did not complete within the probe ceiling; recorded as unreachable, one attempt only
+  - url: https://status.acceldata.app/
+    status: 200
+    note: returns the ADOC Angular console shell, not a status page
+  - url: https://acceldata.statuspage.io/
+    status: 200
+    note: redirects to atlassian.com/software/statuspage — the Statuspage marketing site, not an Acceldata page
+  finding: >-
+    Acceldata publishes no public status page. For a data OBSERVABILITY vendor this is the
+    most conspicuous gap in the lifecycle surface: the product sells uptime visibility that
+    the vendor does not offer about itself.
+release_notes:
+  index: https://docs.acceldata.io/
+  recent:
+  - version: 26.8.0
+    date: '2026-08-08'
+    url: https://docs.acceldata.io/release/version-26-8-0
+  - version: 26.7.0
+    date: '2026-07-11'
+    url: https://docs.acceldata.io/release/version-26-7-0
+  - version: 26.6.0
+    date: '2026-06-06'
+    url: https://docs.acceldata.io/release/version-26-6-0
+  - version: 26.5.0
+    date: '2026-05-10'
+    url: https://docs.acceldata.io/release/version-26-5-0
+  - version: 26.4.1
+    url: https://docs.acceldata.io/release/version-26-4-0
+  - version: 26.3.0
+    date: '2026-03-07'
+    url: https://docs.acceldata.io/release/version-26-3-0
+  cadence: monthly, unbroken across the observed window
+summary:
+  versioning_published: true
+  deprecation_policy_published: true
+  sunset_headers: false
+  status_page: false
+  sla: false
+  monthly_release_cadence: true

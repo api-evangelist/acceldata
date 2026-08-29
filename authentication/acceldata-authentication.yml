@@ -1,16 +1,88 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/acceldata-adoc-api.yaml
+generated: '2026-08-29'
+method: searched
+source: https://docs.acceldata.io/api/authentication
+docs: https://docs.acceldata.io/api/authentication
+keys_docs: https://docs.acceldata.io/documentation/api-keys
+note: >-
+  Upgraded from a derived profile that read X-API-Key out of an API-Evangelist-authored
+  spec. Acceldata's published API reference and its first-party OpenAPI documents
+  (documentation.acceldata.io/docs/acceldata/specs/*) both carry a two-header key PAIR —
+  accessKey and secretKey — declared as required header PARAMETERS on every operation
+  rather than as an OpenAPI securityScheme. No securitySchemes block is present in any
+  of the three published specs, and no top-level security requirement is declared.
 summary:
   types:
   - apiKey
   api_key_in:
   - header
+  key_pair: true
+  oauth2: false
+  scheme_declared_in_spec: false
 schemes:
-- name: apiKey
+- name: accessKey
   type: apiKey
   in: header
-  parameter: X-API-Key
-  description: Acceldata API key for authentication
+  parameter: accessKey
+  required: true
+  description: >-
+    Public API access key generated from the ADOC UI under Control Center > Security >
+    API Keys. Sent as a bare header value on every request.
   sources:
-  - openapi/acceldata-adoc-api.yaml
+  - https://docs.acceldata.io/api/authentication
+  - openapi/_original/acceldata-catalog-api-openapi.json
+  - openapi/_original/acceldata-tags-api-openapi.json
+- name: secretKey
+  type: apiKey
+  in: header
+  parameter: secretKey
+  required: true
+  description: >-
+    Private API secret paired with accessKey. Issued once at key-generation time and not
+    retrievable afterwards. Keys carry an operator-set expiry date.
+  sources:
+  - https://docs.acceldata.io/api/authentication
+  - openapi/_original/acceldata-catalog-api-openapi.json
+  - openapi/_original/acceldata-tags-api-openapi.json
+key_management:
+  issued_from: ADOC UI — Control Center > Security > API Keys
+  rotation: >-
+    Keys are created with an explicit Validity Date and become invalid after it. The
+    Administration API exposes programmatic issue/revoke operations.
+  programmatic_operations:
+  - createApiKey
+  - revokeApiKey
+  - listApiKeys
+  secret_shown_once: true
+  docs: https://docs.acceldata.io/documentation/api-keys
+required_headers:
+- name: accessKey
+  type: string
+- name: secretKey
+  type: string
+- name: accept
+  type: string
+  value: application/json
+- name: content-type
+  type: string
+  value: application/json
+  applies_to: requests with a body
+oauth:
+- surface: documentation MCP server
+  issuer: https://documentation.acceldata.io
+  metadata: https://documentation.acceldata.io/.well-known/oauth-authorization-server
+  grant_types:
+  - authorization_code
+  code_challenge_methods:
+  - S256
+  scopes:
+  - mcp
+  note: >-
+    This OAuth authorization server protects the documentation MCP endpoint
+    (https://documentation.acceldata.io/mcp/rpc), not the ADOC platform APIs. The MCP
+    endpoint also answers anonymously today (tools/list returned 200 with no token).
+tenancy:
+  model: per-customer ADOC deployment
+  note: >-
+    The published specs declare no servers[] block. Acceldata's own docs give the base as
+    https://<HOST>/catalog-server/api/... and the Python SDK takes url="https://<your-adoc-url>",
+    so the host is the customer's own ADOC control-plane hostname, supplied by an administrator.

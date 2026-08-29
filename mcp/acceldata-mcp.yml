@@ -1,0 +1,150 @@
+generated: '2026-08-29'
+method: probed
+source: live JSON-RPC tools/list + initialize against both endpoints, 2026-08-29
+note: >-
+  Acceldata operates TWO remote MCP servers, both of them documentation servers, both
+  answering anonymously today. Neither exposes the ADOC platform APIs as tools — they
+  expose the docs corpus. Separately, ADOC's Agentic Data Management product is an MCP
+  CLIENT: it CONSUMES third-party MCP servers that an operator configures under
+  Settings > Integrations > MCP Servers. That consumer role is documented at
+  https://docs.acceldata.io/documentation/understanding-mcp-server and is deliberately
+  NOT counted here as a published server.
+deployment:
+  mode: remote
+  endpoint: https://documentation.acceldata.io/mcp/rpc
+  auth: none
+  verified: probed
+servers:
+- name: acceldata-published-docs
+  endpoint: https://documentation.acceldata.io/mcp/rpc
+  transport: http-jsonrpc
+  protocol_version: '2025-03-26'
+  server_version: 1.0.0
+  auth: none
+  auth_available: oauth
+  oauth:
+    protected_resource: https://documentation.acceldata.io/.well-known/oauth-protected-resource
+    authorization_server: https://documentation.acceldata.io/.well-known/oauth-authorization-server
+    scopes:
+    - mcp
+    grant_types:
+    - authorization_code
+    pkce:
+    - S256
+    dynamic_registration: https://documentation.acceldata.io/oauth/register
+  verified: probed
+  http_status: 200
+  tool_count: 13
+  capabilities:
+    tools:
+      listChanged: false
+  tools:
+  - name: list_products
+    description: List published documentation products for this workspace.
+    inputs: []
+  - name: list_tabs
+    description: List tabs with published pages. Optionally filter by product_slug.
+    inputs:
+    - product_slug
+  - name: list_sections
+    description: List sections/subsections with published pages. Supports product/tab filters and parent section.
+    inputs:
+    - product_slug
+    - tab_slug
+    - parent_section_id
+  - name: list_pages
+    description: List published pages with rich metadata. Supports product/tab/section/parent filters.
+    inputs:
+    - product_slug
+    - tab_slug
+    - section_id
+    - parent_page_id
+    - limit
+  - name: search_published_docs
+    description: Search published documentation pages and return ranked matches with URLs and snippets.
+    inputs:
+    - query
+    - limit
+  - name: get_published_doc
+    description: Fetch the full content of one published page by page_id, slug, or URL path.
+    inputs:
+    - page_id
+    - slug
+    - url_path
+  - name: get_page_metadata
+    description: Get navigation and hierarchy metadata for one published page.
+    inputs:
+    - page_id
+    - slug
+    - url_path
+  - name: generate_class
+    description: Generate a structured class/lesson from documentation on a given topic.
+    inputs:
+    - topic
+    - level
+  - name: generate_deck_content
+    description: Gather documentation content for building a presentation/slide deck on a topic.
+    inputs:
+    - topic
+    - audience
+    - slide_count
+  - name: generate_translation
+    description: Gather documentation content and return it with translation instructions for a target language.
+    inputs:
+    - topic
+    - language
+  - name: generate_role_guide
+    description: Reframe documentation content for a specific role (admin, developer, and so on).
+    inputs:
+    - topic
+    - role
+  - name: generate_learning_path
+    description: Gather documentation for a self-paced learning guide with progressive stages.
+    inputs:
+    - topic
+  - name: generate_best_practices
+    description: Search documentation broadly for a topic and return organized best practices.
+    inputs:
+    - topic
+    - audience
+- name: Acceldata Data Observability Cloud MCP
+  endpoint: https://docs.acceldata.io/mcp
+  transport: http-jsonrpc
+  protocol_version: '2025-06-18'
+  server_version: 0.1.0
+  auth: none
+  verified: probed
+  http_status: 200
+  tool_count: 1
+  capabilities:
+    tools:
+      listChanged: true
+  tools:
+  - name: search
+    title: Search documentation
+    description: >-
+      Search the documentation and return the most relevant excerpts for a query, each
+      with its source page title and link.
+    inputs:
+    - query
+    annotations:
+      readOnlyHint: true
+      openWorldHint: false
+    execution:
+      taskSupport: forbidden
+consumer_role:
+  is_mcp_client: true
+  product: Agentic Data Management (ADM)
+  docs: https://docs.acceldata.io/documentation/understanding-mcp-server
+  configured_at: Settings > Integrations > MCP Servers
+  accepted_url_suffixes:
+  - /mcp
+  - /sse
+  note: >-
+    ADM connects OUT to operator-configured MCP servers and hubs (Composio is the
+    documented example). This makes Acceldata an MCP consumer, not an additional
+    published surface.
+gaps:
+- The ADOC platform APIs (140 published operations across Administration, Catalog and
+  Tags) have NO MCP server. Both live servers are documentation-search surfaces; an agent
+  cannot list assets, run a policy or issue an API key over MCP today.

@@ -1,0 +1,88 @@
+generated: '2026-08-29'
+method: derived
+source: mcp/acceldata-mcp.yml (probed tools/list) + openapi/_original/*.json (140 published operations)
+note: >-
+  The crosswalk is almost entirely empty on purpose, and that emptiness IS the finding.
+  Acceldata publishes 140 REST operations and 14 MCP tools, and the two sets do not
+  intersect: every MCP tool reads the documentation corpus, and every REST operation acts
+  on the ADOC platform. No tool is backed by a public REST operation, so crosswalk[] has
+  no high-confidence rows and rest_only[] holds the entire contract surface.
+surfaces:
+  openapi:
+  - file: openapi/_original/acceldata-administration-api-openapi.json
+    title: Admin API
+    operations: 31
+    gated: false
+  - file: openapi/_original/acceldata-catalog-api-openapi.json
+    title: Catalog API
+    operations: 104
+    gated: false
+  - file: openapi/_original/acceldata-tags-api-openapi.json
+    title: Tag Services
+    operations: 5
+    gated: false
+  graphql: null
+  mcp:
+  - url: https://documentation.acceldata.io/mcp/rpc
+    tools: 13
+    gated: false
+    note: answers tools/list anonymously; OAuth (scope mcp) is advertised but not required
+  - url: https://docs.acceldata.io/mcp
+    tools: 1
+    gated: false
+  runtime_note: >-
+    The REST operations themselves require a per-tenant ADOC host plus an
+    accessKey/secretKey pair, so the specs are public while the runtime is customer-gated.
+crosswalk: []
+mcp_only:
+- tool: list_products
+  reason: Documentation-platform navigation; no ADOC REST equivalent.
+- tool: list_tabs
+  reason: Documentation-platform navigation; no ADOC REST equivalent.
+- tool: list_sections
+  reason: Documentation-platform navigation; no ADOC REST equivalent.
+- tool: list_pages
+  reason: Documentation-platform navigation; no ADOC REST equivalent.
+- tool: search_published_docs
+  reason: Full-text search over the docs corpus; no public REST search endpoint for docs.
+- tool: get_published_doc
+  reason: Reads a docs page; the equivalent public surface is the .md twin at docs.acceldata.io, not an API operation.
+- tool: get_page_metadata
+  reason: Documentation-platform metadata; no ADOC REST equivalent.
+- tool: generate_class
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: generate_deck_content
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: generate_translation
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: generate_role_guide
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: generate_learning_path
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: generate_best_practices
+  reason: Composite LLM-assist over docs content; no backing REST operation.
+- tool: search
+  reason: docs.acceldata.io documentation search; no backing REST operation.
+rest_only_summary:
+  count: 140
+  note: >-
+    All 140 published operations lack an MCP tool. The highest-value candidates for a
+    future platform MCP server, by frequency of use in the docs, are the asset discovery
+    and policy-execution families listed below.
+rest_only_highlights:
+- operationId: getAssetMetadata
+  spec: catalog
+  reason: No MCP tool exposes asset metadata.
+- operationId: listUsers
+  spec: administration
+  reason: No MCP tool exposes user administration.
+- operationId: PublicTagService_CreateTag
+  spec: tags
+  reason: No MCP tool exposes tag management.
+coverage:
+  mcp_tools: 14
+  rest_operations: 140
+  bound: 0
+  mcp_only: 14
+  rest_only: 140
+  binding_rate: 0.0

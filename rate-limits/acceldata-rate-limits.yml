@@ -4,91 +4,73 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Acceldata
 providerId: acceldata
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-08-29'
+generated: '2026-08-29'
+method: searched
+source: https://docs.acceldata.io/api/introduction
+docs: https://docs.acceldata.io/api/introduction
+note: >-
+  REPLACES a 2026-05-04 API-Evangelist-authored scaffold that invented a 10 requests/minute
+  free-tier limit and a full set of X-RateLimit-* response headers. Acceldata publishes
+  NEITHER. An honest zero is the finding.
 tags:
-  - AI Agents
-  - Data Management
   - Data Observability
-  - Data Pipeline
-  - Data Quality
-  - Intelligence
-  - Observability
   - Rate Limiting
   - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Acceldata API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+description: >-
+  Published rate-limit posture for the Acceldata ADOC APIs. Acceldata documents that 429 is
+  returned when limits are exceeded but publishes no numeric limit, no window, no scope and
+  no rate-limit response headers.
+limit_count: 0
+limits: []
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  published: false
+  note: >-
+    No RateLimit-*, X-RateLimit-* or Retry-After header is documented anywhere, and none is
+    declared on any of the 140 published operations. An agent has no runtime signal — it can
+    only discover a limit by hitting it.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
+  documented_as: >-
+    "429 Too Many Requests — The server cannot handle the current level of concurrent API
+    calls. This happens when rate limits are exceeded."
+  source: https://docs.acceldata.io/api/introduction
+  declared_on_operations: 0
+  note: >-
+    429 appears in the API introduction's status-code table but is declared on ZERO of the
+    140 published operations, so a generated client will not model it.
   serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Acceldata Data Observability Cloud API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Acceldata Data Observability Cloud API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Acceldata Data Observability Cloud API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Acceldata Data Observability Cloud API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Acceldata Data Observability Cloud API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+  gatewayTimeout: 504
+  requestTimeout: 408
+concurrency_controls:
+  - surface: policy execution
+    mechanism: 422 single-flight
+    detail: >-
+      "Previous execution of rule '{name}' has not completed. Not running the rule." —
+      returned by triggerDataQualityExecution and triggerReconciliationExecution. This is
+      the ONLY published throttling behaviour with concrete semantics, and it is per-rule
+      concurrency control rather than a rate limit.
+    operations:
+      - triggerDataQualityExecution
+      - triggerDataQualityExecutionByName
+      - triggerReconciliationExecution
+      - triggerReconciliationExecutionByName
+guidance_published:
+  - quote: 'Always test with smaller datasets or sample rows before running bulk operations.'
+    source: https://docs.acceldata.io/api/introduction
+  - quote: 'Use pagination (limit, offset) to avoid retrieving very large results in one request.'
+    source: https://docs.acceldata.io/api/introduction
+tenancy_note: >-
+  ADOC is deployed per customer against the customer's own control-plane host, so any
+  effective limit is a property of that deployment rather than of a shared public gateway.
+  That plausibly explains the absence, but it does not substitute for a published number.
+summary:
+  published_limits: 0
+  published_headers: 0
+  status_code_on_exhaustion: 429

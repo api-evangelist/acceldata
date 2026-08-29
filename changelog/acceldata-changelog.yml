@@ -1,0 +1,76 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.acceldata.io/release/version-26-8-0
+docs: https://docs.acceldata.io/documentation/sdk-and-api-changelog
+release_notes_index: https://docs.acceldata.io/
+scheme:
+  style: calendar-ish YY.M.PATCH
+  pattern: 26.<month>.<patch>
+  cadence: monthly
+  note: >-
+    Releases track the calendar month — 26.3.0 in March, 26.5.0 in May, 26.6.0 in June,
+    26.7.0 in July, 26.8.0 in August 2026 — with point releases inside a month (26.4.1).
+    The SDK version tracks the platform version: acceldata-sdk-python 26.8.0 shipped
+    2026-08-08, the same day as platform 26.8.0.
+current_version: 26.8.0
+current_version_date: '2026-08-08'
+api_changelog:
+  url: https://docs.acceldata.io/documentation/sdk-and-api-changelog
+  structure: >-
+    Per release, APIs are grouped by category (Datasource, Asset, Profiling, Policy, Data
+    Quality / Reconciliation, Pipeline) and each is marked Enhanced, New, Deprecated or
+    No changes, with before/after request payload and response structures for anything
+    that changed. This is a genuinely rigorous API-diff changelog, not a marketing
+    release note.
+  api_level_summary_also_at: https://docs.acceldata.io/api/introduction
+entries:
+- version: 26.8.0
+  date: '2026-08-08'
+  breaking: true
+  breaking_detail: >-
+    Domain-Based Alert Visibility. Alert, asset and policy visibility is now scoped to the
+    domains and resource groups a user is authorized for. Acceldata's own note: "Users who
+    are not assigned to a domain, or whose domain has no resource groups configured, will
+    not see any assets, alerts, or policies — including assets they own." An integration
+    reading alerts with a service user that has no domain assignment will silently start
+    returning empty results after upgrade.
+  additions:
+  - Unified Tags — plain string tags and key-value labels consolidated into one key-value model, with a central library under Governance > Tags and a Data Labelers auto-classification tab. Existing tags, labels and API integrations continue to work; data migrates automatically.
+  - Multivariate Anomaly Detection in Data Anomaly Policies.
+  - Multi-Schedule Support — up to seven independent cron schedules per policy via jobSchedule.cronExpressions.
+  - Fivetran HVR 6 pipeline observability (Preview).
+  - Google Cloud Pub/Sub as a Visual View source asset.
+  - Datasource-level crawler resource configuration.
+  - Multiple storage buckets per data plane (fully qualified s3:// or gs:// base paths).
+  - Selectable Data Quality dimensions on rules; uniqueness NULL-handling option; Policy ID column.
+  sdk:
+  - acceldata-sdk-python gains typed Pydantic models for Unified Tags and multi-cron scheduling.
+- version: 26.7.0
+  date: '2026-07-11'
+  breaking: false
+- version: 26.6.0
+  date: '2026-06-06'
+  breaking: false
+- version: 26.5.0
+  date: '2026-05-10'
+  breaking: false
+  additions:
+  - Get Pipeline response now includes a `uid` field in the pipelineSummary object, giving pipelines a stable cross-system identifier. All other Pipeline API endpoints unchanged.
+  no_changes:
+  - Datasource APIs
+  - Asset APIs
+  - Profiling APIs
+  - Policy APIs
+  - Data Quality / Reconciliation APIs
+- version: 26.4.1
+  date: null
+  breaking: false
+  note: Point release inside the 26.4.x line; the release page carries no single date header.
+- version: 26.3.0
+  date: '2026-03-07'
+  breaking: false
+window: 2026-03 through 2026-08 (six months, as published)
+summary:
+  entries: 6
+  breaking_in_window: 1
+  cadence: monthly

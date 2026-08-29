@@ -1,0 +1,179 @@
+generated: '2026-08-29'
+method: searched
+source: openapi/_original/*.json + https://docs.acceldata.io/ + https://trust.acceldata.io/ + https://www.acceldata.io/bug-bounty
+note: >-
+  Every entry below is anchored to a location in a published contract or a probed page.
+  Where a standard's market is Acceldata's but the contract does not declare it, the entry
+  is recorded conforms:false with what was checked, so the absence is a measurement rather
+  than a silence.
+standards:
+- id: oauth2
+  conforms: false
+  evidence:
+    checked:
+    - openapi/_original/acceldata-administration-api-openapi.json
+    - openapi/_original/acceldata-catalog-api-openapi.json
+    - openapi/_original/acceldata-tags-api-openapi.json
+    finding: >-
+      No securitySchemes block and no security requirement in any published spec. Platform
+      auth is a static accessKey/secretKey header pair.
+  exception:
+    surface: documentation MCP endpoint
+    conforms: true
+    evidence: >-
+      https://documentation.acceldata.io/.well-known/oauth-authorization-server (200)
+      declares authorization_code + PKCE S256 + dynamic client registration, scope `mcp`.
+- id: oidc
+  conforms: false
+  evidence:
+    checked: /.well-known/openid-configuration on all five Acceldata hosts
+    finding: >-
+      404 on www.acceldata.io and documentation.acceldata.io; SPA-shell 200s on
+      docs.acceldata.io, accounts.acceldata.app and api.acceldata.app. No discovery document.
+  note: >-
+    ADOC does document customer-side OIDC/OAuth as a CONSUMER — "Authenticating Using
+    External OAuth (Microsoft Entra ID)" and "Snowflake Integration Using OAuth" — but
+    publishes no OP metadata of its own.
+- id: scim
+  conforms: true
+  level: provisioning-aware consumer, not a SCIM service provider
+  evidence:
+    contract: openapi/_original/acceldata-administration-api-openapi.json
+    locations:
+    - components.schemas.User.required includes `scimManaged`
+    - components.schemas.Group.required includes `scimManaged`
+    - query parameter `scimEnabled` on listGroups and the groups summary operation
+    - 'six 403 responses reading "Cannot modify SCIM-managed user or group assignments", "Cannot rename SCIM-managed groups", "Cannot delete SCIM-managed groups"'
+    - 'info.description: "SCIM-managed users and groups have restricted edit and delete operations"'
+    finding: >-
+      Identity is provisioned INTO Acceldata over SCIM from the customer's identity
+      provider, and the Administration API contract encodes that fact as a required field
+      and as authorization behaviour. No /scim/v2 service-provider endpoint is published,
+      so Acceldata is a SCIM relying party rather than a SCIM server.
+- id: rfc9457
+  conforms: false
+  evidence:
+    checked: all 157 declared error responses across the three specs
+    finding: >-
+      Zero operations declare application/problem+json. Three different error envelopes are
+      in use instead. See errors/acceldata-problem-types.yml.
+- id: google-api-design-guide-errors
+  conforms: true
+  scope: Tag Services only
+  evidence:
+    contract: openapi/_original/acceldata-tags-api-openapi.json
+    locations:
+    - components.schemas.Status carries code/message/details with google.rpc.Code semantics
+    - components.schemas.GoogleProtobufAny in the details array
+    - 'schema description links https://cloud.google.com/apis/design/errors'
+    finding: A gRPC-transcoded surface carrying the canonical google.rpc.Status error model.
+- id: pagination
+  conforms: true
+  evidence:
+    contract: all three specs
+    styles:
+    - 'offset/limit: `first` + `max` (Administration API — 4 and 2 operations)'
+    - 'page/size: `page` + `size` (Catalog API 12 operations, Tag Services 1), with `sortBy`'
+    finding: >-
+      Two DIFFERENT pagination styles ship inside one product. An agent paging the
+      Administration API cannot reuse the parameters it learned on the Catalog API.
+  docs: https://docs.acceldata.io/api/introduction
+- id: idempotency
+  conforms: false
+  evidence:
+    checked: >-
+      All 140 published operations; no Idempotency-Key header parameter, no idempotency
+      language anywhere in the three specs or in the API reference pages.
+    finding: >-
+      No idempotency mechanism is published. 45 of the 140 operations are POST/PUT/DELETE,
+      so a retried write has no safe replay guarantee.
+- id: json:api
+  conforms: false
+  evidence:
+    finding: Responses are bespoke envelopes (StandardResponse<T>, Status), not JSON:API documents.
+- id: odata
+  conforms: false
+  evidence:
+    checked: no $metadata surface on any host
+- id: fhir
+  conforms: false
+  evidence:
+    finding: Not a healthcare data API. Out of market.
+- id: psd2
+  conforms: false
+  evidence:
+    finding: Not a payments API. Out of market.
+- id: fapi
+  conforms: false
+  evidence:
+    finding: Not a financial-grade authorization surface. Out of market.
+domain_standards:
+  market: data observability / data governance / metadata management
+  note: >-
+    The metadata-interchange standards that matter in this market are OpenLineage (pipeline
+    lineage events), Egeria/Open Metadata, and the table formats. Acceldata's contracts were
+    searched for each. REWARD-ONLY: nothing is asserted that the contract does not declare.
+  findings:
+  - standard: openlineage
+    declared_in_contract: false
+    evidence: >-
+      String "openlineage" appears in ZERO of the three published specs. Acceldata does
+      document a "Databricks Webhook + OpenLineage Setup Runbook"
+      (https://docs.acceldata.io/documentation/databricks-webhook---openlineage-setup-runbook)
+      and the SDK emits pipeline/run/span/lineage events, but the lineage event shape is not
+      published as an OpenLineage-conformant contract.
+    consequence: >-
+      A team already emitting OpenLineage needs a bespoke connector rather than pointing
+      their existing producer at Acceldata.
+  - standard: iceberg
+    declared_in_contract: true
+    evidence: >-
+      Literal ICEBERG appears as an enumerated value in the Catalog API contract, so table
+      format is a first-class field on catalog assets rather than free text.
+    location: openapi/_original/acceldata-catalog-api-openapi.json
+  - standard: scim
+    declared_in_contract: true
+    evidence: see the scim entry above — scimManaged is a REQUIRED property on User and Group.
+    consequence: >-
+      An enterprise already running SCIM provisioning from Okta/Entra can onboard ADOC
+      identities with no bespoke connector, and the contract says so rather than leaving it
+      to a sales conversation.
+  - standard: focus
+    declared_in_contract: false
+    evidence: >-
+      Acceldata sells cost optimization / FinOps, and the FinOps Foundation FOCUS
+      specification is the domain standard for cost-and-usage interchange. No FOCUS column
+      names or schema appear in any published spec, and the cost APIs referenced on the API
+      introduction page ("Cost and Usage Insights") are not among the three published
+      contracts.
+    consequence: >-
+      The highest-value unclaimed domain standard for this provider. finops/acceldata-finops.yml
+      in this repo is an API-Evangelist-authored FOCUS mapping, NOT a provider claim.
+compliance:
+  published: true
+  source: https://trust.acceldata.io/
+  probe_2026_08_29:
+    status: 403
+    note: >-
+      Cloudflare interstitial ("Just a moment...") to a non-browser client. The page
+      demonstrably exists and was read on 2026-07-11; treated as live, not dead.
+  certifications:
+  - SOC 2
+  - ISO 27001
+  - HIPAA
+  accessibility:
+    docs: https://docs.acceldata.io/documentation/accessibility-compliance
+  security_network:
+    docs: https://docs.acceldata.io/documentation/security-and-network-compliance
+vulnerability_disclosure:
+  published: true
+  program: bug bounty
+  url: https://www.acceldata.io/bug-bounty
+  contact: bugbounty@acceldata.io
+summary:
+  asserted_true: 5
+  asserted_false: 8
+  domain_standard_declared: true
+  domain_standards_found:
+  - scim
+  - iceberg

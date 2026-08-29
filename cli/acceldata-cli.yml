@@ -1,0 +1,39 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.acceldata.io/documentation/cli
+docs: https://docs.acceldata.io/documentation/cli
+note: >-
+  Acceldata documents an ADOC CLI and a User Defined Templates (UDT) CLI. The published
+  CLI pages are thin — they describe purpose and usage flows but do not publish a full
+  command reference, an install command, or a distribution channel. No CLI binary was found
+  on PyPI, npm, Homebrew or in the github.com/acceldata-io org, so `install` is recorded as
+  unpublished rather than guessed.
+tools:
+- name: ADOC CLI
+  description: >-
+    Command-line interface to ADOC features, positioned alongside the API and the UI for
+    users who want to script or customize their workflows.
+  docs: https://docs.acceldata.io/documentation/cli
+  install: null
+  install_note: No install command, package name or download link is published on the CLI page.
+  distribution: unpublished
+- name: User Defined Templates (UDT) CLI
+  description: >-
+    Authoring and packaging tool for User Defined Templates and User Defined Functions —
+    the mechanism for adding custom rule logic to ADOC policies.
+  docs: https://docs.acceldata.io/documentation/user-defined-templates-cli
+  usage_docs: https://docs.acceldata.io/documentation/udt-cli-usage
+  helper_guide: https://docs.acceldata.io/documentation/udt-helper-guide
+  end_to_end: https://docs.acceldata.io/documentation/end-to-end-flow
+  install: null
+  distribution: unpublished
+  related_api:
+    spec: openapi/_original/acceldata-catalog-api-openapi.json
+    surface: /catalog-server/api UDT package and template-utility operations
+    permissions:
+    - USER_DEFINED_FUNCTION_VIEW
+    - USER_DEFINED_FUNCTION_CREATE
+    - USER_DEFINED_FUNCTION_MODIFY
+summary:
+  cli_count: 2
+  install_published: false

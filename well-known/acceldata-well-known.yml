@@ -1,0 +1,126 @@
+generated: '2026-08-29'
+method: probed
+source: live GET of /.well-known/* on every Acceldata host named in apis.yml and in the published specs
+note: >-
+  Two REAL documents were served, both on documentation.acceldata.io, and both describe
+  the OAuth authorization server protecting that host's MCP endpoint. Every 200 on
+  docs.acceldata.io, accounts.acceldata.app and api.acceldata.app returned the Angular
+  single-page-application shell (identical byte length for every path, including paths
+  that cannot exist) — these are catch-all 200s, NOT documents, and are recorded as
+  misses. www.acceldata.io 404s cleanly on all five paths.
+hosts:
+- host: documentation.acceldata.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: acceldata-documentation-oauth-authorization-server.json
+    content_type: application/json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: acceldata-documentation-oauth-protected-resource.json
+    content_type: application/json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.acceldata.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: docs.acceldata.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: SPA shell (text/html, 18776 bytes — identical to every other path on this host); not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/agent.json
+    status: 200
+    note: SPA shell; not a document
+- host: accounts.acceldata.app
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: Angular SPA shell (51657 bytes, identical for every path); not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: api.acceldata.app
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: Angular SPA shell (51657 bytes, identical for every path); not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell; not a document
+  - path: /.well-known/ai-plugin.json
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+summary:
+  hosts_probed: 5
+  real_documents: 2
+  security_txt: none
+  agent_card: none

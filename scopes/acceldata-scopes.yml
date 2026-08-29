@@ -1,0 +1,185 @@
+generated: '2026-08-29'
+method: searched
+source: openapi/_original/*.json operation descriptions + https://docs.acceldata.io/documentation/roles-and-permissions
+docs: https://docs.acceldata.io/documentation/roles-and-permissions
+model: rbac-permissions
+note: >-
+  Acceldata does NOT authorize its platform APIs with OAuth 2.0 scopes. Authentication is a
+  static accessKey/secretKey header pair, and authorization is an RBAC permission model
+  attached to the calling identity. The permissions below are not invented: every one is
+  named verbatim in a published operation description ("Requires MODIFY_USERS permission",
+  "Authorization: requires ASSET_VIEW and ASSET_METADATA_VIEW"), and the count is the number
+  of published operations that name it. Roles are assembled from these permissions in the
+  ADOC UI at Control Center > Access Management.
+  derive-oauth-scopes.py was run first and correctly reported 0 oauth2 schemes; this file
+  is the searched replacement that records the authorization model that actually exists.
+role_model:
+  tiers:
+  - name: Tenant Roles
+    scope: platform-wide
+    examples:
+    - tenant_admin
+    - viewer
+    - owner
+    categories:
+    - Administration (User Management, API Keys, Billing, Account Configuration)
+    - Alerts
+    - Compute
+    - Pipeline
+    - Data Products
+    - Reliability
+  - name: Domain Roles
+    scope: per-domain / per-resource
+    examples:
+    - asset_viewer
+    - report_admin
+    - domain_editor
+    categories:
+    - Asset Management
+    - Domain Management
+    - Report Management
+  actions:
+  - Create
+  - Modify
+  - View
+  scim_managed: >-
+    Users and groups provisioned through SCIM are synced from the identity provider and
+    cannot be modified, renamed or deleted through the Administration API (403).
+permissions:
+- name: ASSET_VIEW
+  domain: catalog
+  action: view
+  operations: 91
+  description: Read assets, their metadata, schema, samples, relationships and lineage.
+- name: ASSET_METADATA_VIEW
+  domain: catalog
+  action: view
+  operations: 1
+  description: Read the metadata document attached to an asset. Required alongside ASSET_VIEW on getAssetMetadata.
+- name: ASSET_CONFIGURATION_MODIFY
+  domain: catalog
+  action: modify
+  operations: 4
+  description: Change asset-level configuration such as incremental strategies and sampling settings.
+- name: POLICY_VIEW
+  domain: reliability
+  action: view
+  operations: 39
+  description: Read data quality, reconciliation, data drift, schema drift, freshness and anomaly policies.
+- name: POLICY_MODIFY
+  domain: reliability
+  action: modify
+  operations: 26
+  description: Update, enable, disable, schedule or delete an existing policy.
+- name: POLICY_CREATE
+  domain: reliability
+  action: create
+  operations: 5
+  description: Create a new reliability policy of any supported type.
+- name: POLICY_EXECUTE
+  domain: reliability
+  action: execute
+  operations: 4
+  description: Trigger a policy execution and cancel an in-flight run.
+- name: POLICY_GROUP_VIEW
+  domain: reliability
+  action: view
+  operations: 1
+  description: Read policy groups / rulesets.
+- name: TAGS_VIEW
+  domain: governance
+  action: view
+  operations: 3
+  description: Read tag keys, tag values and tag associations.
+- name: TAGS_CREATE
+  domain: governance
+  action: create
+  operations: 2
+  description: Create a tag key (GOVERNED or USER) and its initial values.
+- name: TAGS_MODIFY
+  domain: governance
+  action: modify
+  operations: 2
+  description: Attach, detach or edit tags on catalog entities.
+- name: USER_DEFINED_FUNCTION_VIEW
+  domain: governance
+  action: view
+  operations: 2
+  description: Read user-defined functions and templates (UDF/UDT).
+- name: USER_DEFINED_FUNCTION_CREATE
+  domain: governance
+  action: create
+  operations: 1
+  description: Create a user-defined function or template.
+- name: USER_DEFINED_FUNCTION_MODIFY
+  domain: governance
+  action: modify
+  operations: 2
+  description: Update or delete a user-defined function or template.
+- name: VIEW_USERS
+  domain: administration
+  action: view
+  operations: 3
+  description: List and read users in the tenant.
+- name: MODIFY_USERS
+  domain: administration
+  action: modify
+  operations: 4
+  description: Update or remove users. Blocked (403) for SCIM-managed users.
+- name: VIEW_USER_GROUPS
+  domain: administration
+  action: view
+  operations: 5
+  description: List and read user groups.
+- name: MODIFY_USER_GROUPS
+  domain: administration
+  action: modify
+  operations: 4
+  description: Create, rename, delete groups and change group membership. Blocked for SCIM-managed groups.
+- name: CREATE_USER_GROUPS
+  domain: administration
+  action: create
+  operations: 1
+  description: Create a new user group.
+- name: VIEW_SERVICE_USERS
+  domain: administration
+  action: view
+  operations: 2
+  description: List and read service (machine) users.
+- name: CREATE_SERVICE_USERS
+  domain: administration
+  action: create
+  operations: 1
+  description: Create a service user.
+- name: MODIFY_SERVICE_USERS
+  domain: administration
+  action: modify
+  operations: 5
+  description: Update, disable or delete a service user and its role mappings.
+- name: VIEW_API_KEYS
+  domain: administration
+  action: view
+  operations: 1
+  description: List issued API keys and their metadata.
+- name: MODIFY_API_KEYS
+  domain: administration
+  action: modify
+  operations: 3
+  description: Issue and revoke API keys.
+- name: VIEW_ROLE
+  domain: administration
+  action: view
+  operations: 6
+  description: Read tenant and domain role definitions and their permission sets.
+oauth_scopes:
+- scope: mcp
+  issuer: https://documentation.acceldata.io
+  applies_to: https://documentation.acceldata.io/mcp/rpc
+  source: https://documentation.acceldata.io/.well-known/oauth-authorization-server
+  note: >-
+    The only OAuth scope Acceldata publishes anywhere. It protects the documentation MCP
+    endpoint, not the ADOC platform APIs, and the endpoint currently answers anonymously.
+summary:
+  oauth2_scopes_on_platform_api: 0
+  rbac_permissions: 25
+  permission_named_operations: 140

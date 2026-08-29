@@ -1,0 +1,115 @@
+generated: '2026-08-29'
+method: searched
+source: https://pypi.org/ registry metadata + https://docs.acceldata.io/documentation/sdk
+docs: https://docs.acceldata.io/documentation/sdk
+note: >-
+  Acceldata ships first-party client libraries on PyPI only. npm (acceldata, acceldata-sdk,
+  @acceldata/sdk), RubyGems (acceldata), Maven Central (q=acceldata, 0 results) and
+  crates.io were probed and hold no Acceldata packages. The github.com/acceldata-io org
+  is almost entirely Open Data Platform forks of Apache projects (Spark, Hive, Hadoop,
+  Trino, Ozone, Flink…), not client SDKs, so no SDK repo is claimed from it.
+registries_probed:
+- registry: pypi
+  result: 5 first-party packages
+- registry: npm
+  result: none
+- registry: rubygems
+  result: none
+- registry: maven-central
+  result: none
+- registry: crates.io
+  result: none
+packages:
+- name: acceldata-sdk-python
+  registry: pypi
+  url: https://pypi.org/project/acceldata-sdk-python/
+  language: python
+  official: true
+  status: current
+  version: 26.8.0
+  published: '2026-08-08'
+  install: pip install acceldata-sdk-python
+  publisher_email: apisupport@acceldata.io
+  docs: https://docs.acceldata.io/documentation/acceldata-sdk-python
+  covers:
+  - catalog assets, metadata, sampling, profiling
+  - datasources and crawlers
+  - data quality and reconciliation policies
+  - pipelines, runs, jobs, spans, lineage events
+  note: >-
+    The successor package. Requires Python 3.10+. Client is constructed with an ADOC url
+    plus the accessKey/secretKey pair.
+- name: acceldata-sdk
+  registry: pypi
+  url: https://pypi.org/project/acceldata-sdk/
+  language: python
+  official: true
+  status: maintenance
+  version: 26.8.0
+  published: '2026-08-08'
+  install: pip install acceldata-sdk
+  publisher_email: apisupport@acceldata.io
+  docs: https://docs.acceldata.io/documentation/sdk
+  deprecation:
+    announced: true
+    window: July 2026 - September 2026
+    stated_policy: >-
+      "acceldata-sdk is now in maintenance mode for the period July 2026 - September 2026
+      (3 months). Existing integrations continue to work, and Acceldata may still provide
+      compatibility updates, but no new features or ADOC API coverage will be added during
+      this period."
+    successor: acceldata-sdk-python
+    migration_docs: https://docs.acceldata.io/documentation/migrating-from-acceldata-sdk--overview-and-new-features
+    source: https://docs.acceldata.io/documentation/sdk
+  note: >-
+    Still publishing releases in lockstep with the successor (same 26.8.0 / 2026-08-08),
+    so the package is dated but not decayed — the maintenance window is a stated policy,
+    not an abandonment signal.
+- name: acceldata-airflow-sdk
+  registry: pypi
+  url: https://pypi.org/project/acceldata-airflow-sdk/
+  language: python
+  official: true
+  status: current
+  version: 26.4.0
+  published: '2026-04-11'
+  install: pip install acceldata-airflow-sdk
+  docs: https://docs.acceldata.io/documentation/airflow
+  note: >-
+    Apache Airflow operator/hook package for emitting ADOC pipeline, run and span events
+    from DAGs. Four months behind the core SDK's release train (26.4.0 vs 26.8.0).
+- name: torch-sdk
+  registry: pypi
+  url: https://pypi.org/project/torch-sdk/
+  language: python
+  official: true
+  status: superseded
+  version: 0.0.33
+  published: '2022-09-28'
+  license: Apache Software License
+  publisher_email: support@acceldata.io
+  note: >-
+    Legacy package from Acceldata's "Torch" product naming. Last release 2022-09-28;
+    superseded by acceldata-sdk and then acceldata-sdk-python. Recorded for provenance,
+    not for use.
+- name: torch-airflow-sdk
+  registry: pypi
+  url: https://pypi.org/project/torch-airflow-sdk/
+  language: python
+  official: true
+  status: superseded
+  version: 0.0.41
+  published: '2022-09-28'
+  license: Apache Software License
+  publisher_email: support@acceldata.io
+  note: >-
+    Legacy Airflow package under the Torch name. Last release 2022-09-28; superseded by
+    acceldata-airflow-sdk.
+summary:
+  total: 5
+  official: 5
+  current: 2
+  maintenance: 1
+  superseded: 2
+  languages:
+  - python

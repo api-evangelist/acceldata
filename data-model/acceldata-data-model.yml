@@ -1,0 +1,237 @@
+generated: '2026-08-29'
+method: derived
+source: openapi/_original/acceldata-catalog-api-openapi.json (225 schemas), acceldata-administration-api-openapi.json (35 schemas), acceldata-tags-api-openapi.json (14 schemas)
+docs: https://docs.acceldata.io/api/introduction
+note: >-
+  Derived from $ref edges and id-reference fields in the three published specs. Only
+  relationships a schema actually declares are recorded; nothing is inferred from naming
+  alone. The catalog graph is deep (225 schemas) and this file captures the spine, not
+  every leaf configuration object.
+entities:
+- name: Asset
+  domain: catalog
+  description: >-
+    The central object. Anything ADOC has crawled from a data source — a table, view,
+    column, topic, file or dashboard. Addressed by numeric id or by uid.
+  identifiers:
+  - id (integer, path parameter on 56 operations)
+  - uid (string, stable cross-system identifier)
+  operations_touching: 90
+  primary_permission: ASSET_VIEW
+- name: AssetType
+  domain: catalog
+  description: Classification of an asset (table, column, view, topic, and so on).
+- name: ChildAsset
+  domain: catalog
+  description: An asset nested under a parent asset — most commonly a column under a table.
+- name: MetaData
+  domain: catalog
+  description: The descriptive metadata document attached to an asset. Requires ASSET_METADATA_VIEW.
+- name: AssetConfiguration
+  domain: catalog
+  description: Per-asset settings covering sampling, profiling triggers and partitioning.
+- name: AssetTag
+  domain: governance
+  description: A tag key/value pair associated with an asset.
+- name: TagDomain
+  domain: governance
+  description: The domain a tag belongs to; scopes tag visibility.
+- name: Label
+  domain: governance
+  description: A free-form label attached to an asset, distinct from governed tags.
+- name: AssetWatcher
+  domain: catalog
+  description: A user watching an asset for change notifications.
+- name: AssetComment
+  domain: catalog
+  description: A comment left on an asset. Part of the activities (votes and comments) surface.
+- name: AssetUDFVariable
+  domain: governance
+  description: A user-defined-function variable bound to an asset.
+- name: QualityRule
+  domain: reliability
+  description: >-
+    A data quality rule. Also referred to as a policy. Carries threshold configuration,
+    backing assets and transform UDFs.
+  primary_permission: POLICY_VIEW
+- name: PolicyGroup
+  domain: reliability
+  description: A named grouping of policies / rulesets.
+- name: RuleExecution
+  domain: reliability
+  description: One run of a rule, with its threshold configuration snapshot and timing.
+- name: RuleExecutionResult
+  domain: reliability
+  description: The per-item outcome of a rule execution.
+- name: Execution
+  domain: reliability
+  description: >-
+    Generic execution record spanning data quality, reconciliation, data drift, schema
+    drift, freshness and anomaly policy types.
+- name: PolicyScheduleResponse
+  domain: reliability
+  description: The cron schedule attached to a policy.
+- name: PolicyPersistencePathConfig
+  domain: reliability
+  description: >-
+    Where execution results are persisted. Has default, custom and saved variants, and can
+    be set at tenant or policy level.
+- name: DataplaneJob
+  domain: compute
+  description: A job dispatched to the customer's data plane to execute profiling or a rule.
+- name: User
+  domain: administration
+  description: A tenant user. Carries a REQUIRED scimManaged boolean.
+  primary_permission: VIEW_USERS
+- name: ServiceUser
+  domain: administration
+  description: A machine identity that holds API keys and role mappings.
+- name: Group
+  domain: administration
+  description: A user group. Carries a REQUIRED scimManaged boolean and a role list.
+- name: Role
+  domain: administration
+  description: A tenant or domain role. Typed FEATURE_ROLE or RESOURCE_ROLE.
+- name: ApiKeyDetails
+  domain: administration
+  description: An issued API key pair's metadata — display name, validity date, owner.
+- name: Tag
+  domain: governance
+  description: A tag key, typed GOVERNED or USER, owning a set of string values.
+- name: TagAssociation
+  domain: governance
+  description: >-
+    The join between a tag and any catalog entity. Entity types are enumerated in the
+    contract as ASSET, POLICY, BULK_POLICY_RULE, BULK_POLICY_RULESET, POLICY_RULE_ITEM,
+    RECONCILIATION_COLUMN_MAPPING, USER_DEFINED_FUNCTION and LABELER.
+relationships:
+- from: Asset
+  to: ChildAsset
+  type: has_many
+  via: parent asset id
+- from: ChildAsset
+  to: AssetType
+  type: has_one
+  via: $ref AssetType
+- from: Asset
+  to: MetaData
+  type: has_one
+  via: /catalog-server/api/assets/{id}/metadata
+- from: Asset
+  to: AssetTag
+  type: has_many
+  via: /catalog-server/api/assets/{id}/tags
+- from: AssetTag
+  to: TagDomain
+  type: has_many
+  via: $ref TagDomain
+- from: Asset
+  to: Label
+  type: has_many
+  via: /catalog-server/api/assets/{id}/labels
+- from: Asset
+  to: AssetWatcher
+  type: has_many
+  via: watch / unwatch endpoints
+- from: Asset
+  to: AssetComment
+  type: has_many
+  via: activities (votes and comments)
+- from: Asset
+  to: AssetConfiguration
+  type: has_one
+  via: $ref AssetConfiguration
+- from: Asset
+  to: AssetUDFVariable
+  type: has_many
+  via: $ref AssetUDFVariable
+- from: QualityRule
+  to: BackingAsset
+  type: has_many
+  via: $ref BackingAsset (array)
+- from: QualityRule
+  to: RuleThresholdConfiguration
+  type: has_one
+  via: $ref RuleThresholdConfiguration
+- from: QualityRule
+  to: PolicyTransformUDF
+  type: has_many
+  via: $ref PolicyTransformUDF (array)
+- from: PolicyTransformUDF
+  to: UdfVariable
+  type: has_many
+  via: $ref UdfVariable (array)
+- from: RuleExecutionResponse
+  to: QualityRule
+  type: has_one
+  via: $ref QualityRule
+- from: RulesExecutionResponse
+  to: RuleExecutionResponse
+  type: has_many
+  via: $ref RuleExecutionResponse (array)
+- from: RuleExecution
+  to: RuleThresholdConfiguration
+  type: has_one
+  via: $ref RuleThresholdConfiguration
+- from: QualityRule
+  to: PolicyGroup
+  type: belongs_to
+  via: policy group membership
+- from: QualityRule
+  to: PolicyScheduleResponse
+  type: has_one
+  via: policy schedule endpoints
+- from: QualityRule
+  to: PolicyPersistencePathConfig
+  type: has_one
+  via: configure-policy-level-persistence
+- from: User
+  to: Group
+  type: has_many
+  via: /admin/api/users/{userId}/assign-groups
+- from: User
+  to: Role
+  type: has_many
+  via: $ref Role (array)
+- from: Group
+  to: Role
+  type: has_many
+  via: $ref Role (array)
+- from: ServiceUser
+  to: ApiKeyDetails
+  type: has_many
+  via: /admin/api/service-users API key issuance
+- from: ServiceUser
+  to: Role
+  type: has_many
+  via: ServiceUserDomainRoleMapping
+- from: Tag
+  to: TagAssociation
+  type: has_many
+  via: /catalog-server/api/tag-associations
+- from: TagAssociation
+  to: Asset
+  type: belongs_to
+  via: entityId where entity type is ASSET
+identifier_conventions:
+  style: opaque integer ids plus string uids
+  id_prefixes: none published
+  note: >-
+    Assets are addressable by BOTH a numeric id and a string uid, and several endpoints
+    accept either ("Get Asset by ID or UID"). Policies are addressable by id AND by name —
+    every policy family publishes a manage-by-id and a manage-by-name pair. There are no
+    typed id prefixes (no `ast_`/`pol_` style), so an id alone does not tell an agent what
+    it points at.
+external_model_influences:
+- model: Keycloak Admin REST representations
+  evidence: >-
+    The Admin API components include UserRepresentation, GroupRepresentation,
+    CredentialRepresentation, FederatedIdentityRepresentation, SocialLinkRepresentation
+    and UserConsentRepresentation — the Keycloak admin data model, surfaced through
+    Acceldata's tenant administration service.
+- model: google.rpc.Status / google.protobuf.Any
+  evidence: Tag Services declares both, indicating a gRPC-transcoded surface.
+summary:
+  entities: 26
+  relationships: 27
+  schemas_total: 274

@@ -1,0 +1,229 @@
+generated: '2026-08-29'
+method: searched
+source: openapi/_original/*.json + https://docs.acceldata.io/api/introduction + https://docs.acceldata.io/api/authentication
+docs: https://docs.acceldata.io/api/introduction
+scope: >-
+  Cross-cutting runtime semantics for the three published Acceldata contracts: Admin API
+  (31 ops), Catalog API (104 ops) and Tag Services (5 ops).
+auth:
+  style: static key pair in headers
+  headers:
+  - accessKey
+  - secretKey
+  declared_as: required header parameters on every operation, not an OpenAPI securityScheme
+  bearer: false
+  oauth: false
+  cross_link: authentication/acceldata-authentication.yml
+  note: >-
+    accessKey and secretKey appear as explicit `in: header` parameters on all 104 Catalog
+    operations and all 5 Tag operations. A generated client will therefore expose them as
+    per-call arguments rather than as client-level credentials.
+base_url:
+  templated: true
+  form: https://{adoc-host}
+  path_prefixes:
+  - /catalog-server/api  (Catalog API, and tag associations)
+  - /admin/api           (Administration API)
+  - /api/tags/v1         (Tag Services)
+  source: >-
+    https://docs.acceldata.io/api/authentication publishes
+    `curl -X GET "https://<HOST>/catalog-server/api/assets"`, and the Python SDK is
+    constructed with url="https://<your-adoc-url>". None of the three specs declares a
+    servers[] block.
+  consequence: >-
+    There is no single public API host. Every caller substitutes their own ADOC control-plane
+    hostname, supplied by an administrator. An agent cannot discover the host from the
+    contract alone.
+content_negotiation:
+  request: application/json
+  response: application/json
+  accept_header: required, always application/json
+  content_type_header: required on requests with a body
+pagination:
+  consistent: false
+  styles:
+  - name: page-size
+    applies_to:
+    - Catalog API
+    - Tag Services
+    params:
+    - page
+    - size
+    - sortBy
+    operations: 13
+  - name: offset-max
+    applies_to:
+    - Administration API
+    params:
+    - first
+    - max
+    defaults:
+      first: '0'
+      max: '10'
+    operations: 6
+  docs_guidance:
+    quote: 'Use pagination (`limit`, `offset`) to avoid retrieving very large results in one request.'
+    source: https://docs.acceldata.io/api/introduction
+    note: >-
+      The documented guidance names `limit` and `offset`, which are the parameter names of
+      NEITHER published style. Three different pagination vocabularies are in circulation
+      for one product.
+  response_envelope: >-
+    Paginated Catalog responses wrap results with a `meta` object (MetaData schema); the
+    Administration API returns AllRealmUsersListResponse / GroupsListResponse /
+    ServiceUserListResponse wrappers.
+filtering_and_lookup:
+  dual_addressing: >-
+    Assets are addressable by numeric `id` OR by string `uid` (getAssetByIdOrUid). Every
+    reliability policy family publishes a matched pair of by-id and by-name operations
+    (manage-data-quality-by-id / manage-data-quality-by-name, and the same for
+    reconciliation, data drift, schema drift). Name-addressing is a first-class access path,
+    not a convenience.
+  versioned_reads: >-
+    Ten Catalog operations accept a `version` parameter and six accept
+    `onlyExecutedVersion`, so policy history is queryable rather than last-write-wins.
+field_expansion:
+  supported: false
+  note: No expand / fields / include parameter appears in any published operation.
+metadata:
+  custom_metadata: >-
+    Assets carry a metadata document (getAssetMetadata) and support custom metadata
+    additions via the SDK; tags and labels are the governed extension points.
+request_id_tracing:
+  header: none published
+  note: >-
+    Two Catalog operations accept a `requestId` parameter, but no response correlation
+    header (X-Request-Id, Traceparent) is declared anywhere. There is no published way to
+    correlate a failed call with a support ticket.
+versioning:
+  api_version_in_path: partial
+  detail: >-
+    Tag Services versions in the path (/api/tags/v1). The Catalog API and most of the
+    Administration API do not (/catalog-server/api, /admin/api); a small slice of the
+    Administration API uses /admin/api/v1/service-users. The product itself versions on a
+    monthly calendar train (26.3.0 ... 26.8.0) and API changes are published per release.
+  spec_versions:
+    Admin API: '1.0'
+    Catalog API: '1.0'
+    Tag Services: 1.0.0
+  cross_link: changelog/acceldata-changelog.yml
+error_envelope:
+  consistent: false
+  rfc9457: false
+  envelopes: 3
+  cross_link: errors/acceldata-problem-types.yml
+rate_limit_signaling:
+  headers_published: none
+  status_on_exhaustion: 429
+  documented_only: true
+  cross_link: rate-limits/acceldata-rate-limits.yml
+  note: >-
+    429 is described on the API introduction status-code table but is declared on zero of
+    the 140 published operations, and no RateLimit-* or Retry-After header is documented.
+idempotency:
+  supported: false
+  header: none
+  scope: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key parameter and no idempotency language in any of the three specs or
+    in the published API reference. 45 of 140 operations are POST/PUT/DELETE.
+  agent_consequence: >-
+    A retried policy creation or tag write can duplicate. The one partial protection is
+    422 on triggerDataQualityExecution — "Previous execution of rule '{name}' has not
+    completed. Not running the rule." — which makes execution triggering effectively
+    single-flight per rule, but that is concurrency control, not idempotency.
+dry_run_mode:
+  supported: partial
+  operations:
+  - operationId: preCheckPolicyExports
+    surface: Pre-Check Policy Definition Export
+    docs: https://docs.acceldata.io/api/pre-check-policy-exports
+    note: Validates an export before performing it.
+  - surface: Validate Persistence Configuration
+    docs: https://docs.acceldata.io/api/validate-persistence-configuration
+  - surface: Preview Template
+    docs: https://docs.acceldata.io/api/preview-template
+    note: Renders a template without applying it.
+  note: >-
+    Three validate/preview surfaces exist, each scoped to one workflow. There is no general
+    dry-run flag on write operations.
+reversibility:
+  grade: documented
+  applicable: true
+  note: >-
+    A real reversal path exists and is published for two of the four policy families. No
+    retention WINDOW is stated anywhere for how long an archived policy remains
+    restorable, so this grades `documented` and not `verified`. NOTHING here asserts a
+    window Acceldata has not published.
+  surfaces:
+  - action: delete a Data Quality policy
+    operationId: deleteDataQualityRule
+    reversal:
+      operationId: unarchiveDataQualityRule
+      path: /catalog-server/api/rules/data-quality/{id}/unarchive
+      method: POST
+      permission: ASSET_VIEW + POLICY_MODIFY
+    window: not stated
+    docs: https://docs.acceldata.io/api/manage-data-quality-by-id
+    note: >-
+      Delete is described in the contract as "Delete (archive)". ADOC also archives a
+      policy AUTOMATICALLY when a column it references is deleted or renamed, and archived
+      policies cannot execute — so an agent can lose policy coverage without issuing any
+      call at all, and unarchive is the recovery.
+  - action: delete a Data Quality policy by name
+    operationId: deleteDataQualityByName
+    reversal:
+      operationId: unarchiveDataQualityByName
+      path: /catalog-server/api/rules/data-quality/byName/{name}/unarchive
+      method: POST
+    window: not stated
+  - action: delete a Reconciliation policy
+    operationId: deleteReconciliationRule
+    reversal:
+      operationId: unarchiveReconciliationRule
+      path: /catalog-server/api/rules/reconciliation/{id}/unarchive
+      method: POST
+    window: not stated
+  - action: delete a Reconciliation policy by name
+    operationId: deleteReconciliationByName
+    reversal:
+      operationId: unarchiveReconciliationByName
+      path: /catalog-server/api/rules/reconciliation/byName/{name}/unarchive
+      method: POST
+      description_quote: Restores a previously archived reconciliation policy by policy name.
+    window: not stated
+  irreversible:
+  - operationId: deleteDataDriftRule
+    note: No unarchive operation is published for data drift policies, by id or by name.
+  - operationId: deleteDataDriftByName
+    note: No unarchive operation published.
+  - operationId: deleteSchemaDriftRule
+    note: No unarchive operation is published for schema drift policies.
+  - operationId: deleteSchemaDriftByName
+    note: No unarchive operation published.
+  - operationId: deleteApiKey
+    note: API key deletion has no published restore. The secret is shown once at issue time and cannot be re-read.
+  - operationId: deleteServiceUserApiKey
+    note: No published restore.
+  - operationId: removeUser
+    note: '"Disables and removes a user from the tenant." No published restore operation.'
+  - operationId: deleteGroup
+    note: No published restore.
+  - operationId: deleteSqlView
+    note: No published restore.
+  - operationId: deleteUdfTemplate
+    note: No published restore.
+  - operationId: deleteAssetTag
+    note: 'Detach only; re-attachable via addTagToAsset. Low blast radius.'
+  asymmetry: >-
+    The single most important thing for an agent to know here: DELETE means archive for
+    data quality and reconciliation policies, and means destroy for data drift and schema
+    drift policies. The operations look identical in the contract.
+cross_links:
+  errors: errors/acceldata-problem-types.yml
+  lifecycle: lifecycle/acceldata-lifecycle.yml
+  authentication: authentication/acceldata-authentication.yml
+  scopes: scopes/acceldata-scopes.yml
+  rate_limits: rate-limits/acceldata-rate-limits.yml
+  data_model: data-model/acceldata-data-model.yml

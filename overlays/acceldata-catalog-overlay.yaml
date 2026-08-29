@@ -1,0 +1,98 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Acceldata catalog contract
+  version: 1.0.0
+extends: ../openapi/_original/acceldata-catalog-api-openapi.json
+x-provenance:
+  generated: '2026-08-29'
+  method: generated
+  source: >-
+    Facts sourced from https://docs.acceldata.io/api/authentication,
+    https://docs.acceldata.io/documentation/api-keys and
+    https://docs.acceldata.io/documentation/acceldata-sdk-python. The underlying spec is
+    Acceldata's own, fetched verbatim from
+    https://documentation.acceldata.io/docs/acceldata/specs/catalog/openapi.json and never mutated.
+  note: >-
+    Every action below adds information Acceldata publishes elsewhere but omits from the
+    contract. Nothing is invented, and no operation semantics are changed.
+actions:
+  - target: $
+    description: >-
+      Add the templated server the docs publish. The spec ships with no servers[] block at
+      all, so a generated client has nowhere to send a request. Acceldata's authentication
+      page gives the base as https://<HOST>/... and the Python SDK takes
+      url="https://<your-adoc-url>", i.e. the customer's own ADOC control-plane host.
+    update:
+      servers:
+        - url: https://{adoc-host}
+          description: Customer ADOC control-plane host, supplied by the tenant administrator
+          variables:
+            adoc-host:
+              default: adoc.example.com
+              description: >-
+                The hostname of your ADOC deployment. Acceldata does not operate a single
+                shared API host; every tenant calls its own.
+  - target: $.info
+    description: >-
+      Add contact and documentation links. info carries no contact, license or
+      termsOfService in the published document.
+    update:
+      contact:
+        name: Acceldata API Support
+        url: https://docs.acceldata.io/api/introduction
+        email: apisupport@acceldata.io
+      x-api-reference: https://documentation.acceldata.io/docs/acceldata/api/catalog
+      x-changelog: https://docs.acceldata.io/documentation/sdk-and-api-changelog
+      x-release-cadence: monthly, versioned 26.<month>.<patch>
+  - target: $
+    description: >-
+      Declare the authentication scheme. accessKey and secretKey are present as required
+      header PARAMETERS on every operation but are never declared as securitySchemes, so
+      code generators treat credentials as per-call arguments instead of client config.
+    update:
+      components:
+        securitySchemes:
+          accessKey:
+            type: apiKey
+            in: header
+            name: accessKey
+            description: >-
+              Public API access key generated from the ADOC UI at Control Center > Security >
+              API Keys. See https://docs.acceldata.io/documentation/api-keys.
+          secretKey:
+            type: apiKey
+            in: header
+            name: secretKey
+            description: >-
+              Private API secret paired with accessKey. Shown once at generation time and
+              carries an operator-set validity date.
+  - target: $
+    description: >-
+      Record the authorization model. Permissions are named in prose inside operation
+      descriptions ("Authorization: requires ASSET_VIEW and POLICY_MODIFY") and are not
+      machine-readable anywhere in the contract.
+    update:
+      x-authorization:
+        model: rbac-permissions
+        oauth2: false
+        docs: https://docs.acceldata.io/documentation/roles-and-permissions
+        artifact: scopes/acceldata-scopes.yml
+  - target: $
+    description: >-
+      Record what the contract does not guarantee, so an agent planning a write knows
+      before it acts rather than after.
+    update:
+      x-runtime-semantics:
+        idempotency:
+          supported: false
+          header: null
+        rate_limit_headers:
+          published: false
+          status_on_exhaustion: 429
+        error_format:
+          rfc9457: false
+          artifact: errors/acceldata-problem-types.yml
+        reversibility:
+          grade: documented
+          artifact: conventions/acceldata-conventions.yml
+        conventions: conventions/acceldata-conventions.yml
