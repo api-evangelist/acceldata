@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Acceldata - Data Observability Cloud Alerts API
   description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
@@ -165,40 +165,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AlertList:
-      type: object
-      description: Paginated list of alerts
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Alert'
-        total:
-          type: integer
-          description: Total alert count
-          example: 42
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
     Alert:
       type: object
       description: A data quality or pipeline monitoring alert
@@ -263,6 +229,40 @@ components:
           type: string
           description: Optional comment explaining the acknowledgement
           example: Investigating root cause — data pipeline delayed
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+    AlertList:
+      type: object
+      description: Paginated list of alerts
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+        total:
+          type: integer
+          description: Total alert count
+          example: 42
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
   securitySchemes:
     apiKey:
       type: apiKey
