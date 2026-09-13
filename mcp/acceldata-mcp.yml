@@ -149,3 +149,33 @@ gaps:
 - The ADOC platform APIs (140 published operations across Administration, Catalog and Tags) have NO MCP
   server. Both live servers are documentation-search surfaces; an agent cannot list assets, run a policy
   or issue an API key over MCP today.
+tools_count: 13
+tools:
+- name: list_products
+  description: ''
+- name: list_tabs
+  description: ''
+- name: list_sections
+  description: ''
+- name: list_pages
+  description: ''
+- name: search_published_docs
+  description: ''
+- name: get_published_doc
+  description: ''
+- name: get_page_metadata
+  description: ''
+- name: generate_class
+  description: ''
+- name: generate_deck_content
+  description: ''
+- name: generate_translation
+  description: ''
+- name: generate_role_guide
+  description: ''
+- name: generate_learning_path
+  description: ''
+- name: generate_best_practices
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
+authorship: provider
