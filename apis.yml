@@ -657,95 +657,1018 @@ apis:
     url: examples/adoc-api-user-example.json
   - type: Examples
     url: examples/adoc-api-role-example.json
-- aid: acceldata:acceldata-catalog-api
-  name: Acceldata Catalog API
+- aid: acceldata:acceldata-api-keys-api
+  name: Acceldata API Keys API
   description: >-
-    The ADOC data catalog surface: discover and search assets, read asset metadata, schema,
-    samples, relationships and lineage, apply tags and labels, and create, schedule, execute
-    and read the results of data reliability policies (data quality, reconciliation, data
-    drift, schema drift, freshness and anomaly). 104 published operations.
-  humanURL: https://documentation.acceldata.io/docs/acceldata/api/catalog
-  baseURL: https://{adoc-host}
+    List and revoke API keys belonging to individual users or across the realm. API keys authenticate
+    programmatic requests made on behalf of a user.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
   tags:
-  - Catalog
-  - Data Quality
-  - Data Observability
-  - Lineage
+  - API Keys
   properties:
   - type: OpenAPI
-    url: openapi/_original/acceldata-catalog-api-openapi.json
-  - type: Overlay
-    url: overlays/acceldata-catalog-overlay.yaml
+    url: openapi/acceldata-api-keys-api-openapi.yml
   - type: Documentation
     url: https://docs.acceldata.io/api/introduction
   - type: APIReference
     url: https://documentation.acceldata.io/docs/acceldata/api/catalog
   - type: Authentication
     url: https://docs.acceldata.io/api/authentication
-  - type: AgentSkill
-    url: skills/acceldata-create-and-run-data-quality-policy.md
-  - type: AgentSkill
-    url: skills/acceldata-discover-and-tag-assets.md
   - type: DataModel
     url: data-model/acceldata-data-model.yml
   - type: ErrorCatalog
     url: errors/acceldata-problem-types.yml
   - type: Conventions
     url: conventions/acceldata-conventions.yml
-- aid: acceldata:acceldata-administration-api
-  name: Acceldata Administration API
-  description: >-
-    Tenant administration for ADOC: user and service-user lifecycle (create, update,
-    disable), user group management, client role assignment, and API key issuance and
-    revocation. SCIM-managed users and groups carry restricted edit and delete operations.
-    31 published operations.
-  humanURL: https://documentation.acceldata.io/docs/acceldata/api/administration
-  baseURL: https://{adoc-host}
-  tags:
-  - Administration
-  - Identity
-  - RBAC
-  - SCIM
-  properties:
-  - type: OpenAPI
-    url: openapi/_original/acceldata-administration-api-openapi.json
-  - type: Overlay
-    url: overlays/acceldata-administration-overlay.yaml
   - type: Documentation
     url: https://docs.acceldata.io/documentation/roles-and-permissions
   - type: APIReference
     url: https://documentation.acceldata.io/docs/acceldata/api/administration
   - type: Authentication
     url: https://docs.acceldata.io/documentation/api-keys
-  - type: AgentSkill
-    url: skills/acceldata-provision-service-user-and-api-key.md
   - type: OAuthScopes
     url: scopes/acceldata-scopes.yml
-- aid: acceldata:acceldata-tags-api
-  name: Acceldata Tag Services API
-  description: >-
-    Create and manage tag keys and values, search across tagged key/value pairs, and
-    associate or retrieve unified tags on catalog entities — assets, policies, rules,
-    rulesets, UDFs and labelers. A gRPC-transcoded surface carrying the google.rpc.Status
-    error model. 5 published operations.
-  humanURL: https://documentation.acceldata.io/docs/acceldata/api/tags
-  baseURL: https://{adoc-host}
-  tags:
-  - Tags
-  - Governance
-  - Metadata
-  properties:
-  - type: OpenAPI
-    url: openapi/_original/acceldata-tags-api-openapi.json
-  - type: Overlay
-    url: overlays/acceldata-tags-overlay.yaml
   - type: Documentation
     url: https://docs.acceldata.io/documentation/unified-tags
   - type: APIReference
     url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-activity-api
+  name: Acceldata Asset Activity API
+  description: The Asset Activity API from Acceldata — 2 operation(s) for asset activity.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Activity
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-activity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
   - type: Authentication
     url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-configuration-api
+  name: Acceldata Asset Configuration API
+  description: The Asset Configuration API from Acceldata — 1 operation(s) for asset configuration.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-configuration-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-metadata-api
+  name: Acceldata Asset Metadata API
+  description: The Asset Metadata API from Acceldata — 1 operation(s) for asset metadata.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-sampling-api
+  name: Acceldata Asset Sampling API
+  description: The Asset Sampling API from Acceldata — 2 operation(s) for asset sampling.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Sampling
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-sampling-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-tags-labels-api
+  name: Acceldata Asset Tags & Labels API
+  description: The Asset Tags & Labels API from Acceldata — 4 operation(s) for asset tags & labels.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Tags & Labels
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-tags-labels-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-types-api
+  name: Acceldata Asset Types API
+  description: The Asset Types API from Acceldata — 1 operation(s) for asset types.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Types
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-types-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-udf-variables-api
+  name: Acceldata Asset UDF Variables API
+  description: The Asset UDF Variables API from Acceldata — 2 operation(s) for asset udf variables.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset UDF Variables
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-udf-variables-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-asset-watch-api
+  name: Acceldata Asset Watch API
+  description: The Asset Watch API from Acceldata — 2 operation(s) for asset watch.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Asset Watch
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-asset-watch-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-client-roles-api
+  name: Acceldata Client Roles API
+  description: >-
+    Assign and remove client (platform) roles for a user. Client roles determine which platform-wide actions
+    a user can perform, independent of any domain-scoped access.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Client Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-client-roles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-custom-assets-api
+  name: Acceldata Custom Assets API
+  description: The Custom Assets API from Acceldata — 1 operation(s) for custom assets.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Custom Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-custom-assets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-data-cadence-rules-api
+  name: Acceldata Data Cadence Rules API
+  description: The Data Cadence Rules API from Acceldata — 3 operation(s) for data cadence rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Data Cadence Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-data-cadence-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-data-drift-rules-api
+  name: Acceldata Data Drift Rules API
+  description: The Data Drift Rules API from Acceldata — 8 operation(s) for data drift rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Data Drift Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-data-drift-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-group-management-api
+  name: Acceldata Group Management API
+  description: >-
+    Create, retrieve, update, and delete user groups, and view the roles available to a group. Groups
+    let administrators assign roles and permissions to multiple users at once instead of managing them
+    individually.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Group Management
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-group-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-profile-anomaly-rules-api
+  name: Acceldata Profile Anomaly Rules API
+  description: The Profile Anomaly Rules API from Acceldata — 5 operation(s) for profile anomaly rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Profile Anomaly Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-profile-anomaly-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-profile-update-api
+  name: Acceldata Profile Update API
+  description: Self-service account operations, such as triggering a forgot-password email for a user.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Profile Update
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-profile-update-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-reconciliation-rules-api
+  name: Acceldata Reconciliation Rules API
+  description: The Reconciliation Rules API from Acceldata — 12 operation(s) for reconciliation rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Reconciliation Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-reconciliation-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-reference-assets-api
+  name: Acceldata Reference Assets API
+  description: The Reference Assets API from Acceldata — 1 operation(s) for reference assets.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Reference Assets
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-reference-assets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-role-mapping-api
+  name: Acceldata Role Mapping API
+  description: Retrieve the client roles currently assigned to a user.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Role Mapping
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-role-mapping-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-rule-configuration-api
+  name: Acceldata Rule Configuration API
+  description: The Rule Configuration API from Acceldata — 2 operation(s) for rule configuration.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Rule Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-rule-configuration-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-rule-tags-api
+  name: Acceldata Rule Tags API
+  description: The Rule Tags API from Acceldata — 1 operation(s) for rule tags.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Rule Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-rule-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-rules-api
+  name: Acceldata Rules API
+  description: The Rules API from Acceldata — 2 operation(s) for rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-schema-drift-rules-api
+  name: Acceldata Schema Drift Rules API
+  description: The Schema Drift Rules API from Acceldata — 6 operation(s) for schema drift rules.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Schema Drift Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-schema-drift-rules-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-service-users-api
+  name: Acceldata Service Users API
+  description: >-
+    Create, retrieve, update, and manage service users — non-human identities used for automated access
+    and system-to-system integrations in place of personal user API keys. Includes assigning roles to
+    a service user and issuing or revoking its API keys.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Service Users
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-service-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-tag-associations-api
+  name: Acceldata Tag Associations API
+  description: >-
+    Unified tag association endpoints (associate tags with, and read tags for, catalog entities)
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Tag Associations
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-tag-associations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-tags-api
+  name: Acceldata Tags API
+  description: Create tag keys, add values to a key, and search across tag key/value pairs.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-udf-templates-api
+  name: Acceldata UDF Templates API
+  description: The UDF Templates API from Acceldata — 2 operation(s) for udf templates.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - UDF Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-udf-templates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-udf-validation-api
+  name: Acceldata UDF Validation API
+  description: The UDF Validation API from Acceldata — 2 operation(s) for udf validation.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - UDF Validation
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-udf-validation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
+- aid: acceldata:acceldata-user-management-api
+  name: Acceldata User Management API
+  description: >-
+    Create, retrieve, update, and remove users, and manage their group memberships. Users provisioned
+    through SCIM are synced from the identity provider and have restricted edit and delete operations.
+  humanURL: https://docs.acceldata.io/api/introduction
+  baseURL: https://api.acceldata.app/v1
+  tags:
+  - User Management
+  properties:
+  - type: OpenAPI
+    url: openapi/acceldata-user-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/api/introduction
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/catalog
+  - type: Authentication
+    url: https://docs.acceldata.io/api/authentication
+  - type: DataModel
+    url: data-model/acceldata-data-model.yml
+  - type: ErrorCatalog
+    url: errors/acceldata-problem-types.yml
+  - type: Conventions
+    url: conventions/acceldata-conventions.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/roles-and-permissions
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/administration
+  - type: Authentication
+    url: https://docs.acceldata.io/documentation/api-keys
+  - type: OAuthScopes
+    url: scopes/acceldata-scopes.yml
+  - type: Documentation
+    url: https://docs.acceldata.io/documentation/unified-tags
+  - type: APIReference
+    url: https://documentation.acceldata.io/docs/acceldata/api/tags
 common:
+  - type: Overlay
+    url: overlays/acceldata-catalog-overlay.yaml
+  - type: AgentSkill
+    url: skills/acceldata-create-and-run-data-quality-policy.md
+  - type: AgentSkill
+    url: skills/acceldata-discover-and-tag-assets.md
+  - type: Overlay
+    url: overlays/acceldata-administration-overlay.yaml
+  - type: AgentSkill
+    url: skills/acceldata-provision-service-user-and-api-key.md
+  - type: Overlay
+    url: overlays/acceldata-tags-overlay.yaml
   - type: AgenticAccess
     url: agentic-access/acceldata-agentic-access.yml
   - type: TrustCenter
