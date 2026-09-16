@@ -1,17 +1,33 @@
-generated: '2026-07-15'
+generated: '2026-09-16'
 method: generated
-source: openapi/acceldata-adoc-api.yaml
+source: openapi/acceldata-alerts-api-openapi.yml, openapi/acceldata-api-keys-api-openapi.yml,
+  openapi/acceldata-asset-activity-api-openapi.yml, openapi/acceldata-asset-configuration-api-openapi.yml,
+  openapi/acceldata-asset-metadata-api-openapi.yml, openapi/acceldata-asset-sampling-api-openapi.yml,
+  openapi/acceldata-asset-tags-labels-api-openapi.yml, openapi/acceldata-asset-types-api-openapi.yml,
+  openapi/acceldata-asset-udf-variables-api-openapi.yml, openapi/acceldata-asset-watch-api-openapi.yml,
+  openapi/acceldata-client-roles-api-openapi.yml, openapi/acceldata-custom-assets-api-openapi.yml,
+  openapi/acceldata-data-cadence-rules-api-openapi.yml, openapi/acceldata-data-drift-rules-api-openapi.yml,
+  openapi/acceldata-data-quality-rules-api-openapi.yml, openapi/acceldata-datasets-api-openapi.yml,
+  openapi/acceldata-group-management-api-openapi.yml, openapi/acceldata-lineage-api-openapi.yml,
+  openapi/acceldata-pipeline-jobs-api-openapi.yml, openapi/acceldata-profile-anomaly-rules-api-openapi.yml,
+  openapi/acceldata-profile-update-api-openapi.yml, openapi/acceldata-reconciliation-rules-api-openapi.yml,
+  openapi/acceldata-reference-assets-api-openapi.yml, openapi/acceldata-role-mapping-api-openapi.yml,
+  openapi/acceldata-roles-api-openapi.yml, openapi/acceldata-rule-configuration-api-openapi.yml,
+  openapi/acceldata-rule-tags-api-openapi.yml, openapi/acceldata-rules-api-openapi.yml, openapi/acceldata-schema-drift-rules-api-openapi.yml,
+  openapi/acceldata-service-users-api-openapi.yml, openapi/acceldata-tag-associations-api-openapi.yml,
+  openapi/acceldata-tags-api-openapi.yml, openapi/acceldata-udf-templates-api-openapi.yml, openapi/acceldata-udf-validation-api-openapi.yml,
+  openapi/acceldata-user-management-api-openapi.yml, openapi/acceldata-users-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 9
+  operations: 149
   by_action_class:
-    connected: 7
-    acting: 2
+    connected: 73
+    acting: 76
   by_consequence:
-    read: 7
-    write: 2
+    read: 73
+    write: 76
   human_in_the_loop_required: 0
 operations:
 - path: /alerts
@@ -40,6 +56,828 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /admin/api/users/{userId}/api-keys
+  method: get
+  operationId: getUserApiKeys
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/api-keys/all
+  method: get
+  operationId: getAllApiKeys
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/api-keys/{accessKey}
+  method: delete
+  operationId: deleteApiKey
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/activity
+  method: get
+  operationId: getAssetActivity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/comments
+  method: get
+  operationId: getAssetComments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/incremental-strategies
+  method: get
+  operationId: getIncrementalStrategies
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/metadata
+  method: get
+  operationId: getAssetMetadata
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/sample/async
+  method: post
+  operationId: requestAssetSampleAsync
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/sample/result/{requestId}
+  method: get
+  operationId: getAssetSampleResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/tags
+  method: get
+  operationId: getAssetTagsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/tag
+  method: post
+  operationId: addAssetTag
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/tag/{tagId}
+  method: delete
+  operationId: deleteAssetTag
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/labels
+  method: put
+  operationId: updateAssetLabels
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/labels
+  method: get
+  operationId: getAssetLabels
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/asset-types
+  method: get
+  operationId: listAssetTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/udf-variables
+  method: post
+  operationId: createAssetUdfVariable
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/udf-variables
+  method: get
+  operationId: getAssetUdfVariables
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/udf-variables/{variableId}
+  method: put
+  operationId: updateAssetUdfVariable
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/udf-variables/{variableId}
+  method: delete
+  operationId: deleteAssetUdfVariable
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/udf-variables/{variableId}
+  method: get
+  operationId: getAssetUdfVariable
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/watch
+  method: post
+  operationId: watchAsset
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/{id}/watch
+  method: delete
+  operationId: unwatchAsset
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/byUid/{uid}/watch
+  method: post
+  operationId: watchAssetByUid
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/assets/byUid/{uid}/watch
+  method: delete
+  operationId: unwatchAssetByUid
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/assign-client-roles
+  method: put
+  operationId: assignClientRoles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/remove-assigned-client-roles
+  method: put
+  operationId: removeAssignedClientRoles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/custom-assets/sql-view/{id}
+  method: put
+  operationId: updateSqlView
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/custom-assets/sql-view/{id}
+  method: delete
+  operationId: deleteSqlView
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/custom-assets/sql-view/{id}
+  method: get
+  operationId: getSqlView
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-cadence/{identifier}
+  method: get
+  operationId: getDataCadenceRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-cadence/executions/{executionId}/result
+  method: get
+  operationId: getDataCadenceExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-cadence/byAsset/{identifier}
+  method: get
+  operationId: getDataCadenceByAsset
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift
+  method: post
+  operationId: createDataDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-drift/{identifier}
+  method: get
+  operationId: getDataDriftRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift/{id}
+  method: put
+  operationId: updateDataDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-drift/{id}
+  method: delete
+  operationId: deleteDataDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-drift/{id}/executions
+  method: get
+  operationId: getDataDriftExecutions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift/executions/{id}
+  method: get
+  operationId: getDataDriftExecutionDetail
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift/executions/{id}/result
+  method: get
+  operationId: getDataDriftExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift/byName/{name}
+  method: put
+  operationId: updateDataDriftByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-drift/byName/{name}
+  method: delete
+  operationId: deleteDataDriftByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-drift/byName/{name}
+  method: get
+  operationId: getDataDriftByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-drift/byName/{name}/executions
+  method: get
+  operationId: getDataDriftExecutionsByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/{identifier}
+  method: get
+  operationId: getDataQualityRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/{id}/executions
+  method: post
+  operationId: triggerDataQualityExecution
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/{id}/executions
+  method: get
+  operationId: getDataQualityExecutions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/{id}
+  method: put
+  operationId: updateDataQualityRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/{id}
+  method: delete
+  operationId: deleteDataQualityRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/{id}/unarchive
+  method: post
+  operationId: unarchiveDataQualityRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/{id}/schedule
+  method: put
+  operationId: setDataQualitySchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/{id}/items
+  method: get
+  operationId: getDataQualityItems
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/executions/{id}
+  method: get
+  operationId: getDataQualityExecutionDetail
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/executions/{id}/result
+  method: get
+  operationId: getDataQualityExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality
+  method: post
+  operationId: createDataQualityRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality
+  method: get
+  operationId: listDataQualityRules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/byName/{name}
+  method: put
+  operationId: updateDataQualityByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/byName/{name}
+  method: delete
+  operationId: deleteDataQualityByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/byName/{name}
+  method: get
+  operationId: getDataQualityByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/byName/{name}/schedule
+  method: put
+  operationId: setDataQualityScheduleByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/byName/{name}/items
+  method: get
+  operationId: getDataQualityItemsByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/data-quality/byName/{name}/unarchive
+  method: post
+  operationId: unarchiveDataQualityByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/byName/{name}/executions
+  method: post
+  operationId: triggerDataQualityExecutionByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/data-quality/byName/{name}/executions
+  method: get
+  operationId: getDataQualityExecutionsByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /data-quality/rules
   method: get
   operationId: listDataQualityRules
@@ -76,6 +914,110 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /admin/api/groups/list
+  method: get
+  operationId: listGroupsSummary
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/groups/metadata
+  method: post
+  operationId: getGroupsMetadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/groups
+  method: post
+  operationId: createGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/groups
+  method: get
+  operationId: listGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/groups/{groupId}
+  method: put
+  operationId: updateGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/groups/{groupId}
+  method: delete
+  operationId: deleteGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/groups/{groupId}
+  method: get
+  operationId: getGroup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/groups/{groupId}/available-roles
+  method: get
+  operationId: getGroupAvailableRoles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /datasets/{id}/lineage
   method: get
   operationId: getDatasetLineage
@@ -96,9 +1038,343 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /users
+- path: /catalog-server/api/rules/profile-anomaly/{identifier}
   method: get
-  operationId: listUsers
+  operationId: getProfileAnomalyRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/profile-anomaly/{id}
+  method: put
+  operationId: updateProfileAnomalyRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/profile-anomaly
+  method: post
+  operationId: createProfileAnomaly
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/profile-anomaly/byAsset/{identifier}
+  method: get
+  operationId: getProfileAnomalyByAsset
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/profile-anomaly/executions/{executionId}/result
+  method: get
+  operationId: getProfileAnomalyExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/profile-update/forgot-password
+  method: post
+  operationId: forgotPassword
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/{identifier}
+  method: get
+  operationId: getReconciliationRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation/{id}/executions
+  method: post
+  operationId: triggerReconciliationExecution
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/{id}/executions
+  method: get
+  operationId: getReconciliationExecutions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation/{id}
+  method: put
+  operationId: updateReconciliationRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/{id}
+  method: delete
+  operationId: deleteReconciliationRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/{id}/unarchive
+  method: post
+  operationId: unarchiveReconciliationRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/{id}/schedule
+  method: put
+  operationId: setReconciliationSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/executions/{id}
+  method: get
+  operationId: getReconciliationExecutionDetail
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation/executions/{id}/result
+  method: get
+  operationId: getReconciliationExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation
+  method: post
+  operationId: createReconciliationRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation
+  method: get
+  operationId: listReconciliationRules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation/byName/{name}
+  method: put
+  operationId: updateReconciliationByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/byName/{name}
+  method: delete
+  operationId: deleteReconciliationByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/byName/{name}
+  method: get
+  operationId: getReconciliationByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/reconciliation/byName/{name}/schedule
+  method: put
+  operationId: setReconciliationScheduleByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/byName/{name}/unarchive
+  method: post
+  operationId: unarchiveReconciliationByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/byName/{name}/executions
+  method: post
+  operationId: triggerReconciliationExecutionByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/reconciliation/byName/{name}/executions
+  method: get
+  operationId: getReconciliationExecutionsByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/assets/{id}/reference-assets/inferredMetadata
+  method: get
+  operationId: getInferredMetadataByAssetId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/assigned-client-roles/{userId}
+  method: get
+  operationId: getAssignedClientRoles
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -109,6 +1385,590 @@ operations:
 - path: /roles
   method: get
   operationId: listRoles
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/{id}/configuration
+  method: get
+  operationId: getRuleConfiguration
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/byName/{name}/configuration
+  method: get
+  operationId: getRuleConfigurationByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/{id}/tag
+  method: post
+  operationId: addRuleTag
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/{id}/schedule
+  method: put
+  operationId: setRuleSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/executions
+  method: get
+  operationId: listRuleExecutions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/schema-drift
+  method: post
+  operationId: createSchemaDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/schema-drift/{id}
+  method: put
+  operationId: updateSchemaDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/schema-drift/{id}
+  method: delete
+  operationId: deleteSchemaDriftRule
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/schema-drift/{id}
+  method: get
+  operationId: getSchemaDriftRule
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/schema-drift/{id}/executions
+  method: get
+  operationId: getSchemaDriftExecutions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/schema-drift/executions/{id}/result
+  method: get
+  operationId: getSchemaDriftExecutionResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/schema-drift/byName/{name}
+  method: put
+  operationId: updateSchemaDriftByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/schema-drift/byName/{name}
+  method: delete
+  operationId: deleteSchemaDriftByName
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/rules/schema-drift/byName/{name}
+  method: get
+  operationId: getSchemaDriftByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/rules/schema-drift/byName/{name}/executions
+  method: get
+  operationId: getSchemaDriftExecutionsByName
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/v1/service-users
+  method: post
+  operationId: createServiceUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/v1/service-users/list
+  method: get
+  operationId: listServiceUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/v1/service-users/{serviceUserId}
+  method: put
+  operationId: updateServiceUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/v1/service-users/{serviceUserId}
+  method: get
+  operationId: getServiceUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/v1/service-users/{serviceUserId}/add-roles
+  method: put
+  operationId: addServiceUserRoles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/v1/service-users/{serviceUserId}/remove-roles
+  method: put
+  operationId: removeServiceUserRoles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/v1/service-users/{serviceUserId}/api-key
+  method: post
+  operationId: createServiceUserApiKey
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/v1/service-users/{serviceUserId}/api-key/{accessKey}
+  method: delete
+  operationId: deleteServiceUserApiKey
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/tag-associations
+  method: post
+  operationId: associateTags
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/tag-associations/entity/{entityId}
+  method: get
+  operationId: getTagsForEntity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/tags/v1
+  method: post
+  operationId: PublicTagService_CreateTag
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/tags/v1/keys/{keyId}/values
+  method: post
+  operationId: PublicTagService_AddValuesToKey
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /api/tags/v1/search
+  method: get
+  operationId: PublicTagService_SearchKeyValues
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/udf/template
+  method: post
+  operationId: createUdfTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/udf/template
+  method: get
+  operationId: listUdfTemplates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/udf/template/{id}
+  method: put
+  operationId: updateUdfTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/udf/template/{id}
+  method: delete
+  operationId: deleteUdfTemplate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/udf/template/{id}
+  method: get
+  operationId: getUdfTemplate
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /catalog-server/api/udf/template/{id}/validate/async
+  method: post
+  operationId: validateUdfTemplateAsync
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /catalog-server/api/udf/template/validate/result/{requestId}
+  method: get
+  operationId: getUdfValidationResult
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/list
+  method: get
+  operationId: listUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/count
+  method: get
+  operationId: getUserCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/{userId}
+  method: put
+  operationId: updateUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/users/{userId}
+  method: get
+  operationId: getUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /admin/api/users/{userId}/remove-user
+  method: delete
+  operationId: removeUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/users/{userId}/assign-groups
+  method: put
+  operationId: assignUserGroups
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/users/{userId}/remove-groups
+  method: put
+  operationId: removeUserGroups
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /admin/api/users/{userId}/groups
+  method: get
+  operationId: getUserGroupsByUserId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /users
+  method: get
+  operationId: listUsers
   x-agentic-access:
     action-class: connected
     consequence: read
