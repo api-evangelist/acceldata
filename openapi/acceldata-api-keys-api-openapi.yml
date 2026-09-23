@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Admin API Keys API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: API Keys
+  description: List and revoke API keys belonging to individual users or across the realm. API keys authenticate programmatic requests made on behalf of a user.
+paths:
+  /admin/api/users/{userId}/api-keys:
+    get:
+      operationId: getUserApiKeys
+      tags:
+      - API Keys
+      summary: List API keys for a user
+      description: 'Returns all API keys associated with the specified user.
+
+        Users can only view their own API keys unless they have elevated permissions.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: 'Page number (default: 0)'
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: 'Page size (default: 25)'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeysResponseObject'
+        '403':
+          description: User is not authorized to view these API keys
+  /admin/api/users/api-keys/all:
+    get:
+      operationId: getAllApiKeys
+      tags:
+      - API Keys
+      summary: List all API keys in the realm
+      description: 'Returns a paginated list of all API keys in the tenant.
+
+        Requires VIEW_API_KEYS permission.'
+      parameters:
+      - name: page
+        in: query
+        description: 'Page number (default: 0)'
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: 'Page size (default: 25)'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeysResponseObject'
+  /admin/api/users/api-keys/{accessKey}:
+    delete:
+      operationId: deleteApiKey
+      tags:
+      - API Keys
+      summary: Delete an API key
+      description: 'Revokes and deletes the specified API key.
+
+        Requires ownership of the key or MODIFY_API_KEYS permission.'
+      parameters:
+      - name: accessKey
+        in: path
+        description: API access key to delete
+        required: true
+        schema:
+          type: string
+      - name: clientId
+        in: query
+        description: Client ID for permission check (optional)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success message confirming API key deletion
+        '403':
+          description: User does not have permission to delete this API key
+components:
+  schemas:
+    Meta:
+      type: object
+      title: Meta
+      required:
+      - page
+      - size
+      - total
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+    ApiKeyDetails:
+      type: object
+      title: ApiKeyDetails
+      required:
+      - accessKey
+      - createdAt
+      - displayName
+      - email
+      - secretKey
+      - validTill
+      properties:
+        accessKey:
+          type: string
+        createdAt:
+          type: integer
+        displayName:
+          type: string
+        email:
+          type: string
+        secretKey:
+          type: string
+        userName:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    ApiKeysResponseObject:
+      type: object
+      title: ApiKeysResponseObject
+      required:
+      - data
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyDetails'
+        meta:
+          $ref: '#/components/schemas/Meta'

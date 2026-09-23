@@ -1,0 +1,66 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset Metadata API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset Metadata
+paths:
+  /catalog-server/api/assets/{id}/metadata:
+    get:
+      operationId: getAssetMetadata
+      tags:
+      - Asset Metadata
+      summary: Get asset metadata
+      description: 'Metadata describes basic information about the data, making it easier to locate, use, and reuse specific instances of the data.
+
+
+        This endpoint retrieves the metadata of a specific asset by its `id`. For example, the metadata of a column name in a table `customer_information` would indicate that the column''s data type is of string type.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `ASSET_METADATA_VIEW`.
+
+
+        ### Response
+
+
+        Returns `StandardResponse` containing the asset metadata payload.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Asset metadata wrapped in StandardResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+        '404':
+          description: No Metadata found for assetId {id}

@@ -1,0 +1,213 @@
+openapi: 3.2.0
+info:
+  title: Catalog Rule Configuration API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Rule Configuration
+paths:
+  /catalog-server/api/rules/{id}/configuration:
+    get:
+      operationId: getRuleConfiguration
+      tags:
+      - Rule Configuration
+      summary: Get rule persistence configuration
+      description: 'This endpoint is used to fetch the storage location for Data Quality policy results and summaries based on the policy ID.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric policy/rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rule configuration details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleConfig'
+        '400':
+          description: Bad Request — missing or non-numeric id
+  /catalog-server/api/rules/byName/{name}/configuration:
+    get:
+      operationId: getRuleConfigurationByName
+      tags:
+      - Rule Configuration
+      summary: Get rule persistence configuration by name
+      description: 'This endpoint retrieves the storage location for Data Quality policy results and summaries based on the policy name.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Rule configuration details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleConfig'
+        '404':
+          description: 'Rule with the given name: {name} not found'
+components:
+  schemas:
+    SingleCategoryPersistenceConfig:
+      type: object
+      title: io.ad.catalog.api.model.SingleCategoryPersistenceConfig
+      required:
+      - format
+      - suffixTemplate
+      properties:
+        format:
+          type: string
+          enum:
+          - PARQUET
+          - ORC
+          - CSV
+          - JSON
+        suffixTemplate:
+          type: string
+    SingleCategoryResultHandlingConfig:
+      type: object
+      title: io.ad.catalog.api.model.SingleCategoryResultHandlingConfig
+      required:
+      - sampleOnly
+      - storeResult
+      properties:
+        sampleOnly:
+          type: boolean
+        storeResult:
+          type: boolean
+    DefaultPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig
+    RuleConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleConfig
+      required:
+      - ruleId
+      properties:
+        categoriesPersistenceConfig:
+          $ref: '#/components/schemas/PolicyPersistencePathConfig'
+        categoriesResultHandlingConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CategoriesResultHandlingConfig'
+          - type: 'null'
+        id:
+          type: integer
+        persistenceFolderPrefix:
+          type:
+          - string
+          - 'null'
+        ruleId:
+          type: integer
+    CustomPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.CustomPolicyPersistencePathConfig
+      required:
+      - categoriesConfig
+      properties:
+        categoriesConfig:
+          $ref: '#/components/schemas/CategoriesPersistenceConfig'
+    PolicyPersistencePathConfig:
+      type:
+      - object
+      - 'null'
+      title: io.ad.catalog.api.model.PolicyPersistencePathConfig
+      oneOf:
+      - $ref: '#/components/schemas/CustomPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/SavedPolicyPersistencePathConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.CustomPolicyPersistencePathConfig: '#/components/schemas/CustomPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.SavedPolicyPersistencePathConfig: '#/components/schemas/SavedPolicyPersistencePathConfig'
+    CategoriesPersistenceConfig:
+      type: object
+      title: io.ad.catalog.api.model.CategoriesPersistenceConfig
+      required:
+      - bad
+      - good
+      properties:
+        bad:
+          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
+        good:
+          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/MetadataPersistenceConfig'
+          - type: 'null'
+    CategoriesResultHandlingConfig:
+      type: object
+      title: io.ad.catalog.api.model.CategoriesResultHandlingConfig
+      required:
+      - bad
+      - good
+      properties:
+        bad:
+          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
+        good:
+          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
+    SavedPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.SavedPolicyPersistencePathConfig
+      required:
+      - configId
+      properties:
+        configId:
+          type: integer
+    MetadataPersistenceConfig:
+      type: object
+      title: io.ad.catalog.api.model.MetadataPersistenceConfig
+      required:
+      - suffixTemplate
+      properties:
+        suffixTemplate:
+          type: string

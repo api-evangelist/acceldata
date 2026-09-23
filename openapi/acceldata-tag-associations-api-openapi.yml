@@ -1,0 +1,244 @@
+openapi: 3.2.0
+info:
+  title: Tag Services Tag Associations API
+  description: Create and manage tag keys and values, search across tagged key/value pairs, and associate or retrieve unified tags on catalog entities (assets, policies, rules, rulesets, UDFs, and labelers).
+  version: 1.0.0
+tags:
+- name: Tag Associations
+  description: Unified tag association endpoints (associate tags with, and read tags for, catalog entities)
+paths:
+  /catalog-server/api/tag-associations:
+    post:
+      operationId: associateTags
+      tags:
+      - Tag Associations
+      summary: Associate tags with an entity
+      description: 'Associates one or more unified tags (by their tag key-value IDs) with an entity such as an
+
+        asset, policy, rule, ruleset, UDF, or labeler.
+
+
+        This is part of the unified Tag Associations API that replaces the legacy asset/rule tag
+
+        endpoints. Associations created through this endpoint are recorded with source `MANUAL`.
+
+
+        **Authorization**: requires the `TAGS_CREATE` feature permission, plus the view permission for
+
+        the target `entityType` — e.g. `POLICY` additionally requires `POLICY_GROUP_VIEW` and
+
+        (resource-scoped) `POLICY_VIEW`; `ASSET` additionally requires `ASSET_VIEW`.
+
+
+        ### Request body
+
+
+        `AssociateTagsRequest`:
+
+
+        - `entityId` (number): ID of the entity to tag.
+
+        - `entityType` (string): one of `ASSET`, `POLICY`, `BULK_POLICY_RULE`, `BULK_POLICY_RULESET`,
+
+        `POLICY_RULE_ITEM`, `RECONCILIATION_COLUMN_MAPPING`, `USER_DEFINED_FUNCTION`, `LABELER`.
+
+        - `keyValueIds` (array of number): the tag key-value IDs to associate.
+
+
+        ### Response
+
+
+        `AssociateTagsResponse`:
+
+
+        - `created` (array): the tags that were successfully associated (`TagDetail`).
+
+        - `errors` (array): key-value IDs that could not be associated, each with a `code` and `message`.'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Entity and tag key-value IDs to associate. Schema: `AssociateTagsRequest`.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssociateTagsRequest'
+      responses:
+        '200':
+          description: Association result with created tags and any errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssociateTagsResponse'
+  /catalog-server/api/tag-associations/entity/{entityId}:
+    get:
+      operationId: getTagsForEntity
+      tags:
+      - Tag Associations
+      summary: Get tags for an entity
+      description: 'Returns all unified tag associations for a single entity (asset, policy, rule, ruleset, UDF,
+
+        or labeler), with each tag''s key and value names resolved.
+
+
+        This is part of the unified Tag Associations API that replaces the legacy per-entity tag endpoints.
+
+
+        **Authorization**: requires the `TAGS_VIEW` feature permission.
+
+
+        ### Query parameters
+
+
+        - `entityType` (**required**): the type of the entity identified by `entityId`. One of
+
+        `ASSET`, `POLICY`, `BULK_POLICY_RULE`, `BULK_POLICY_RULESET`, `POLICY_RULE_ITEM`,
+
+        `RECONCILIATION_COLUMN_MAPPING`, `USER_DEFINED_FUNCTION`, `LABELER`.
+
+
+        ### Response
+
+
+        Returns a list of resolved `TagDetail` objects, each with `keyValueId`, `keyId`, `keyName`,
+
+        `valueName`, `keyType`, and `valueStatus`.'
+      parameters:
+      - name: entityId
+        in: path
+        description: Entity ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: entityType
+        in: query
+        description: 'Entity type of the entity identified by `entityId` (required). One of `ASSET`, `POLICY`,
+
+          `BULK_POLICY_RULE`, `BULK_POLICY_RULESET`, `POLICY_RULE_ITEM`, `RECONCILIATION_COLUMN_MAPPING`,
+
+          `USER_DEFINED_FUNCTION`, `LABELER`.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of resolved tag associations for the entity
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagDetail'
+components:
+  schemas:
+    AssociateTagsRequest:
+      type: object
+      title: AssociateTagsRequest
+      required:
+      - entityId
+      - entityType
+      - keyValueIds
+      properties:
+        entityId:
+          type: integer
+        entityType:
+          type: string
+        keyValueIds:
+          type: array
+          items:
+            type: integer
+    TagDetail:
+      type: object
+      title: TagDetail
+      required:
+      - keyValueId
+      properties:
+        keyId:
+          type: integer
+        keyName:
+          type:
+          - string
+          - 'null'
+        keyType:
+          type:
+          - string
+          - 'null'
+        keyValueId:
+          type: integer
+        valueName:
+          type:
+          - string
+          - 'null'
+        valueStatus:
+          type:
+          - string
+          - 'null'
+    AssociateTagsResponse:
+      type: object
+      title: AssociateTagsResponse
+      required:
+      - created
+      - errors
+      properties:
+        created:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagDetail'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidTagError'
+    InvalidTagError:
+      type: object
+      title: InvalidTagError
+      required:
+      - code
+      - keyValueId
+      - message
+      properties:
+        code:
+          type: string
+        keyValueId:
+          type: integer
+        message:
+          type: string

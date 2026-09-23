@@ -1,0 +1,161 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset Activity API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset Activity
+paths:
+  /catalog-server/api/assets/{id}/activity:
+    get:
+      operationId: getAssetActivity
+      tags:
+      - Asset Activity
+      summary: Get asset activity
+      description: 'This endpoint returns the total number of upvotes and downvotes for an asset using the asset''s `id`.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        ### Response
+
+
+        Returns `AssetActivityInfo` with upvote/downvote counts.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Asset activity log
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetActivityInfo'
+        '404':
+          description: Either the asset is not present, or the user doesn't have permissions to perform the operation.
+  /catalog-server/api/assets/{id}/comments:
+    get:
+      operationId: getAssetComments
+      tags:
+      - Asset Activity
+      summary: Get asset comments
+      description: 'This endpoint retrieves all the comments mentioned for a specific asset identified by its `id`.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        ### Response
+
+
+        Returns `AssetCommentResponse` containing the list of comments for the asset.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetCommentResponse'
+        '404':
+          description: Either the asset is not present, or the user doesn't have permissions to perform the operation.
+components:
+  schemas:
+    AssetActivityInfo:
+      type: object
+      title: io.ad.catalog.api.model.AssetActivityInfo
+      required:
+      - commentCount
+      - downVoteCount
+      - upVoteCount
+      properties:
+        commentCount:
+          type: integer
+        downVoteCount:
+          type: integer
+        downvoted:
+          type: boolean
+        upVoteCount:
+          type: integer
+        upvoted:
+          type: boolean
+    AssetComment:
+      type: object
+      title: io.ad.catalog.api.model.AssetComment
+      required:
+      - comment
+      properties:
+        comment:
+          type: string
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        userName:
+          type:
+          - string
+          - 'null'
+    AssetCommentResponse:
+      type: object
+      title: io.ad.catalog.api.model.AssetCommentResponse
+      required:
+      - comments
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetComment'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime

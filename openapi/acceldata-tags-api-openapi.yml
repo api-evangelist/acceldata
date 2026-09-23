@@ -1,0 +1,407 @@
+openapi: 3.2.0
+info:
+  title: Tag Services Tags API
+  description: Create and manage tag keys and values, search across tagged key/value pairs, and associate or retrieve unified tags on catalog entities (assets, policies, rules, rulesets, UDFs, and labelers).
+  version: 1.0.0
+tags:
+- name: Tags
+  description: Create tag keys, add values to a key, and search across tag key/value pairs.
+paths:
+  /api/tags/v1:
+    post:
+      tags:
+      - Tags
+      summary: Create Tag Key
+      description: Creates a new tag key (GOVERNED or USER) and, when provided, its initial set of string values. Returns the created key together with all of its values.
+      operationId: PublicTagService_CreateTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagResponseProto'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+  /api/tags/v1/keys/{keyId}/values:
+    post:
+      tags:
+      - Tags
+      summary: Add Values to a Tag Key
+      description: Appends one or more new string values to the tag key identified by `keyId` in the path. Returns the newly created values.
+      operationId: PublicTagService_AddValuesToKey
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddValuesToKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagValuesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /api/tags/v1/search:
+    get:
+      tags:
+      - Tags
+      summary: Search Tag Key/Value Pairs
+      description: Returns a paginated list of resolved key/value pairs, optionally filtered by key attributes (name, type, status, IDs, creator) and value attributes (value text, status, data-protection, IDs, creator).
+      operationId: PublicTagService_SearchKeyValues
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: sortBy
+        in: query
+        schema:
+          type: string
+      - name: keyName
+        in: query
+        description: Key filters
+        schema:
+          type: string
+      - name: keyType
+        in: query
+        schema:
+          type: string
+      - name: keyStatus
+        in: query
+        schema:
+          type: string
+      - name: keyIds
+        in: query
+        schema:
+          type: string
+      - name: keyCreatedBy
+        in: query
+        schema:
+          type: string
+      - name: value
+        in: query
+        description: Value filters
+        schema:
+          type: string
+      - name: valueStatus
+        in: query
+        schema:
+          type: string
+      - name: dataProtection
+        in: query
+        schema:
+          type: string
+      - name: keyValueIds
+        in: query
+        schema:
+          type: string
+      - name: valueCreatedBy
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchKeyValuesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+components:
+  schemas:
+    GoogleProtobufAny:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+    TagKeyValuePairProto:
+      type: object
+      properties:
+        keyId:
+          type: string
+        keyName:
+          type: string
+        keyType:
+          enum:
+          - UNSPECIFIED_TYPE
+          - GOVERNED
+          - USER
+          type: string
+          format: enum
+        keyStatus:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        keyValueId:
+          type: string
+        value:
+          type: string
+        valueStatus:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        dataProtection:
+          type: boolean
+        valueCreatedBy:
+          type: string
+        valueCreatedAt:
+          type: string
+    TagResponseProto:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/TagKeyProto'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagValueProto'
+    TagValueProto:
+      type: object
+      properties:
+        keyValueId:
+          type: string
+        keyId:
+          type: string
+        value:
+          type: string
+        dataProtection:
+          type: boolean
+        status:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        mergedIntoId:
+          type: string
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        tenantId:
+          type: string
+    AddValuesToKeyRequest:
+      type: object
+      properties:
+        keyId:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    CreateTagRequest:
+      type: object
+      properties:
+        key:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+        type:
+          enum:
+          - UNSPECIFIED_TYPE
+          - GOVERNED
+          - USER
+          type: string
+          format: enum
+        keyDescription:
+          type: string
+    TagKeyProto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          enum:
+          - UNSPECIFIED_TYPE
+          - GOVERNED
+          - USER
+          type: string
+          format: enum
+        description:
+          type: string
+        status:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        mergedIntoId:
+          type: string
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        tenantId:
+          type: string
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleProtobufAny'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    SearchKeyValuesResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagKeyValuePairProto'
+        total:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+    TagValuesResponse:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagValueProto'

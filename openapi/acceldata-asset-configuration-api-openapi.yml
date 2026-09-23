@@ -1,0 +1,93 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset Configuration API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset Configuration
+paths:
+  /catalog-server/api/assets/{id}/incremental-strategies:
+    get:
+      operationId: getIncrementalStrategies
+      tags:
+      - Asset Configuration
+      summary: Get incremental profiling strategies
+      description: 'This endpoint makes an HTTP GET request to retrieve the incremental strategies for a specific asset. The response will be a JSON object with an array of "strategies", where each strategy object contains the "description", "name", and "type" properties.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        ### Response
+
+
+        Returns `IncrementalStrategiesResponse` with the available strategies for the asset.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of incremental strategies
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncrementalStrategiesResponse'
+components:
+  schemas:
+    IncrementalStrategiesResponse:
+      type: object
+      title: io.ad.catalog.api.model.IncrementalStrategiesResponse
+      required:
+      - incremental
+      - selective
+      properties:
+        incremental:
+          $ref: '#/components/schemas/Strategies'
+        selective:
+          $ref: '#/components/schemas/Strategies'
+    Strategies:
+      type: object
+      title: io.ad.catalog.api.model.Strategies
+      required:
+      - strategies
+      properties:
+        strategies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Strategy'
+    Strategy:
+      type: object
+      title: io.ad.catalog.api.model.Strategy
+      required:
+      - description
+      - name
+      - type
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        type:
+          type: string

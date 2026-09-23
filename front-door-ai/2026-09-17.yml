@@ -1,0 +1,36 @@
+# Front Door AI Index — acceldata — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: acceldata
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.acceldata.io
+  final_host: www.acceldata.io
+  ownership: own
+  owner: acceldata
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 96
+  host_score: 96
+  density: 26.05
+  words: 3685
+  tiers:
+    agentic: 27
+    core: 67
+    model: 2
+  ambiguous: 49
+  top_terms:
+    AI: 57
+    agent: 47
+    agentic: 11
+    LLMs: 10
+    prompts: 6
+    AI agent: 3
+    MCP: 2
+    OpenAI: 2
+    automation: 2
+    copilot: 2
+    inference: 2
+    autonomous agent: 1

@@ -1,0 +1,127 @@
+openapi: 3.2.0
+info:
+  title: Catalog Rule Tags API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Rule Tags
+paths:
+  /catalog-server/api/rules/{id}/tag:
+    post:
+      operationId: addRuleTag
+      tags:
+      - Rule Tags
+      summary: Add a single tag to a rule
+      description: 'This endpoint is used to add a tag to a specific policy by making an HTTP POST request to the provided URL.
+
+
+        #### Request Body
+
+
+        The request body should be in raw JSON format and include the following parameter:
+
+
+        - `ruleTag.name` (string, required): The name of the tag to be added to the policy.
+
+
+        #### Response
+
+
+        Upon a successful request, the response will include the following parameters:
+
+
+        - `id` (number): The ID of the tag.
+
+
+        - `name` (string): The name of the tag.
+
+
+        - `ruleId` (number): The ID of the rule.
+
+
+        - `tagId` (number): The ID of the tag.
+
+
+        - `tenantId` (string): The ID of the tenant.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.
+
+
+        **Request body**: `RuleTagRequest` with nested `ruleTag.name` (required). Other `ruleTag`
+
+        fields are optional; server sets `ruleId` from the path.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Tag to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleTagRequest'
+      responses:
+        '200':
+          description: Created rule tag association
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleTag'
+        '400':
+          description: Bad Request — missing or non-numeric id
+components:
+  schemas:
+    RuleTag:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleTag
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        ruleId:
+          type: integer
+        tagId:
+          type: integer
+        tenantId:
+          type:
+          - string
+          - 'null'
+    RuleTagRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleTagRequest
+      required:
+      - ruleTag
+      properties:
+        ruleTag:
+          $ref: '#/components/schemas/RuleTag'

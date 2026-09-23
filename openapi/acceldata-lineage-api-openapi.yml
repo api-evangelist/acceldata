@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Acceldata - Data Observability Cloud Alerts Lineage API
+  title: Acceldata - Data Observability Cloud Lineage API
   description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
   version: 1.0.0
   contact:
@@ -83,22 +83,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
     LineageGraph:
       type: object
       description: Data lineage graph for a dataset
@@ -121,6 +105,22 @@ components:
           description: Downstream data consumers
           items:
             $ref: '#/components/schemas/LineageNode'
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
     LineageNode:
       type: object
       description: A node in the data lineage graph

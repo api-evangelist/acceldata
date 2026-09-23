@@ -1,0 +1,66 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset Types API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset Types
+paths:
+  /catalog-server/api/asset-types:
+    get:
+      operationId: listAssetTypes
+      tags:
+      - Asset Types
+      summary: List all asset types
+      description: 'This endpoint retrieves a list of supported asset types.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        **Query parameters**:
+
+
+        - `onlyCrawledAssetTypes` (boolean, optional, default false): When true, return only asset types that have been crawled in the tenant.
+
+
+        ### Response
+
+
+        Returns `StandardResponse>` containing all supported asset type definitions (or crawled subset when filtered).'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: onlyCrawledAssetTypes
+        in: query
+        description: Return only asset types that have been crawled (default false)
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: List of asset types wrapped in StandardResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: object

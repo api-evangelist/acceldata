@@ -1,0 +1,521 @@
+openapi: 3.2.0
+info:
+  title: Admin User Management API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: User Management
+  description: Create, retrieve, update, and remove users, and manage their group memberships. Users provisioned through SCIM are synced from the identity provider and have restricted edit and delete operations.
+paths:
+  /admin/api/users/list:
+    get:
+      operationId: listUsers
+      tags:
+      - User Management
+      summary: List all users (paginated with metadata)
+      description: 'Returns a paginated list of users in the tenant with full metadata.
+
+        Supports filtering by search string, user IDs, and enabled status.'
+      parameters:
+      - name: first
+        in: query
+        description: 'Starting index for pagination (default: 0)'
+        schema:
+          type: string
+      - name: max
+        in: query
+        description: 'Maximum number of users to return (default: 10)'
+        schema:
+          type: string
+      - name: searchString
+        in: query
+        description: Filter users by name or email
+        schema:
+          type: string
+      - name: ids
+        in: query
+        description: Comma-separated user IDs to fetch
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        description: Filter by enabled status (true/false)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of users with metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllRealmUsersListResponse'
+  /admin/api/users/count:
+    get:
+      operationId: getUserCount
+      tags:
+      - User Management
+      summary: Get user count
+      description: Returns the total number of users in the tenant.
+      parameters:
+      - name: searchString
+        in: query
+        description: Optional search filter to count matching users
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Integer representing the total user count
+          content:
+            application/json:
+              schema:
+                type: integer
+  /admin/api/users/{userId}:
+    put:
+      operationId: updateUser
+      tags:
+      - User Management
+      summary: Update a user
+      description: 'Updates user details. Requires MODIFY_USERS permission or matching user identity.
+
+        SCIM-managed users cannot be modified.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated user details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '403':
+          description: Cannot modify SCIM-managed or identity-provider-managed user
+        '500':
+          description: Failed to update user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+    get:
+      operationId: getUser
+      tags:
+      - User Management
+      summary: Get a user by ID
+      description: 'Returns user details for the specified user ID.
+
+        Requires VIEW_USERS, VIEW_USER_GROUPS, or VIEW_ROLE permission, or matching user identity.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '403':
+          description: Insufficient permissions
+  /admin/api/users/{userId}/remove-user:
+    delete:
+      operationId: removeUser
+      tags:
+      - User Management
+      summary: Remove a user
+      description: 'Disables and removes a user from the tenant. Requires MODIFY_USERS permission.
+
+        SCIM-managed users cannot be removed. Users cannot remove their own account.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '403':
+          description: Cannot modify SCIM-managed user
+        '500':
+          description: Failed to remove user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /admin/api/users/{userId}/assign-groups:
+    put:
+      operationId: assignUserGroups
+      tags:
+      - User Management
+      summary: Assign groups to a user
+      description: 'Assigns one or more groups to the specified user.
+
+        Requires MODIFY_USER_GROUPS and VIEW_USERS permissions.
+
+        SCIM-managed users and groups cannot be modified.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Group assignment request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignUserGroupRequest'
+      responses:
+        '200':
+          description: Groups assigned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '403':
+          description: Cannot modify SCIM-managed user or group assignments
+        '500':
+          description: Failed to assign groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /admin/api/users/{userId}/remove-groups:
+    put:
+      operationId: removeUserGroups
+      tags:
+      - User Management
+      summary: Remove groups from a user
+      description: 'Removes one or more group assignments from the specified user.
+
+        Requires MODIFY_USER_GROUPS and VIEW_USERS permissions.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Group removal request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignUserGroupRequest'
+      responses:
+        '200':
+          description: Groups removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '403':
+          description: Cannot modify SCIM-managed user or group assignments
+        '500':
+          description: Failed to remove groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /admin/api/users/{userId}/groups:
+    get:
+      operationId: getUserGroupsByUserId
+      tags:
+      - User Management
+      summary: Get groups for a user
+      description: 'Returns groups the specified user belongs to.
+
+        Requires VIEW_USER_GROUPS permission or matching user identity.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of groups for the user
+        '403':
+          description: Cannot view groups of another user
+components:
+  schemas:
+    GroupRepresentation:
+      type: object
+      title: GroupRepresentation
+      required:
+      - id
+      - name
+      - description
+      - path
+      - parentId
+      - subGroupCount
+      - subGroups
+      - attributes
+      - realmRoles
+      - clientRoles
+      - access
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        subGroupCount:
+          type: integer
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    AssignUserGroupRequest:
+      type: object
+      title: AssignUserGroupRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignUserGroup'
+    Metadata:
+      type: object
+      title: Metadata
+      required:
+      - createdAt
+      - createdBy
+      - numberOfDirectGroupsAssigned
+      - numberOfDirectUsersAssigned
+      - numberOfDomainUserGroupAssigned
+      properties:
+        createdAt:
+          type: integer
+        createdBy:
+          type: string
+        numberOfDirectGroupsAssigned:
+          type: integer
+        numberOfDirectUsersAssigned:
+          type: integer
+        numberOfDomainUserGroupAssigned:
+          type: integer
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    Role:
+      type: object
+      title: Role
+      required:
+      - id
+      - name
+      properties:
+        default:
+          type: boolean
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    AssignUserGroup:
+      type: object
+      title: AssignUserGroup
+      required:
+      - groups
+      properties:
+        groups:
+          type: array
+          items:
+            type: string
+    Meta:
+      type: object
+      title: Meta
+      required:
+      - page
+      - size
+      - total
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    User:
+      type: object
+      title: User
+      required:
+      - scimManaged
+      properties:
+        actionsPending:
+          type: integer
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdOn:
+          type: integer
+        email:
+          type:
+          - string
+          - 'null'
+        enabled:
+          type: boolean
+        environment:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        firstName:
+          type:
+          - string
+          - 'null'
+        goal:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        groups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        isEmailVerified:
+          type: boolean
+        lastAccessOn:
+          type: integer
+        lastName:
+          type:
+          - string
+          - 'null'
+        organisation:
+          type:
+          - string
+          - 'null'
+        password:
+          type:
+          - string
+          - 'null'
+        roles:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Role'
+        scimManaged:
+          type: boolean
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        updatedBy:
+          type:
+          - string
+          - 'null'
+        updatedOn:
+          type: integer
+        userId:
+          type:
+          - string
+          - 'null'
+    AllRealmUsersListResponse:
+      type: object
+      title: AllRealmUsersListResponse
+      required:
+      - message
+      - meta
+      - status
+      properties:
+        message:
+          type: string
+        meta:
+          $ref: '#/components/schemas/Meta'
+        status:
+          type: boolean
+        users:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/User'

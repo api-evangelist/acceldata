@@ -1,0 +1,387 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset UDF Variables API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset UDF Variables
+paths:
+  /catalog-server/api/assets/{id}/udf-variables:
+    post:
+      operationId: createAssetUdfVariable
+      tags:
+      - Asset UDF Variables
+      summary: Create a UDF variable for an asset
+      description: 'This endpoint makes an HTTP POST request to create a user-defined field (UDF) variable for a specific asset.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `USER_DEFINED_FUNCTION_CREATE` (feature permission).
+
+
+        #### Request Body
+
+
+        - `assetId` (number, optional): The ID of the asset (path `id` sets scope when omitted).
+
+        - `key` (string): The key or name of the UDF variable.
+
+        - `value` (string): The value associated with the UDF variable.
+
+
+        Schema: `AssetUDFVariableRequest`.
+
+
+        #### Response Body
+
+
+        The response body contains the created `AssetUDFVariable` record.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'UDF variable definition (key, value; assetId optional). Schema: `AssetUDFVariableRequest`.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetUDFVariableRequest'
+      responses:
+        '200':
+          description: Created UDF variable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetUDFVariable'
+        '422':
+          description: 'Could not create Asset Udf Variable : {message}'
+    get:
+      operationId: getAssetUdfVariables
+      tags:
+      - Asset UDF Variables
+      summary: List UDF variables for an asset
+      description: 'This endpoint retrieves the user-defined variables for a specific asset.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `USER_DEFINED_FUNCTION_VIEW` (feature permission).
+
+
+        ### Response
+
+
+        Returns `AssetUDFVariableResponse` containing all UDF variables scoped to the asset.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of UDF variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetUDFVariableResponse'
+        '422':
+          description: 'Could not fetch Asset Udf Variables: {message}'
+  /catalog-server/api/assets/{id}/udf-variables/{variableId}:
+    put:
+      operationId: updateAssetUdfVariable
+      tags:
+      - Asset UDF Variables
+      summary: Update a UDF variable for an asset
+      description: 'This endpoint allows the user to update a specific user-defined field variable for a particular asset.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `USER_DEFINED_FUNCTION_MODIFY` (feature permission).
+
+
+        #### Request Body
+
+
+        - `key` (string, optional): The key of the user-defined field variable.
+
+        - `value` (string, optional): The value of the user-defined field variable.
+
+
+        Schema: `AssetUDFVariableRequest`.
+
+
+        #### Response
+
+
+        Returns the updated `AssetUDFVariable`.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: variableId
+        in: path
+        description: Variable ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Updated UDF variable definition. Schema: `AssetUDFVariableRequest`.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetUDFVariableRequest'
+      responses:
+        '200':
+          description: Updated UDF variable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetUDFVariable'
+        '404':
+          description: Asset Udf Variable {variableId} not found
+        '422':
+          description: 'Could not update Asset Udf Variable: {message}'
+    delete:
+      operationId: deleteAssetUdfVariable
+      tags:
+      - Asset UDF Variables
+      summary: Delete a UDF variable from an asset
+      description: 'This endpoint deletes a specific user-defined function (UDF) variable for a particular asset by its `variableId`.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `USER_DEFINED_FUNCTION_MODIFY` (feature permission).'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: variableId
+        in: path
+        description: Variable ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: UDF variable deleted successfully
+        '404':
+          description: Asset UDF variable with id {variableId} not found
+    get:
+      operationId: getAssetUdfVariable
+      tags:
+      - Asset UDF Variables
+      summary: Get a specific UDF variable for an asset
+      description: 'This endpoint retrieves user-defined variables for a specific asset using the asset `ID` and `variableId` with this endpoint.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `USER_DEFINED_FUNCTION_VIEW` (feature permission).
+
+
+        ### Response
+
+
+        Returns `AssetUDFVariable` with the variable key, value, and identifiers.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: variableId
+        in: path
+        description: Variable ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: UDF variable details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetUDFVariable'
+        '404':
+          description: Asset Udf Variable {variableId} not found
+        '422':
+          description: 'Could not fetch Asset Udf Variable: {message}'
+components:
+  schemas:
+    AssetUDFVariableResponse:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariableResponse
+      required:
+      - assetId
+      - variables
+      properties:
+        assetId:
+          type: integer
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetUDFVariableChild'
+    AssetUDFVariableChild:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariableChild
+      required:
+      - id
+      - key
+      - value
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+    AssetUDFVariableRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariableRequest
+      required:
+      - key
+      - value
+      properties:
+        assetId:
+          type: integer
+        key:
+          type: string
+        uid:
+          type:
+          - string
+          - 'null'
+        value:
+          type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    AssetUDFVariable:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariable
+      required:
+      - assetId
+      - createdAt
+      - id
+      - key
+      - updatedAt
+      - value
+      properties:
+        assetId:
+          type: integer
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        id:
+          type: integer
+        key:
+          type: string
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        value:
+          type: string

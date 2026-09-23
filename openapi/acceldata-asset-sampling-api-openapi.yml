@@ -1,0 +1,274 @@
+openapi: 3.2.0
+info:
+  title: Catalog Asset Sampling API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Asset Sampling
+paths:
+  /catalog-server/api/assets/{id}/sample/async:
+    post:
+      operationId: requestAssetSampleAsync
+      tags:
+      - Asset Sampling
+      summary: Request an async sample of asset data
+      description: 'This endpoint initiates an asynchronous request to retrieve sample data of a specified asset by its `id`. If the sample data is not cached, the API returns a job execution status of IN_PROGRESS along with a `requestId`. The client needs to poll the `catalog-server/api/assets/sample/result/{requestId}` endpoint until the job execution status is SUCCESSFUL. Once the result is cached or the job status is SUCCESSFUL, the API retrieves the first 100 rows of the asset''s sample data.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        ### Request Body
+
+
+        Optional `SampleDataWithTransformUDFsRequest`:
+
+
+        - `invalidateCache` (boolean): Specifies whether the cache should be invalidated. If set to `true`, the API bypasses any cached sample data and initiates a fresh sample generation. If set to `false`, cached data (if available) will be used.
+
+        - Transform UDF fields may also be supplied to apply transformations during sampling.
+
+
+        ### Response
+
+
+        Returns `SampleDataApiResponse` with job status and, when complete, sample rows.'
+      parameters:
+      - name: id
+        in: path
+        description: Asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: 'Sample data request with optional transform UDFs and `invalidateCache` flag.
+
+          Schema: `SampleDataWithTransformUDFsRequest`.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SampleDataWithTransformUDFsRequest'
+      responses:
+        '200':
+          description: Sample data response with job status and optional sample rows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleDataApiResponse'
+  /catalog-server/api/assets/sample/result/{requestId}:
+    get:
+      operationId: getAssetSampleResult
+      tags:
+      - Asset Sampling
+      summary: Get sample data result
+      description: 'This endpoint retrieves the status and results of a sample data request, triggered by the `POST /catalog-server/api/assets/{id}/sample/async` endpoint.
+
+
+        This process involves the following steps:
+
+
+        1. **Poll for Status**: Use the `requestId` to poll the status of the job by making GET requests to the endpoint `catalog-server/api/assets/sample/result/{requestId}`.
+
+        2. **Retrieve Sample Data**: Continue polling until the job execution status is `SUCCESSFUL`. Once successful, the API will retrieve and return the first 100 rows of the asset''s sample data.
+
+
+        **Authorization**: requires `ASSET_VIEW`.
+
+
+        ### Response
+
+
+        Returns `SampleDataApiResponse` containing execution status and sample data when available.'
+      parameters:
+      - name: requestId
+        in: path
+        description: Sample request ID
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Sample data result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleDataApiResponse'
+        '404':
+          description: 'Dataplane job not found for requestId: {requestId}'
+components:
+  schemas:
+    PolicyTransformUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      required:
+      - assetId
+      - name
+      - parameters
+      - udfId
+      properties:
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    SampleDataWithTransformUDFsRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
+      required:
+      - enableSyncForPushdown
+      - filterAssetSelections
+      - invalidateCache
+      - transformUDFs
+      properties:
+        enableSyncForPushdown:
+          type: boolean
+        filter:
+          type:
+          - string
+          - 'null'
+        filterAssetSelections:
+          type: boolean
+        invalidateCache:
+          type: boolean
+        transformUDFs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+    Any:
+      type: object
+      title: kotlin.Any
+    File:
+      type: object
+      title: java.io.File
+      required:
+      - path
+      - status
+      - prefixLength
+      - filePath
+      properties:
+        path:
+          type: string
+        status:
+          type: string
+          enum:
+          - INVALID
+          - CHECKED
+        prefixLength:
+          type: integer
+        filePath:
+          type: array
+          items:
+            type: object
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    SampleDataApiResponse:
+      type: object
+      title: io.ad.torch.client.analysis.models.SampleDataApiResponse
+      properties:
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type:
+          - string
+          - 'null'
+        file:
+          oneOf:
+          - $ref: '#/components/schemas/File'
+          - type: 'null'
+        jobExecutionStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - WAITING
+          - SKIPPED
+          - SUBMITTED
+          - QUEUED
+          - IN_PROGRESS
+          - ABORTED
+          - FAILED
+          - POSTPROCESSING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+          - SUCCESSFUL
+        requestId:
+          type:
+          - string
+          - 'null'
+        sampleData:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/Any'

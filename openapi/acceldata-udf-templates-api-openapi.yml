@@ -1,0 +1,897 @@
+openapi: 3.2.0
+info:
+  title: Catalog UDF Templates API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: UDF Templates
+paths:
+  /catalog-server/api/udf/template:
+    post:
+      operationId: createUdfTemplate
+      tags:
+      - UDF Templates
+      summary: Create a UDF template
+      description: 'This endpoint creates a new UDF (User Defined Function) template with the provided details.
+
+
+        #### Request Body
+
+
+        - `name` (string): The name of the UDF template.
+
+
+        - `description` (string): Description of the UDF template.
+
+
+        - `language` (string): The programming language of the UDF.
+
+
+        - `code` (string): The code implementation of the UDF.
+
+
+        - `udfType` (string): Type of the UDF.
+
+
+        - `udfDataType` (string): Data type of the UDF.
+
+
+        - `isTemplate` (boolean): Indicates if the UDF is a template.
+
+
+        - `isPackage` (boolean): Indicates if the UDF is a package.
+
+
+        - `isMetadata` (boolean): Indicates if the UDF is metadata.
+
+
+        #### Response
+
+
+        - `className` (string): The class name of the UDF.
+
+
+        - `code` (string): The code implementation of the UDF.
+
+
+        - `createdAt` (string): Date and time of creation.
+
+
+        - `createdBy` (string): Creator of the UDF.
+
+
+        - `description` (string): Description of the UDF.
+
+
+        - `id` (number): Unique identifier of the UDF.
+
+
+        - `isLookup` (boolean): Indicates if the UDF is a lookup.
+
+
+        - `isMetadata` (boolean): Indicates if the UDF is metadata.
+
+
+        - `isPackage` (boolean): Indicates if the UDF is a package.
+
+
+        - `isTemplate` (boolean): Indicates if the UDF is a template.
+
+
+        - `labels` (array): Array of labels associated with the UDF.
+
+
+        - `language` (string): The programming language of the UDF.
+
+
+        - `lastUpdatedBy` (string): Last user who updated the UDF.
+
+
+        - `name` (string): The name of the UDF.
+
+
+        - `packageId` (number): Unique identifier of the package associated with the UDF.
+
+
+        - `packageUdfDetail` (object): Details of the package associated with the UDF.
+
+
+        - `referenceAssets` (array): Array of reference assets associated with the UDF.
+
+
+        - `udfDataType` (string): Data type of the UDF.
+
+
+        - `udfType` (string): Type of the UDF.
+
+
+        - `updatedAt` (string): Date and time of the last update.
+
+
+        - `variables` (array): Array of variables associated with the UDF.'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: UDF template definition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdfTemplateRequestWithValidation'
+      responses:
+        '200':
+          description: Created UDF template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UDFTemplate'
+        '422':
+          description: '"Could not create template"'
+    get:
+      operationId: listUdfTemplates
+      tags:
+      - UDF Templates
+      summary: List UDF templates
+      description: 'This endpoint retrieves a list of available User Defined Field (UDF) templates from the catalog server based on the provided parameters.
+
+
+        #### Response
+
+
+        The response will contain an array of UDF template objects, each with the following properties:
+
+
+        - `className` (string, nullable): The class name of the UDF.
+
+
+        - `code` (string): The code of the UDF.
+
+
+        - `createdAt` (string): The timestamp when the UDF was created.
+
+
+        - `createdBy` (string): The user who created the UDF.
+
+
+        - `description` (string): The description of the UDF.
+
+
+        - `id` (integer): The unique identifier of the UDF.
+
+
+        - `isLookup` (boolean): Indicates if the UDF is a lookup.
+
+
+        - `isMetadata` (boolean): Indicates if the UDF is metadata.
+
+
+        - `isPackage` (boolean): Indicates if the UDF is a package.
+
+
+        - `isTemplate` (boolean): Indicates if the UDF is a template.
+
+
+        - `labels` (array): An array of label objects, each with `key` (string), `labelType` (string), and `value` (string) properties.
+
+
+        - `language` (string): The language of the UDF.
+
+
+        - `lastUpdatedBy` (string): The user who last updated the UDF.
+
+
+        - `name` (string): The name of the UDF.
+
+
+        - `packageId` (integer, nullable): The unique identifier of the package associated with the UDF.
+
+
+        - `packageUdfDetail` (object, nullable): Details of the package UDF.
+
+
+        - `referenceAssets` (array): An array of reference assets.
+
+
+        - `udfDataType` (string): The data type of the UDF.
+
+
+        - `udfType` (string): The type of the UDF.
+
+
+        - `updatedAt` (string): The timestamp when the UDF was last updated.
+
+
+        - `variables` (array): An array of variables.'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: isPaginated
+        in: query
+        description: Enable pagination (default false). When true, response is wrapped in pagination metadata.
+        schema:
+          type: boolean
+      - name: page
+        in: query
+        description: Page number (0-based, default 0)
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Number of items per page (default 25)
+        schema:
+          type: integer
+      - name: sortBy
+        in: query
+        description: Sort field and direction (e.g., name:asc or createdAt:desc)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of UDF templates. Returns either List<UDFTemplate> (default) or a paginated wrapper when isPaginated=true.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UDFTemplate'
+        '422':
+          description: '"Could not fetch UDF templates"'
+  /catalog-server/api/udf/template/{id}:
+    put:
+      operationId: updateUdfTemplate
+      tags:
+      - UDF Templates
+      summary: Update a UDF template
+      description: 'This endpoint is used to update the code for an existing User Defined Function (UDF) template.
+
+
+        #### Request Body
+
+
+        - `name` (string, optional): The name of the UDF template.
+
+
+        - `description` (string, optional): Description of the UDF template.
+
+
+        - `language` (string, optional): The programming language used for the UDF template.
+
+
+        - `code` (string, required): The code to be updated for the UDF template.
+
+
+        - `udfType` (string, optional): Type of the UDF template.
+
+
+        - `udfDataType` (string, optional): Data type of the UDF template.
+
+
+        - `isTemplate` (boolean, required): Indicates if the UDF is a template.
+
+
+        - `labels` (array, optional): Labels associated with the UDF template.
+
+
+        - `isLookup` (boolean, required): Indicates if the UDF template is a lookup.
+
+
+        - `isMetadata` (boolean, required): Indicates if the UDF template is metadata.
+
+
+        - `referenceAssets` (array, optional): Array of reference assets associated with the UDF template.
+
+
+        - `referenceAssetColumns` (array, optional): Columns of the reference asset.
+
+
+        - `referenceAssetUid` (string, optional): UID of the reference asset.
+
+
+        - `referenceAssetAlias` (string, optional): Alias of the reference asset.
+
+
+        - `referenceAssetSqlFilter` (string, optional): SQL filter for the reference asset.'
+      parameters:
+      - name: id
+        in: path
+        description: UDF template ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated UDF template definition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdfTemplateRequestWithValidation'
+      responses:
+        '200':
+          description: Updated UDF template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UDFTemplate'
+        '422':
+          description: '"Could not update UDF"'
+    delete:
+      operationId: deleteUdfTemplate
+      tags:
+      - UDF Templates
+      summary: Delete a UDF template
+      description: 'This endpoint deletes a specific UDF template by its id.
+
+
+        #### Request Parameters
+
+
+        - `id` (path parameter, required): The ID of the UDF template to be deleted.
+
+
+        #### Request Body
+
+
+        This request does not require a request body.'
+      parameters:
+      - name: id
+        in: path
+        description: UDF template ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Template deleted
+        '404':
+          description: '"Template with id {id} not found"'
+    get:
+      operationId: getUdfTemplate
+      tags:
+      - UDF Templates
+      summary: Get a UDF template by ID
+      description: '### Get UDF Template by ID
+
+
+        This endpoint retrieves the UDF (User Defined Function) template by its ID.
+
+
+        **Response**
+
+        The response will include the following fields:
+
+
+        - `className` (string, nullable): The class name.
+
+
+        - `code` (string): The code.
+
+
+        - `createdAt` (string): The timestamp of creation.
+
+
+        - `createdBy` (string): The creator.
+
+
+        - `description` (string): The description.
+
+
+        - `id` (integer): The ID of the template.
+
+
+        - `isLookup` (boolean): Indicates if it is a lookup.
+
+
+        - `isMetadata` (boolean): Indicates if it is metadata.
+
+
+        - `isPackage` (boolean): Indicates if it is a package.
+
+
+        - `isTemplate` (boolean): Indicates if it is a template.
+
+
+        - `labels` (array): The labels associated with the template.
+
+
+        - `language` (string): The language used.
+
+
+        - `lastUpdatedBy` (string): The last updated by user.
+
+
+        - `name` (string): The name of the template.
+
+
+        - `packageId` (integer, nullable): The ID of the package.
+
+
+        - `packageUdfDetail` (object, nullable): Details of the package UDF.
+
+
+        - `referenceAssets` (array): List of reference assets with their details.
+
+        - `referenceAssetAlias` (string): The alias of the reference asset.
+
+
+        - `referenceAssetColumns` (array): The columns of the reference asset.
+
+
+        - `referenceAssetSqlFilter` (string): The SQL filter for the reference asset.
+
+
+        - `referenceAssetUid` (string): The UID of the reference asset.
+
+
+        - `udfDataType` (string): The data type of the UDF.
+
+
+        - `udfType` (string): The type of the UDF.
+
+
+        - `updatedAt` (string): The timestamp of the last update.
+
+
+        - `variables` (array): The variables associated with the template.'
+      parameters:
+      - name: id
+        in: path
+        description: UDF template ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: UDF template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UDFTemplate'
+        '422':
+          description: '"Could not fetch udf template"'
+components:
+  schemas:
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      required:
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
+      properties:
+        referenceAssetAlias:
+          type: string
+        referenceAssetColumns:
+          type: array
+          items:
+            type: string
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
+          type: string
+    RulesWithUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.RulesWithUDF
+      required:
+      - ruleId
+      - ruleName
+      properties:
+        ruleId:
+          type: integer
+        ruleName:
+          type: string
+    PolicyTransformUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      required:
+      - assetId
+      - name
+      - parameters
+      - udfId
+      properties:
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    Label:
+      type: object
+      title: io.ad.catalog.api.model.Label
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        labelType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
+          type: string
+    UDFTemplate:
+      type: object
+      title: io.ad.catalog.api.model.quality.UDFTemplate
+      required:
+      - code
+      - createdAt
+      - description
+      - id
+      - isLookup
+      - isMetadata
+      - isPackage
+      - isTemplate
+      - language
+      - name
+      - udfDataType
+      - udfType
+      - updatedAt
+      - usedInPolices
+      - variables
+      properties:
+        className:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        description:
+          type: string
+        id:
+          type: integer
+        isLookup:
+          type: boolean
+        isMetadata:
+          type: boolean
+        isPackage:
+          type: boolean
+        isTemplate:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        language:
+          type: string
+          enum:
+          - SCALA
+          - JAVA
+          - PYTHON
+          - JAVASCRIPT
+          - EXPRESSION
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        packageId:
+          type: integer
+        packageUdfDetail:
+          oneOf:
+          - $ref: '#/components/schemas/PackageUdfDetail'
+          - type: 'null'
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        udfDataType:
+          type: string
+          enum:
+          - BOOLEAN
+          - STRING
+          - SHORT
+          - INTEGER
+          - LONG
+          - FLOAT
+          - DOUBLE
+          - BIGDECIMAL
+          - DATE
+          - TIMESTAMP
+        udfType:
+          type: string
+          enum:
+          - FILTER
+          - TRANSFORM
+          - NUMBER
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        usedInPolices:
+          type: array
+          items:
+            $ref: '#/components/schemas/RulesWithUDF'
+        variables:
+          type: array
+          items:
+            type: string
+    PackageUdfDetail:
+      type: object
+      title: io.ad.catalog.api.model.quality.PackageUdfDetail
+      required:
+      - createdAt
+      - createdBy
+      - id
+      - language
+      - name
+      - packagePath
+      - storageType
+      - tenantId
+      - updatedAt
+      - version
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        language:
+          type: string
+          enum:
+          - SCALA
+          - JAVA
+          - PYTHON
+          - JAVASCRIPT
+          - EXPRESSION
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        packageDetail:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/Any'
+        packagePath:
+          type: string
+        storageType:
+          type: string
+        tenantId:
+          type: string
+        udtTemplates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UDFTemplate'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        version:
+          type: string
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    UdfTemplateRequestWithValidation:
+      type: object
+      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
+      required:
+      - code
+      - description
+      - isLookup
+      - isMetadata
+      - isPackage
+      - isTemplate
+      - language
+      - name
+      - override
+      - udfDataType
+      - udfType
+      - useTestData
+      - variables
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assetId:
+          type: integer
+        className:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+        description:
+          type: string
+        enableValidation:
+          type: boolean
+        isLookup:
+          type: boolean
+        isMetadata:
+          type: boolean
+        isPackage:
+          type: boolean
+        isTemplate:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        language:
+          type: string
+        name:
+          type: string
+        override:
+          type: boolean
+        packageId:
+          type: integer
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        testData:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        udfDataType:
+          type: string
+        udfType:
+          type: string
+        useTestData:
+          type: boolean
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+    Any:
+      type: object
+      title: kotlin.Any

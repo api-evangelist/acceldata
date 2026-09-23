@@ -1,0 +1,534 @@
+openapi: 3.2.0
+info:
+  title: Admin Service Users API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: Service Users
+  description: Create, retrieve, update, and manage service users — non-human identities used for automated access and system-to-system integrations in place of personal user API keys. Includes assigning roles to a service user and issuing or revoking its API keys.
+paths:
+  /admin/api/v1/service-users:
+    post:
+      operationId: createServiceUser
+      tags:
+      - Service Users
+      summary: Create a service user
+      description: Creates a new service user. Requires CREATE_SERVICE_USERS permission.
+      requestBody:
+        description: Service user creation request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceUserRequest'
+      responses:
+        '201':
+          description: Created service user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUser'
+        '400':
+          description: Invalid request
+  /admin/api/v1/service-users/list:
+    get:
+      operationId: listServiceUsers
+      tags:
+      - Service Users
+      summary: List service users
+      description: Returns a paginated list of service users. Requires VIEW_SERVICE_USERS permission.
+      parameters:
+      - name: searchString
+        in: query
+        description: Search filter
+        schema:
+          type: string
+      - name: first
+        in: query
+        description: 'Starting index (default: 0)'
+        schema:
+          type: string
+      - name: max
+        in: query
+        description: 'Maximum results (default: 10)'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of service users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUserListResponse'
+  /admin/api/v1/service-users/{serviceUserId}:
+    put:
+      operationId: updateServiceUser
+      tags:
+      - Service Users
+      summary: Update a service user
+      description: Updates a service user. Requires MODIFY_SERVICE_USERS permission.
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Service user update request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUserUpdateRequest'
+      responses:
+        '200':
+          description: Service user updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Service user not found
+    get:
+      operationId: getServiceUser
+      tags:
+      - Service Users
+      summary: Get a service user
+      description: Returns details for the specified service user. Requires VIEW_SERVICE_USERS permission.
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Service user details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUser'
+        '404':
+          description: Service user not found
+  /admin/api/v1/service-users/{serviceUserId}/add-roles:
+    put:
+      operationId: addServiceUserRoles
+      tags:
+      - Service Users
+      summary: Add roles to a service user
+      description: 'Assigns feature and domain resource roles to a service user.
+
+        Requires MODIFY_SERVICE_USERS and VIEW_ROLE permissions.'
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Roles to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUserRolesRequest'
+      responses:
+        '200':
+          description: Roles added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Service user not found
+  /admin/api/v1/service-users/{serviceUserId}/remove-roles:
+    put:
+      operationId: removeServiceUserRoles
+      tags:
+      - Service Users
+      summary: Remove roles from a service user
+      description: 'Removes feature and domain resource roles from a service user.
+
+        Requires MODIFY_SERVICE_USERS and VIEW_ROLE permissions.'
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Roles to remove
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUserRolesRequest'
+      responses:
+        '200':
+          description: Roles removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '404':
+          description: Service user not found
+  /admin/api/v1/service-users/{serviceUserId}/api-key:
+    post:
+      operationId: createServiceUserApiKey
+      tags:
+      - Service Users
+      summary: Create an API key for a service user
+      description: 'Creates an API key for the specified service user.
+
+        Requires MODIFY_SERVICE_USERS and MODIFY_API_KEYS permissions.'
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: API key creation request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUserApiKeyRequest'
+      responses:
+        '200':
+          description: Created API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyResponse'
+        '404':
+          description: Service user not found
+  /admin/api/v1/service-users/{serviceUserId}/api-key/{accessKey}:
+    delete:
+      operationId: deleteServiceUserApiKey
+      tags:
+      - Service Users
+      summary: Delete a service user API key
+      description: 'Revokes and deletes an API key for the specified service user.
+
+        Requires MODIFY_SERVICE_USERS and MODIFY_API_KEYS permissions.'
+      parameters:
+      - name: serviceUserId
+        in: path
+        description: Service user ID
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: path
+        description: API access key to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: API key deleted
+        '404':
+          description: Service user not found
+components:
+  schemas:
+    ServiceUserApiKeyRequest:
+      type: object
+      title: ServiceUserApiKeyRequest
+      required:
+      - displayName
+      - validTill
+      properties:
+        displayName:
+          type: string
+        namespace:
+          type:
+          - string
+          - 'null'
+        nid:
+          type: integer
+        niid:
+          type: integer
+        realm:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    CreateServiceUserRequest:
+      type: object
+      title: CreateServiceUserRequest
+      required:
+      - username
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        username:
+          type: string
+    EntityDomainRoleMapping:
+      type: object
+      title: EntityDomainRoleMapping
+      required:
+      - domainId
+      - entityType
+      - roleId
+      - roleType
+      properties:
+        domainId:
+          type: integer
+        entityId:
+          type:
+          - string
+          - 'null'
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        id:
+          type: integer
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    Metadata:
+      type: object
+      title: Metadata
+      required:
+      - createdAt
+      - createdBy
+      - numberOfDirectGroupsAssigned
+      - numberOfDirectUsersAssigned
+      - numberOfDomainUserGroupAssigned
+      properties:
+        createdAt:
+          type: integer
+        createdBy:
+          type: string
+        numberOfDirectGroupsAssigned:
+          type: integer
+        numberOfDirectUsersAssigned:
+          type: integer
+        numberOfDomainUserGroupAssigned:
+          type: integer
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    Role:
+      type: object
+      title: Role
+      required:
+      - id
+      - name
+      properties:
+        default:
+          type: boolean
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    ServiceUserUpdateRequest:
+      type: object
+      title: ServiceUserUpdateRequest
+      required:
+      - enabled
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        enabled:
+          type: boolean
+    ServiceUser:
+      type: object
+      title: ServiceUser
+      required:
+      - apiKeys
+      - domainRoleMappings
+      - email
+      - enabled
+      - id
+      - roles
+      - username
+      properties:
+        apiKeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyDetails'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        createdOn:
+          type: integer
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        email:
+          type: string
+        enabled:
+          type: boolean
+        id:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        updatedBy:
+          type:
+          - string
+          - 'null'
+        updatedOn:
+          type: integer
+        username:
+          type: string
+    ServiceUserListResponse:
+      type: object
+      title: ServiceUserListResponse
+      required:
+      - meta
+      - serviceUsers
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        serviceUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceUser'
+    ApiKeyDetails:
+      type: object
+      title: ApiKeyDetails
+      required:
+      - accessKey
+      - createdAt
+      - displayName
+      - email
+      - secretKey
+      - validTill
+      properties:
+        accessKey:
+          type: string
+        createdAt:
+          type: integer
+        displayName:
+          type: string
+        email:
+          type: string
+        secretKey:
+          type: string
+        userName:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    Meta:
+      type: object
+      title: Meta
+      required:
+      - page
+      - size
+      - total
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    ServiceUserRolesRequest:
+      type: object
+      title: ServiceUserRolesRequest
+      required:
+      - clientId
+      - roles
+      properties:
+        clientId:
+          type: string
+        domainRoleMappings:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ServiceUserDomainRoleMappingRequest'
+        roles:
+          type: array
+          items:
+            type: integer
+    ServiceUserDomainRoleMappingRequest:
+      type: object
+      title: ServiceUserDomainRoleMappingRequest
+      required:
+      - domainId
+      - roleId
+      properties:
+        domainId:
+          type: integer
+        roleId:
+          type: array
+          items:
+            type: integer
+    ApiKeyResponse:
+      type: object
+      title: ApiKeyResponse
+      required:
+      - accessKey
+      - displayName
+      - secretKey
+      - validTill
+      properties:
+        accessKey:
+          type: string
+        displayName:
+          type: string
+        email:
+          type:
+          - string
+          - 'null'
+        ingestKey:
+          type:
+          - string
+          - 'null'
+        secretKey:
+          type: string
+        validTill:
+          type: integer

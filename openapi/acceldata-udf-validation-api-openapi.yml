@@ -1,0 +1,344 @@
+openapi: 3.2.0
+info:
+  title: Catalog UDF Validation API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: UDF Validation
+paths:
+  /catalog-server/api/udf/template/{id}/validate/async:
+    post:
+      operationId: validateUdfTemplateAsync
+      tags:
+      - UDF Validation
+      summary: Validate a UDF template asynchronously
+      description: 'This endpoint validates an existing user-defined function (UDF) template (identified by the path `id`) against an asset or test data. The validation runs asynchronously; poll `catalog-server/api/udf/template/validate/result/:requestId` for the status and result.
+
+
+        #### Request Body
+
+
+        - `assetId` (number, optional): The ID of the asset to validate against. Required unless `useTestData` is true.
+
+
+        - `analyticsPipelineId` (number, optional): The ID of the analytics pipeline. Required when `useTestData` is true.
+
+
+        - `testData` (string, optional): Test data to validate against.
+
+
+        - `useTestData` (boolean): Whether to validate using `testData` instead of an asset.
+
+
+        - `variables` (array): UDF variable key/value pairs.
+
+
+        - `referenceAssets` (array): Reference assets for the UDF.
+
+
+        - `selectedColumns` (array): Selected columns to validate.
+
+
+        - `transformUDFs` (array): Transform UDFs applied during validation.
+
+
+        - `isCustomSql` (boolean): Whether the UDF uses custom SQL.
+
+
+        - `customSqlConfig` (object, nullable): Custom SQL configuration.'
+      parameters:
+      - name: id
+        in: path
+        description: UDF template ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Template validation request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UdfTemplateValidationRequest'
+      responses:
+        '200':
+          description: Validation job submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfValidationResult'
+        '422':
+          description: '"User request to validate with test data. Please provide test data param <testData>" / "User request to validate with test data. Please provide analytics service param <analyticsPipelineId>" / "User request to validate with Asset data. Please provide asset id param <assetId>" / "Lookup is only supported for Filter UDFs" / "Filter UDFs should be of BOOLEAN data type only" / "Analytics pipeline not found"'
+  /catalog-server/api/udf/template/validate/result/{requestId}:
+    get:
+      operationId: getUdfValidationResult
+      tags:
+      - UDF Validation
+      summary: Get UDF validation result
+      description: This endpoint is used to retrieve the status and result of a validation request triggered by the `POST catalog-server/api/udf/template/validate/async` endpoint.
+      parameters:
+      - name: requestId
+        in: path
+        description: Validation request ID
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UdfValidationResult'
+        '404':
+          description: '"Dataplane job not found for requestId: {requestId}" / "Analytics pipeline not found"'
+        '422':
+          description: '"Invalid Asset Id ''{assetId}"'
+components:
+  schemas:
+    CustomSqlConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.CustomSqlConfig
+      required:
+      - columnMetadataList
+      - columnVariables
+      - queryType
+      - ruleVersion
+      - sanitizedQuery
+      - sqlExpression
+      properties:
+        columnMetadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMetadata'
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        queryType:
+          type: string
+        ruleVersion:
+          type: integer
+        sanitizedQuery:
+          type: string
+        sqlExpression:
+          type: string
+        tableAlias:
+          type:
+          - string
+          - 'null'
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      required:
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
+      properties:
+        referenceAssetAlias:
+          type: string
+        referenceAssetColumns:
+          type: array
+          items:
+            type: string
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
+          type: string
+    ColumnMetadata:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnMetadata
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    UdfValidationResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.UdfValidationResult
+      required:
+      - jobExecutionStatus
+      - requestId
+      properties:
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        jobExecutionStatus:
+          type: string
+          enum:
+          - WAITING
+          - SKIPPED
+          - SUBMITTED
+          - QUEUED
+          - IN_PROGRESS
+          - ABORTED
+          - FAILED
+          - POSTPROCESSING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+          - SUCCESSFUL
+        requestId:
+          type: string
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+    UdfTemplateValidationRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.UdfTemplateValidationRequest
+      required:
+      - isCustomSql
+      - selectedColumns
+      - transformUDFs
+      - useTestData
+      - variables
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assetId:
+          type: integer
+        customSqlConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CustomSqlConfig'
+          - type: 'null'
+        isCustomSql:
+          type: boolean
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        selectedColumns:
+          type: array
+          items:
+            type: string
+        testData:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        useTestData:
+          type: boolean
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+    PolicyTransformUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      required:
+      - assetId
+      - name
+      - parameters
+      - udfId
+      properties:
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    Any:
+      type: object
+      title: kotlin.Any
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'

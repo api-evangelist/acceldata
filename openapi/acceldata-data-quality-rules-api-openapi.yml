@@ -1,20 +1,1537 @@
 openapi: 3.2.0
 info:
-  title: Acceldata - Data Observability Cloud Alerts Data Quality Rules API
-  description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
-  version: 1.0.0
-  contact:
-    url: https://www.acceldata.io/
-  x-generated-from: documentation
+  title: Acceldata Data Quality Rules API
+  x-refined-note:
+  - x-generated-from differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Data Quality Rules across 2 of this provider''s published API definitions: acceldata-catalog-api-openapi.json, acceldata-adoc-api.yaml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.acceldata.app/v1
   description: Acceldata ADOC API v1
-security:
-- apiKey: []
 tags:
 - name: Data Quality Rules
-  description: Manage data quality rules and monitoring policies
 paths:
+  /catalog-server/api/rules/data-quality/{identifier}:
+    get:
+      operationId: getDataQualityRule
+      tags:
+      - Data Quality Rules
+      summary: Get a data quality rule by ID or name
+      description: 'Returns details of a data quality rule by its ID or name, including child rules
+
+        and items. Optionally specify a version or request only the last executed version.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.
+
+
+        **Version selection**: optional `version` query parameter. When `onlyExecutedVersion=true` and
+
+        `version` is omitted, uses the last completed execution''s rule version. Invalid `version` values
+
+        are ignored.'
+      parameters:
+      - name: identifier
+        in: path
+        description: Policy ID (numeric) or policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: Specific policy version (optional; invalid values ignored)
+        schema:
+          type: integer
+      - name: onlyExecutedVersion
+        in: query
+        description: When true and version omitted, return last executed version
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Data quality rule with children
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '404':
+          description: 'Policy not found (identifier did not resolve), or
+
+            Data Quality rule with id {ruleId} not found'
+  /catalog-server/api/rules/data-quality/{id}/executions:
+    post:
+      operationId: triggerDataQualityExecution
+      tags:
+      - Data Quality Rules
+      summary: Trigger a data quality rule execution
+      description: 'The POST request executes a Data Quality policy by numeric rule ID.
+
+
+        #### Request Body
+
+
+        - `markerConfigs` (array): An array of marker configurations containing information about the asset, type, and column names.
+
+
+        - `assetId` (number): The ID of the asset.
+
+
+        - `markerConfig` (object, optional): Only required for SELECTIVE profiling. It is a configuration object used to define different types of bounds for policy execution selectively. The `type`attribute determines the structure and required fields of the `markerConfig` object. Below are the possible types and their configurations:
+
+
+        - Type: `TimestampBasedMarkerConfig`: This configuration is applicable to Kafka asset-based policies. It utilizes the offset associated with the specified timestamp to determine data bounds for policy execution.
+
+
+        - **type**: `"TimestampBasedMarkerConfig"` (string) - The type of the marker configuration.
+
+
+        - **format**: (string) - The format of the date values.
+
+
+        - **initialOffset**: (string) - The initial date offset for the bound.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - Type: `boundFileEvent`: Used to define bounds based on file events and dates.
+
+
+        - **type**: `"boundFileEvent"` (string) - The type of the marker configuration.
+
+
+        - **fromDate**: (string) - The start date and time for the bound, in the specified format.
+
+
+        - **toDate**: (string) - The end date and time for the bound, in the specified format.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - Type: `bound`: Used to define bounds based on an ID range.
+
+
+        - **type**: `"bound"` (string) - The type of the marker configuration.
+
+
+        - **idColumnName**: (string) - The name of the column containing ID values.
+
+
+        - **fromId**: (integer) - The start ID for the bound.
+
+
+        - **toId**: (integer) - The end ID for the bound.
+
+
+        - Type: `boundDateTime`: Used to define bounds based on date and time.
+
+
+        - **type**: `"boundDateTime"` (string) - The type of the marker configuration.
+
+
+        - **dateColumnName**: (string) - The name of the column containing date and time values.
+
+
+        - **format**: (string) - The format of the date and time values.
+
+
+        - **fromDate**: (string) - The start date and time for the bound, in the specified format.
+
+
+        - **toDate**: (string) - The end date and time for the bound, in the specified format.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - `executionType` (string): The type of execution.
+
+
+        - `ruleItemSelections` (array): An array of rule item selections.
+
+
+        - `includeInQualityScore` (boolean): A boolean value to include in the quality score.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_EXECUTE`.
+
+
+        **Request body**: `PolicyExecutionRequest` — markerConfigs, executionType, ruleItemSelections,
+
+        includeInQualityScore, sparkResourceConfig.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Execution request configuration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyExecutionRequest'
+      responses:
+        '200':
+          description: Execution details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+        '404':
+          description: Rule not found.
+        '422':
+          description: Previous execution of rule '{name}' has not completed. Not running the rule.
+    get:
+      operationId: getDataQualityExecutions
+      tags:
+      - Data Quality Rules
+      summary: List executions for a data quality rule
+      description: 'This method retrieves a list of all policy executions for a specific Data Quality policy by its ID.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number (0-based, default 0)
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Number of items per page (default 25)
+        schema:
+          type: integer
+      - name: sortBy
+        in: query
+        description: Sort field and direction (e.g., name:asc or createdAt:desc)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of executions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQuality.ExecutionsResponse'
+        '400':
+          description: Bad Request — missing or non-numeric id
+  /catalog-server/api/rules/data-quality/{id}:
+    put:
+      operationId: updateDataQualityRule
+      tags:
+      - Data Quality Rules
+      summary: Update a data quality rule
+      description: 'This endpoint updates a data quality policy''s attributes in the catalog server by specifying the policy ID in the endpoint URL. The request body should contain a JSON payload with the following parameters:
+
+
+        #### Request Body Parameters
+
+
+        1. **rule** (object, required) - Defines the main data quality policy.
+
+
+        - **enabled** (boolean) - Specifies if the policy should be enabled.
+
+
+        - **name** (string, required) - Name of the data quality policy.
+
+
+        - **description** (string) - Description of the data quality policy.
+
+
+        - **scheduled** (boolean) - Whether the policy is scheduled.
+
+
+        - **backingAsset** (object) - Configuration for the backing asset.
+
+
+        - **marker** (object) - Marker configuration for incremental processing.
+
+
+        - Specify one of the marker types: `IdMarkerConfig`, `DateTimeMarkerConfig`, `DateBasedPartitionMarkerConfig`, `DayMonthYearBasedPartitionMarkerConfig`.
+
+
+        - **notificationChannels** (object) - Configuration for notification channels.
+
+
+        - **notifyOnSuccess** (boolean) - Whether to notify on policy success.
+
+
+        - **additionalPersistedColumns** (array of strings) - Additional persisted columns.
+
+
+        2. **items** (array of objects, required) - Defines the data quality rule items.
+
+
+        - **measurementType** (string, required) - Type of measurement for the rule item.
+
+
+        - **columnName** (string, required) - Column name in the asset where the rule applies.
+
+
+        - **executionOrder** (integer, required) - Execution order of the rule item.
+
+
+        - **value** (object) - Additional values or parameters for the rule item.
+
+
+        - **weightage** (number) - Weightage for the rule.
+
+
+        - **businessExplanation** (string) - Explanation of the business logic behind the rule.
+
+
+        - **isWarning** (boolean) - Specifies if the rule is a warning.
+
+
+        - **labels** (array of objects) - Labels associated with the rule item.
+
+
+        3. **transformUDFs** (array of objects) - Defines user-defined transformations.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.
+
+
+        **Request body**: `DataQuality.RuleRequest` (same shape as create).'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated data quality rule
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleRequest'
+      responses:
+        '200':
+          description: Updated data quality rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '400':
+          description: Validation failure — DQCheckResponse
+    delete:
+      operationId: deleteDataQualityRule
+      tags:
+      - Data Quality Rules
+      summary: Delete (archive) a data quality rule
+      description: 'This endpoint deletes a specific data quality policy identified by its `id`.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: message
+        in: query
+        description: Optional archival reason
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Rule deleted successfully
+        '404':
+          description: Data Quality rule with id {id} not found
+  /catalog-server/api/rules/data-quality/{id}/unarchive:
+    post:
+      operationId: unarchiveDataQualityRule
+      tags:
+      - Data Quality Rules
+      summary: Unarchive a data quality rule
+      description: 'When users delete or rename columns in tables associated with a policy, ADOC automatically archives the policy. Archived policies cannot be executed. To reuse the policy, users must unarchive it using the Policy Unarchive feature in ADOC or by using this endpoint (`https://{{HOST}}/catalog-server/api/rules/data-quality/:id/unarchive`).
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Unarchived rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnarchiveResponse'
+        '404':
+          description: Policy not found
+  /catalog-server/api/rules/data-quality/{id}/schedule:
+    put:
+      operationId: setDataQualitySchedule
+      tags:
+      - Data Quality Rules
+      summary: Toggle schedule for a data quality rule
+      description: 'Toggling the schedule status of a Data Quality policy involves the action of enabling or disabling the scheduled execution of a particular policy. This toggle functionality allows users to control whether the Data Quality policy runs at predefined intervals or remains inactive.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.
+
+
+        **Note**: this route only applies the `scheduled` boolean from `ScheduleRequest`;
+
+        `cronExpression` and `timeZone` fields are not used here.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Schedule configuration (scheduled boolean required)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRequest'
+      responses:
+        '200':
+          description: Updated rule with schedule status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '404':
+          description: Rule not found.
+        '422':
+          description: 'Cron schedule is not configured. Cannot execute., or
+
+            Cannot schedule as the rule is already running., or
+
+            Cannot un-schedule as the rule is not scheduled., or
+
+            Cannot schedule a Data Quality rule.'
+  /catalog-server/api/rules/data-quality/{id}/items:
+    get:
+      operationId: getDataQualityItems
+      tags:
+      - Data Quality Rules
+      summary: Get data quality rule items
+      description: 'This endpoint returns a list of policy item definitions configured for a specific policy such as Null Values, Asset Data Type, Pattern Match, Schema Match, and Regex Match for an asset based on the policy ID.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric rule ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of rule items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemsResponse'
+  /catalog-server/api/rules/data-quality/executions/{id}:
+    get:
+      operationId: getDataQualityExecutionDetail
+      tags:
+      - Data Quality Rules
+      summary: Get data quality execution detail
+      description: 'This endpoint returns a list of execution details such as start and end time, success and warning threshold, number of evaluations configured, passed and failed, status of execution and the quality score for a specific Data Quality policy.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric execution ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Execution detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+        '404':
+          description: Data Quality rule Execution with id {executionId} not found
+  /catalog-server/api/rules/data-quality/executions/{id}/result:
+    get:
+      operationId: getDataQualityExecutionResult
+      tags:
+      - Data Quality Rules
+      summary: Get data quality execution result
+      description: 'This endpoint returns the policy execution result for a Data Quality policy. The execution result includes the execution history, execution details, execution summary, quality summary, persistence paths and data violations.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: id
+        in: path
+        description: Numeric execution ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Execution result with measure outcomes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResult'
+        '404':
+          description: Execution not found.
+  /catalog-server/api/rules/data-quality:
+    post:
+      operationId: createDataQualityRule
+      tags:
+      - Data Quality Rules
+      summary: Create a data quality rule
+      description: 'This endpoint is used to create a new Data Quality policy.
+
+
+        #### Request Body Parameters
+
+
+        1. **rule** (object, required) - Defines the main data quality policy.
+
+
+        - **enabled** (boolean) - Specifies if the policy should be enabled.
+
+
+        - **name** (string, required) - Name of the data quality policy.
+
+
+        - **description** (string) - Description of the data quality policy.
+
+
+        - **thresholdLevel** (object) - Defines the threshold levels for success and warning.
+
+
+        - **success** (number) - Threshold level for success.
+
+
+        - **warning** (number) - Threshold level for warning.
+
+
+        - **executionTimeoutInMinutes** (number) - Timeout for policy execution in minutes.
+
+
+        - **analyticsPipelineId** (string) - ID of the analytics pipeline.
+
+
+        - **type** (string) - Type of the data quality policy.
+
+
+        - **scheduled** (boolean) - Whether the policy is scheduled.
+
+
+        - **backingAsset** (object) - Configuration for the backing asset.
+
+
+        - **marker** (object) - Marker configuration for incremental processing.
+
+
+        - Specify one of the marker types:
+
+
+        - **IdMarkerConfig** (object) - Configuration for ID marker.
+
+
+        - **DateTimeMarkerConfig** (object) - Configuration for date-time marker.
+
+
+        - **DateBasedPartitionMarkerConfig** (object) - Configuration for date-based partition marker.
+
+
+        - **DayMonthYearBasedPartitionMarkerConfig** (object) - Configuration for day-month-year-based partition marker.
+
+
+        - **notificationChannels** (object) - Configuration for notification channels.
+
+
+        - **configuredNotificationGroupIds** (array of strings) - IDs of configured notification groups.
+
+
+        - **notifyOn** (array of strings) - Notification types to be triggered.
+
+
+        - **notifyOnSuccess** (boolean) - Whether to notify on policy success.
+
+
+        - **reNotifyFactor** (number) - Re-notification factor.
+
+
+        - **sparkResourceConfig** (object) - Configuration for Spark resources.
+
+
+        - **labels** (array of strings) - Labels associated with the data quality rule.
+
+
+        - **policyGroups** (array of strings) - Policy groups associated with the rule.
+
+
+        - **additionalPersistedColumns** (array of strings) - Additional persisted columns.
+
+
+        - **segments** (object) - Segments associated with the rule.
+
+
+        - **filter** (string) - Filter for the rule.
+
+
+        - **sparkSQLFilterType** (string) - Type of Spark SQL filter.
+
+
+        - **sparkFilterSelectedColumns** (array of strings) - Selected columns for Spark filter.
+
+
+        2. **items** (array of objects, required) - Defines the data quality rule items.
+
+
+        - **measurementType** (string, required) - Type of measurement for the rule item.
+
+
+        - **columnName** (string, required) - Column name in the asset where the rule applies.
+
+
+        - **executionOrder** (integer, required) - Execution order of the rule item.
+
+
+        - **value** (object) - Additional values or parameters for the rule item.
+
+
+        - **addEmptyCheck** (boolean) - Specifies if empty check should be added.
+
+
+        3. **transformUDFs** (array of objects) - Defines user-defined transformations.
+
+
+        ### Response
+
+
+        The response will contain the details of the created data quality policy.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_CREATE`.
+
+
+        **Request body**: `DataQuality.RuleRequest` with:
+
+        - `rule` (`DataQualityRule`): name, description, enabled, thresholdLevel, backingAsset,
+
+        notificationChannels, sparkResourceConfig, labels, policyGroups, segments, filter, etc.
+
+        - `items` (`Item[]`): measurementType, columnName, executionOrder, value, weightage,
+
+        businessExplanation, isWarning, labels.
+
+        - `transformUDFs`, optional `childRules`, optional `engineType`.'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Data quality rule definition
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleRequest'
+      responses:
+        '200':
+          description: Created data quality rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '400':
+          description: Validation failure — DQCheckResponse or DQCheckResponseComposite
+    get:
+      operationId: listDataQualityRules
+      tags:
+      - Data Quality Rules
+      summary: List all data quality rules
+      description: 'This endpoint retrieves a list of all Data Quality policies configured for a specific tenant.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number (0-based, default 0)
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Number of items per page (default 25)
+        schema:
+          type: integer
+      - name: sortBy
+        in: query
+        description: Sort field and direction (e.g., name:asc or createdAt:desc)
+        schema:
+          type: string
+      - name: ruleStatus
+        in: query
+        description: Filter by rule status
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of data quality rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesResponse'
+  /catalog-server/api/rules/data-quality/byName/{name}:
+    put:
+      operationId: updateDataQualityByName
+      tags:
+      - Data Quality Rules
+      summary: Update a data quality rule by name
+      description: 'This endpoint allows users to update a Data Quality policy by its `name`.
+
+
+        #### Request Body Parameters
+
+
+        1. **rule** (object, required) - Defines the main data quality policy.
+
+
+        - **enabled** (boolean) - Specifies if the policy should be enabled.
+
+
+        - **name** (string, required) - Name of the data quality policy.
+
+
+        - **description** (string) - Description of the data quality policy.
+
+
+        - **scheduled** (boolean) - Whether the policy is scheduled.
+
+
+        - **backingAsset** (object) - Configuration for the backing asset.
+
+
+        - **marker** (object) - Marker configuration for incremental processing.
+
+
+        - Specify one of the marker types: `IdMarkerConfig`, `DateTimeMarkerConfig`, `DateBasedPartitionMarkerConfig`, `DayMonthYearBasedPartitionMarkerConfig`.
+
+
+        - **notificationChannels** (object) - Configuration for notification channels.
+
+
+        - **notifyOnSuccess** (boolean) - Whether to notify on policy success.
+
+
+        - **additionalPersistedColumns** (array of strings) - Additional persisted columns.
+
+
+        2. **items** (array of objects, required) - Defines the data quality rule items.
+
+
+        - **measurementType** (string, required) - Type of measurement for the rule item.
+
+
+        - **columnName** (string, required) - Column name in the asset where the rule applies.
+
+
+        - **executionOrder** (integer, required) - Execution order of the rule item.
+
+
+        - **value** (object) - Additional values or parameters for the rule item.
+
+
+        - **weightage** (number) - Weightage for the rule.
+
+
+        - **businessExplanation** (string) - Explanation of the business logic behind the rule.
+
+
+        - **isWarning** (boolean) - Specifies if the rule is a warning.
+
+
+        - **labels** (array of objects) - Labels associated with the rule item.
+
+
+        3. **transformUDFs** (array of objects) - Defines user-defined transformations.
+
+
+        #### Response Body
+
+
+        The response will contain the updated details of the data quality policy.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.
+
+
+        **Request body**: `DataQuality.RuleRequest` (same shape as create).'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated data quality rule
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleRequest'
+      responses:
+        '200':
+          description: Updated data quality rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '400':
+          description: Validation failure — DQCheckResponse
+        '404':
+          description: 'Rule with the given name: {name} not found'
+    delete:
+      operationId: deleteDataQualityByName
+      tags:
+      - Data Quality Rules
+      summary: Delete (archive) a data quality rule by name
+      description: 'This endpoint deletes a specific Data Quality policy by its `name`.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: message
+        in: query
+        description: Optional archival reason
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Rule deleted successfully
+        '404':
+          description: 'Rule with the given name: {name} not found, or
+
+            Data Quality rule with id {ruleId} not found'
+    get:
+      operationId: getDataQualityByName
+      tags:
+      - Data Quality Rules
+      summary: Get a data quality rule by name
+      description: 'This method returns details about a Data Quality policy based on the policy''s name.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: Specific policy version (optional; invalid values ignored)
+        schema:
+          type: integer
+      - name: onlyExecutedVersion
+        in: query
+        description: When true and version omitted, return last executed version
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Data quality rule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '404':
+          description: 'Rule with the given name: {name} not found, or
+
+            Data Quality rule with id {ruleId} not found'
+  /catalog-server/api/rules/data-quality/byName/{name}/schedule:
+    put:
+      operationId: setDataQualityScheduleByName
+      tags:
+      - Data Quality Rules
+      summary: Toggle schedule for a data quality rule by name
+      description: 'Toggling the schedule status of a data quality policy involves the action of enabling or disabling the scheduled execution of that policy. This toggle functionality allows users to control whether the data quality policy runs at predefined intervals or remains inactive
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.
+
+
+        **Note**: this route only applies the `scheduled` boolean from `ScheduleRequest`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Schedule configuration (scheduled boolean required)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRequest'
+      responses:
+        '200':
+          description: Updated rule with schedule status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+        '404':
+          description: 'Rule with the given name: {name} not found'
+        '422':
+          description: Cron schedule not configured, already scheduled, not scheduled, or wrong rule type
+  /catalog-server/api/rules/data-quality/byName/{name}/items:
+    get:
+      operationId: getDataQualityItemsByName
+      tags:
+      - Data Quality Rules
+      summary: Get data quality rule items by name
+      description: 'This endpoint returns a list of policy item definitions configured for a specific policy such as Null Values, Asset Data Type, Pattern Match, Schema Match, and Regex Match for an asset.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: List of rule items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemsResponse'
+        '404':
+          description: 'Rule with the given name: {name} not found'
+  /catalog-server/api/rules/data-quality/byName/{name}/unarchive:
+    post:
+      operationId: unarchiveDataQualityByName
+      tags:
+      - Data Quality Rules
+      summary: Unarchive a data quality rule by name
+      description: 'When users delete or rename columns in tables associated with a policy, ADOC automatically archives the policy. Archived policies cannot be executed. To reuse the policy, users must unarchive it using the Policy Unarchive feature in ADOC or by using this endpoint (`https://{{HOST}}/catalog-server/api/rules/data-quality/byName/:name/unarchive`).
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_MODIFY`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Unarchived rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnarchiveResponse'
+        '404':
+          description: 'Rule with the given name: {name} not found'
+  /catalog-server/api/rules/data-quality/byName/{name}/executions:
+    post:
+      operationId: triggerDataQualityExecutionByName
+      tags:
+      - Data Quality Rules
+      summary: Trigger execution of a data quality rule by name
+      description: 'The `POST` request is used to execute a Data Quality policy by its name.
+
+
+        #### Request Body
+
+
+        - `markerConfigs` (array): An array of marker configurations containing information about the asset, type, and column names.
+
+
+        - `assetId` (number): The ID of the asset.
+
+
+        - `markerConfig` (object, optional): Only required for SELECTIVE profiling. It is a configuration object used to define different types of bounds for policy execution selectively. The `type`attribute determines the structure and required fields of the `markerConfig` object. Below are the possible types and their configurations:
+
+
+        - Type: `TimestampBasedMarkerConfig`: This configuration is applicable to Kafka asset-based policies. It utilizes the offset associated with the specified timestamp to determine data bounds for policy execution.
+
+
+        - **type**: `"TimestampBasedMarkerConfig"` (string) - The type of the marker configuration.
+
+
+        - **format**: (string) - The format of the date values.
+
+
+        - **initialOffset**: (string) - The initial date offset for the bound.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - Type: `boundFileEvent`: Used to define bounds based on file events and dates.
+
+
+        - **type**: `"boundFileEvent"` (string) - The type of the marker configuration.
+
+
+        - **fromDate**: (string) - The start date and time for the bound, in the specified format.
+
+
+        - **toDate**: (string) - The end date and time for the bound, in the specified format.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - Type: `bound`: Used to define bounds based on an ID range.
+
+
+        - **type**: `"bound"` (string) - The type of the marker configuration.
+
+
+        - **idColumnName**: (string) - The name of the column containing ID values.
+
+
+        - **fromId**: (integer) - The start ID for the bound.
+
+
+        - **toId**: (integer) - The end ID for the bound.
+
+
+        - Type: `boundDateTime`: Used to define bounds based on date and time.
+
+
+        - **type**: `"boundDateTime"` (string) - The type of the marker configuration.
+
+
+        - **dateColumnName**: (string) - The name of the column containing date and time values.
+
+
+        - **format**: (string) - The format of the date and time values.
+
+
+        - **fromDate**: (string) - The start date and time for the bound, in the specified format.
+
+
+        - **toDate**: (string) - The end date and time for the bound, in the specified format.
+
+
+        - **timeZoneId**: (string) - The time zone ID.
+
+
+        - `executionType` (string): The type of execution.
+
+
+        - `ruleItemSelections` (array): An array of rule item selections.
+
+
+        - `includeInQualityScore` (boolean): A boolean value to include in the quality score.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW` only
+
+        (note: execute-by-ID requires `POLICY_EXECUTE`).
+
+
+        **Request body**: `PolicyExecutionRequest` — markerConfigs, executionType,
+
+        ruleItemSelections, includeInQualityScore, sparkResourceConfig.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Execution request configuration
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyExecutionRequest'
+      responses:
+        '200':
+          description: Execution details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+        '404':
+          description: 'Rule with the given name: {name} not found, or
+
+            Rule not found.'
+        '422':
+          description: Previous execution of rule '{name}' has not completed. Not running the rule.
+    get:
+      operationId: getDataQualityExecutionsByName
+      tags:
+      - Data Quality Rules
+      summary: List executions for a data quality rule by name
+      description: 'This endpoint returns a list of all executions for a given Data Quality policy by its `name`.
+
+
+        **Authorization**: requires `ASSET_VIEW` and `POLICY_VIEW`.'
+      parameters:
+      - name: name
+        in: path
+        description: Policy name
+        required: true
+        schema:
+          type: string
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number (0-based, default 0)
+        schema:
+          type: integer
+      - name: size
+        in: query
+        description: Number of items per page (default 25)
+        schema:
+          type: integer
+      - name: sortBy
+        in: query
+        description: Sort field and direction (e.g., name:asc or createdAt:desc)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of executions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataQuality.ExecutionsResponse'
+        '404':
+          description: 'Rule with the given name: {name} not found'
   /data-quality/rules:
     get:
       operationId: listDataQualityRules
@@ -91,6 +1608,8 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      security:
+      - apiKey: []
     post:
       operationId: createDataQualityRule
       summary: Acceldata Create Data Quality Rule
@@ -120,7 +1639,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DataQualityRule'
+                $ref: '#/components/schemas/DataQualityRule_2'
         '400':
           description: Bad request - invalid rule configuration
           content:
@@ -136,8 +1655,2399 @@ paths:
       x-microcks-operation:
         delay: 0
         dispatcher: FALLBACK
+      security:
+      - apiKey: []
+    servers:
+    - url: https://api.acceldata.app/v1
+      description: Acceldata ADOC API v1
 components:
   schemas:
+    CustomSqlConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.CustomSqlConfig
+      required:
+      - columnMetadataList
+      - columnVariables
+      - queryType
+      - ruleVersion
+      - sanitizedQuery
+      - sqlExpression
+      properties:
+        columnMetadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMetadata'
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        queryType:
+          type: string
+        ruleVersion:
+          type: integer
+        sanitizedQuery:
+          type: string
+        sqlExpression:
+          type: string
+        tableAlias:
+          type:
+          - string
+          - 'null'
+    JobSpec:
+      type: object
+      title: io.ad.dataplane.model.spec.JobSpec
+      required:
+      - artifactFacts
+      properties:
+        artifactFacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artifact'
+    MarkerConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.incrementalstrategies.MarkerConfig
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    LivySparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.LivySparkResourceConfig
+      properties:
+        driverCores:
+          type: integer
+        driverMemory:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        numExecutors:
+          type: integer
+    AbsoluteThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AbsoluteThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/AbsoluteConfigs'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    AboveConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.AboveConfigs
+      required:
+      - direction
+      - success
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        success:
+          type: number
+        warning:
+          type: number
+    Marker:
+      type: object
+      title: io.ad.catalog.api.model.profile.incrementalstrategies.Marker
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    RootCauseAnalysis:
+      type: object
+      title: io.ad.dataplane.model.response.spark.dq.RootCauseAnalysis
+      required:
+      - bad
+      - badFraction
+      - good
+      - goodFraction
+      - key
+      - totalFraction
+      properties:
+        bad:
+          type: integer
+        badFraction:
+          type: number
+        good:
+          type: integer
+        goodFraction:
+          type: number
+        key:
+          type: string
+        totalFraction:
+          type: number
+    ItemSegment:
+      type: object
+      title: io.ad.catalog.api.model.quality.ItemSegment
+      required:
+      - executionId
+      - itemExecutionId
+      - rowsScanned
+      - ruleItemId
+      - segmentHash
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type: integer
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        id:
+          type: integer
+        itemExecutionId:
+          type: integer
+        result:
+          type: number
+        rowsFailed:
+          type: integer
+        rowsScanned:
+          type: integer
+        ruleItemId:
+          type: integer
+        segmentHash:
+          type: string
+        status:
+          type:
+          - string
+          - 'null'
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - string
+          - 'null'
+    MetaData:
+      type: object
+      title: io.ad.catalog.api.model.quality.MetaData
+      required:
+      - count
+      - page
+      - size
+      properties:
+        count:
+          type: integer
+        page:
+          type: integer
+        size:
+          type: integer
+    Any:
+      type: object
+      title: kotlin.Any
+    ScheduleRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.ScheduleRequest
+      required:
+      - scheduled
+      properties:
+        cronExpression:
+          type:
+          - string
+          - 'null'
+        scheduled:
+          type: boolean
+        timeZone:
+          type:
+          - string
+          - 'null'
+    OperationalConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.OperationalConfig
+      required:
+      - lookBack
+      properties:
+        lookBack:
+          $ref: '#/components/schemas/LookBackConfig'
+    DataplaneJob:
+      type: object
+      title: io.ad.catalog.api.model.analysisservice.DataplaneJob
+      required:
+      - executionStatus
+      - jobType
+      - startedAt
+      properties:
+        analysisJobContext:
+          oneOf:
+          - $ref: '#/components/schemas/AnalysisJobContext'
+          - type: 'null'
+        analysisServiceJobId:
+          type: integer
+        analyticsPipelineId:
+          type: integer
+        assetId:
+          type: integer
+        assetUid:
+          type:
+          - string
+          - 'null'
+        autoRetries:
+          type: integer
+        autoRetryEnabled:
+          type: boolean
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        dataSourceId:
+          type:
+          - string
+          - 'null'
+        dataSourceType:
+          type:
+          - string
+          - 'null'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type: integer
+        executionStatus:
+          type: string
+          enum:
+          - WAITING
+          - SKIPPED
+          - SUBMITTED
+          - QUEUED
+          - IN_PROGRESS
+          - ABORTED
+          - FAILED
+          - POSTPROCESSING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+          - SUCCESSFUL
+        finishedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        jobSpec:
+          oneOf:
+          - $ref: '#/components/schemas/JobSpec'
+          - type: 'null'
+        jobState:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ACKNOWLEDGED
+          - SUBMITTED
+          - QUEUED
+          - SKIPPED
+          - RUNNING
+          - READ_DATA
+          - REFERENCE_DATA
+          - PROFILE_STAGE_1
+          - PROFILE_STAGE_2
+          - PROFILE_STAGE_3
+          - PROFILE_STAGE_4
+          - DQ_BATCH_RULES
+          - DQ_ROW_RULES
+          - DQ_CUSTOM_RULES
+          - DQ_SEGMENT
+          - DQ_GOOD_RESULT_STORE
+          - DQ_BAD_RESULT_STORE
+          - VALIDATE
+          - PROCESSING
+          - PREPARE_RESULT
+          - SEND_RESULT
+          - SEND_RESULT_FAILED
+          - SUCCESSFUL
+          - FAILED
+          - ABORTED
+          - WAITING
+          - METRICS_REQUEST_SENT
+          - PARTIAL_RESPONSE_PUBLISHED
+          - COMPLETE_RESPONSE_PUBLISHED
+          - METRICS_RESPONSE_RECEIVED
+          - ANOMALY_DETECTION_INITIATED
+          - PARTIAL_ANOMALY_RESULT_RECEIVED
+          - COMPLETE_ANOMALY_RESULT_RECEIVED
+          - POLICY_EXECUTION_SUCCESSFUL
+          - POLICY_EXECUTION_FAILURE
+          - EXECUTION_RESULT
+        jobType:
+          type: string
+          enum:
+          - SAMPLE_DATA
+          - FILE_INFO_CRAWLER
+          - SAMPLE_DATA_CRAWLER
+          - UDF_VALIDATION
+          - SQL_VIEW_SAMPLE_DATA
+          - VISUAL_VIEW_SAMPLE_DATA
+          - DATA_VIOLATIONS_SAMPLE_DATA
+          - DATA_VIOLATIONS_SAMPLE_DATA_S3
+          - DATA_VIOLATIONS_SAMPLE_DATA_ADLS
+          - DATA_VIOLATIONS_SAMPLE_DATA_GCS
+          - DATA_VIOLATIONS_SAMPLE_DATA_HDFS
+          - DATA_VIOLATIONS_SAMPLE_DATA_LOCAL
+          - PROFILE
+          - DATA_QUALITY
+          - RECONCILIATION
+          - ROW_COUNT_EQUALITY
+          - FILE_CRAWLER
+          - KAFKA_CRAWLER
+          - PUBSUB_CRAWLER
+          - CRAWLER
+          - ASSET_FILE_MONITORING
+          - ASSET_MONITORING
+          - ASSET_REFERENCE_VALIDATION
+          - AUTO_TAG
+          - EXECUTION_RESULT
+          - CONNECTION_VALIDATION
+          - PARENT_LIST
+          - CADENCE
+          - AUTO_ANOMALY
+          - SQL_VALIDATION
+          - RESULT
+          - DATA_VIOLATIONS
+          - DOWNLOAD_DATA_VIOLATIONS
+          - FRESHNESS
+          - DATA_SOURCE_QUERY
+        lastHealthUpdateAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        request:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneRequest'
+          - type: 'null'
+        requestId:
+          type:
+          - string
+          - 'null'
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sparkClusterContext:
+          type:
+          - string
+          - 'null'
+          enum:
+          - LOCAL
+          - LIVY
+          - DATABRICKS
+          - KUBERNETES
+          - DATAPROC
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        startedAt:
+          $ref: '#/components/schemas/DateTime'
+        startedRunningAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+    GenericRuleExecution:
+      type: object
+      title: io.ad.catalog.api.model.quality.GenericRuleExecution
+      required:
+      - dataPersistenceEnabled
+      - executionMode
+      - executionStatus
+      - executionType
+      - includeInQualityScore
+      - resultStatus
+      - ruleId
+      - ruleSelectionEnabled
+      - ruleVersion
+      - startedAt
+      properties:
+        analysisJob:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneJob'
+          - type: 'null'
+        autoRetries:
+          type: integer
+        autoRetryEnabled:
+          type: boolean
+        dataPersistenceEnabled:
+          type: boolean
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionError:
+          type:
+          - string
+          - 'null'
+        executionMode:
+          type: string
+          enum:
+          - SCHEDULED
+          - MANUAL
+          - WEBHOOK
+          - API
+        executionStatus:
+          type: string
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        executionType:
+          type: string
+          enum:
+          - SELECTIVE
+          - FULL
+          - INCREMENTAL
+        finishedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        lastMarker:
+          oneOf:
+          - $ref: '#/components/schemas/Marker'
+          - type: 'null'
+        leftLastMarker:
+          oneOf:
+          - $ref: '#/components/schemas/Marker'
+          - type: 'null'
+        leftMarkerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        markerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        parentId:
+          type: integer
+        persistencePath:
+          type:
+          - string
+          - 'null'
+        resetPoint:
+          type: integer
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        resultPersistencePath:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        resultStatus:
+          type: string
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        rightLastMarker:
+          oneOf:
+          - $ref: '#/components/schemas/Marker'
+          - type: 'null'
+        rightMarkerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        ruleId:
+          type: integer
+        ruleName:
+          type:
+          - string
+          - 'null'
+        ruleSelectionEnabled:
+          type: boolean
+        ruleType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - DATA_QUALITY
+          - RECONCILIATION
+          - EQUALITY
+          - DATA_DRIFT
+          - SCHEMA_DRIFT
+          - DATA_CADENCE
+          - PROFILE_ANOMALY
+          - AUTO_ANOMALY
+        ruleVersion:
+          type: integer
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        startedAt:
+          $ref: '#/components/schemas/DateTime'
+        thresholdLevel:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+    UnarchiveResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.UnarchiveResponse
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILED_ON_BACKING_ASSET
+          - FAILED_ON_RULE_ITEMS
+    PolicyExecutionRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyExecutionRequest
+      required:
+      - columnVariables
+      - executionType
+      - includeInQualityScore
+      - resourceStrategyType
+      properties:
+        analysisJobRequestId:
+          type:
+          - string
+          - 'null'
+        analyticsPipelineId:
+          type: integer
+        assetDirection:
+          type:
+          - string
+          - 'null'
+        autoRetryEnabled:
+          type: boolean
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionType:
+          type: string
+          enum:
+          - SELECTIVE
+          - FULL
+          - INCREMENTAL
+        includeInQualityScore:
+          type: boolean
+        markerConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyExecutionMarkerConfig'
+        monitorExecutionId:
+          type: integer
+        pipelineAutomationExecutionId:
+          type: integer
+        pipelineRunId:
+          type: integer
+        profileId:
+          type: integer
+        resourceStrategyType:
+          type: string
+          enum:
+          - INVENTORY
+          - CUSTOM
+        rightEngineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        rightSparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        rightSparkSQLDynamicFilterVariableMapping:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+        ruleItemSelections:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sourceExecutionId:
+          type: integer
+        sparkAppName:
+          type:
+          - string
+          - 'null'
+        sparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        sparkSQLDynamicFilterVariableMapping:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+    DataQuality.Engine:
+      type: object
+      title: DataQuality.Engine
+      required:
+      - displayName
+      - name
+      properties:
+        displayName:
+          type: string
+        name:
+          type: string
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+    BelowConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.BelowConfigs
+      required:
+      - direction
+      - success
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        success:
+          type: number
+        warning:
+          type: number
+    YunikornSparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.YunikornSparkResourceConfig
+      properties:
+        driverCores:
+          type: integer
+        driverLimitCores:
+          type:
+          - string
+          - 'null'
+        driverMemory:
+          type:
+          - string
+          - 'null'
+        driverMemoryOverhead:
+          type:
+          - string
+          - 'null'
+        driverMemoryOverheadFactor:
+          type: number
+        driverRequestCores:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorLimitCores:
+          type:
+          - string
+          - 'null'
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        executorMemoryOverhead:
+          type:
+          - string
+          - 'null'
+        executorMemoryOverheadFactor:
+          type: number
+        executorRequestCores:
+          type:
+          - string
+          - 'null'
+        maxExecutors:
+          type: integer
+        minExecutors:
+          type: integer
+    RuleRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.RuleRequest
+      required:
+      - items
+      - rule
+      properties:
+        cloningDetails:
+          oneOf:
+          - $ref: '#/components/schemas/CloningDetails'
+          - type: 'null'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        rule:
+          $ref: '#/components/schemas/DataQualityRule'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+    RuleItemResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleItemResult
+      required:
+      - dimension
+      - id
+      - includeInQualityScore
+      - ruleItemId
+      - threshold
+      - weightage
+      properties:
+        dimension:
+          type: string
+          enum:
+          - UNIQUENESS
+          - VALIDITY
+          - ACCURACY
+          - CONSISTENCY
+          - COMPLETENESS
+          - TIMELINESS
+          - OTHERS
+        error:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        isWarning:
+          type: boolean
+        name:
+          type:
+          - string
+          - 'null'
+        resultPercent:
+          type: number
+        ruleItemId:
+          type: integer
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        success:
+          type: boolean
+        threshold:
+          type: number
+        weightage:
+          type: number
+    RelativeThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.RelativeThresholdConfig
+      required:
+      - config
+      - operationalConfig
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/RelativeConfig'
+        operationalConfig:
+          $ref: '#/components/schemas/OperationalConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    RuleExecutionResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleExecutionResult
+      required:
+      - ruleExecutionType
+      - status
+      properties:
+        ruleExecutionType:
+          type: string
+          enum:
+          - RECONCILIATION_RULE_TYPE_EXECUTION
+          - DQ_RULE_TYPE_EXECUTION
+          - DATA_DRIFT_EXECUTION
+          - SCHEMA_DRIFT_EXECUTION
+          - DATA_CADENCE_TYPE_EXECUTION
+          - PROFILE_ANOMALY_TYPE_EXECUTION
+          - AUTO_ANOMALY_TYPE_EXECUTION
+        status:
+          type: string
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+    ChangesByConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.ChangesByConfig
+      required:
+      - direction
+      - operator
+      - success
+      - unit
+      - isDirectional
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        operator:
+          type: string
+          enum:
+          - LEGACY
+          - EQ
+          - NEQ
+          - GT
+          - GTE
+          - LT
+          - LTE
+        success:
+          type: number
+        unit:
+          type: string
+          enum:
+          - PERCENTAGE
+          - ABSOLUTE
+        warning:
+          type: number
+        isDirectional:
+          type: boolean
+    EngineConfig:
+      type: object
+      title: io.ad.dataplane.model.engine.EngineConfig
+    DataQuality.ExecutionsResponse:
+      type: object
+      title: DataQuality.ExecutionsResponse
+      required:
+      - executions
+      - meta
+      properties:
+        executions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Execution'
+        meta:
+          $ref: '#/components/schemas/MetaData'
+    DataplaneRequest:
+      type: object
+      title: io.ad.dataplane.model.DataplaneRequest
+      required:
+      - engine
+      - method
+      - requestId
+      properties:
+        engine:
+          $ref: '#/components/schemas/Engine'
+        method:
+          type: string
+          enum:
+          - SUBMIT
+          - CANCEL
+          - STATUS
+        requestId:
+          type: string
+    AbsoluteConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.AbsoluteConfigs
+      oneOf:
+      - $ref: '#/components/schemas/AboveConfigs'
+      - $ref: '#/components/schemas/BelowConfigs'
+      - $ref: '#/components/schemas/RangeConfigs'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.quality.AboveConfigs: '#/components/schemas/AboveConfigs'
+          io.ad.catalog.api.model.quality.BelowConfigs: '#/components/schemas/BelowConfigs'
+          io.ad.catalog.api.model.quality.RangeConfigs: '#/components/schemas/RangeConfigs'
+    DataBricksSparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.DataBricksSparkResourceConfig
+      properties:
+        clusterDriverType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        maxWorkers:
+          type: integer
+        minWorkers:
+          type: integer
+    SparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.SparkResourceConfig
+      required:
+      - invalidFields
+      properties:
+        additionalConfiguration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        databricks:
+          oneOf:
+          - $ref: '#/components/schemas/DataBricksSparkResourceConfig'
+          - type: 'null'
+        dataproc:
+          oneOf:
+          - $ref: '#/components/schemas/DataprocSparkResourceConfig'
+          - type: 'null'
+        invalidFields:
+          type: array
+          items:
+            type: string
+        livy:
+          oneOf:
+          - $ref: '#/components/schemas/LivySparkResourceConfig'
+          - type: 'null'
+        yunikorn:
+          oneOf:
+          - $ref: '#/components/schemas/YunikornSparkResourceConfig'
+          - type: 'null'
+    NotificationPayload:
+      type: object
+      title: io.ad.catalog.api.model.NotificationPayload
+      required:
+      - alertsEnabled
+      - configuredNotificationGroupIds
+      - notifyOn
+      - notifyOnSuccess
+      - notifyOnWarning
+      - reNotifyMode
+      properties:
+        alertsEnabled:
+          type: boolean
+        configuredNotificationGroupIds:
+          type: array
+          items:
+            type: integer
+        notifyOn:
+          type: array
+          items:
+            type: string
+            enum:
+            - ERROR
+            - WARNING
+            - SUCCESS
+            - ALL
+        notifyOnSuccess:
+          type: boolean
+        notifyOnWarning:
+          type: boolean
+        reNotifyFactor:
+          type: integer
+        reNotifyMode:
+          type: string
+          enum:
+          - INTERVAL
+          - RULE_CHANGE
+        severity:
+          type:
+          - string
+          - 'null'
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - CRITICAL
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    IncreasedByConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.IncreasedByConfig
+      required:
+      - direction
+      - operator
+      - success
+      - unit
+      - isDirectional
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        operator:
+          type: string
+          enum:
+          - LEGACY
+          - EQ
+          - NEQ
+          - GT
+          - GTE
+          - LT
+          - LTE
+        success:
+          type: number
+        unit:
+          type: string
+          enum:
+          - PERCENTAGE
+          - ABSOLUTE
+        warning:
+          type: number
+        isDirectional:
+          type: boolean
+    BackingAsset:
+      type: object
+      title: io.ad.catalog.api.model.quality.BackingAsset
+      properties:
+        customQuery:
+          type:
+          - string
+          - 'null'
+        customTableAssetIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+        id:
+          type: integer
+        marker:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        ruleId:
+          type: integer
+        tableAlias:
+          type:
+          - string
+          - 'null'
+        tableAssetId:
+          type: integer
+        tableAssetUid:
+          type:
+          - string
+          - 'null'
+    Execution:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Execution
+      required:
+      - execution
+      - items
+      - policyScoreStrategy
+      - treatZeroRowsAsSuccess
+      properties:
+        execution:
+          $ref: '#/components/schemas/GenericRuleExecution'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemExecution'
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        treatZeroRowsAsSuccess:
+          type: boolean
+    TimeBasedConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.TimeBasedConfig
+      required:
+      - lookBackWindowType
+      - successLookBackWindow
+      properties:
+        lookBackWindowType:
+          type: string
+          enum:
+          - RUNS
+          - DAYS
+          - HOURS
+          - MINUTES
+        successLookBackWindow:
+          type: integer
+        warningLookBackWindow:
+          type: integer
+    ShortSegment:
+      type: object
+      title: io.ad.catalog.api.model.ShortSegment
+      required:
+      - type
+      properties:
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+    CloningDetails:
+      type: object
+      title: io.ad.catalog.api.model.quality.CloningDetails
+      required:
+      - ruleId
+      - version
+      properties:
+        ruleId:
+          type: integer
+        version:
+          type: integer
+    LookBackConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.LookBackConfig
+      required:
+      - window
+      - windowType
+      properties:
+        window:
+          type: integer
+        windowType:
+          type: string
+          enum:
+          - RUNS
+          - DAYS
+          - HOURS
+          - MINUTES
+    Engine:
+      type: object
+      title: io.ad.dataplane.model.engine.Engine
+      required:
+      - type
+      properties:
+        config:
+          oneOf:
+          - $ref: '#/components/schemas/EngineConfig'
+          - type: 'null'
+        type:
+          type: string
+          enum:
+          - SPARK_ASYNC
+          - POD_ASYNC
+          - STANDALONE_ASYNC
+          - PUSHDOWN_ASYNC
+    RuleTag:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleTag
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        ruleId:
+          type: integer
+        tagId:
+          type: integer
+        tenantId:
+          type:
+          - string
+          - 'null'
+    RangeConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.RangeConfigs
+      required:
+      - direction
+      - lowerSuccess
+      - upperSuccess
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        lowerSuccess:
+          type: number
+        lowerWarning:
+          type: number
+        upperSuccess:
+          type: number
+        upperWarning:
+          type: number
+    Mapping:
+      type: object
+      title: io.ad.catalog.api.model.quality.Mapping
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    TimeBasedThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.TimeBasedThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/TimeBasedConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    Label:
+      type: object
+      title: io.ad.catalog.api.model.Label
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        labelType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
+          type: string
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    RelativeConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.RelativeConfig
+      oneOf:
+      - $ref: '#/components/schemas/ChangesByConfig'
+      - $ref: '#/components/schemas/DecreasedByConfig'
+      - $ref: '#/components/schemas/IncreasedByConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.quality.ChangesByConfig: '#/components/schemas/ChangesByConfig'
+          io.ad.catalog.api.model.quality.DecreasedByConfig: '#/components/schemas/DecreasedByConfig'
+          io.ad.catalog.api.model.quality.IncreasedByConfig: '#/components/schemas/IncreasedByConfig'
+    RulesResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.RulesResponse
+      required:
+      - meta
+      - rules
+      properties:
+        meta:
+          $ref: '#/components/schemas/MetaData'
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleResponse'
+    ItemsResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.ItemsResponse
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Rule:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Rule
+      required:
+      - backingAssetId
+      - continueExecutionOnFailure
+      - executionSequence
+      - isCompositeRule
+      - isSegmented
+      - items
+      - policyScoreStrategy
+      - ruleId
+      - treatZeroRowsAsSuccess
+      properties:
+        backingAssetId:
+          type: integer
+        continueExecutionOnFailure:
+          type: boolean
+        customSqlConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CustomSqlConfig'
+          - type: 'null'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionSequence:
+          type: integer
+        filter:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        isCompositeRule:
+          type: boolean
+        isSegmented:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        jobSchedule:
+          oneOf:
+          - $ref: '#/components/schemas/JobSchedule'
+          - type: 'null'
+        parentId:
+          type: integer
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        ruleId:
+          type: integer
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShortSegment'
+        subType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - SQL
+        tenantId:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        treatZeroRowsAsSuccess:
+          type: boolean
+    AnalysisJobContext:
+      type: object
+      title: io.ad.catalog.api.model.AnalysisJobContext
+      required:
+      - type
+      properties:
+        dataplaneJobStatus:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneJobStatus'
+          - type: 'null'
+        sparkJobStatus:
+          oneOf:
+          - $ref: '#/components/schemas/SparkJobStatus'
+          - type: 'null'
+        statusRetryCount:
+          type: integer
+        type:
+          type: string
+    PolicyExecutionMarkerConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyExecutionMarkerConfig
+      required:
+      - assetId
+      - markerConfig
+      properties:
+        assetId:
+          type: integer
+        markerConfig:
+          $ref: '#/components/schemas/MarkerConfig'
+    DataprocSparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.DataprocSparkResourceConfig
+      properties:
+        clusterMasterType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        numMasterNodes:
+          type: integer
+        numWorkerNodes:
+          type: integer
+    PolicyGroup:
+      type: object
+      title: io.ad.catalog.api.model.PolicyGroup
+      properties:
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+    ColumnMetadata:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnMetadata
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    Artifact:
+      type: object
+      title: io.ad.dataplane.model.spec.Artifact
+      required:
+      - name
+      - path
+      - version
+      properties:
+        name:
+          type: string
+        path:
+          type: string
+        version:
+          type: string
+    DataplaneJobStatus:
+      type: object
+      title: io.ad.catalog.api.model.DataplaneJobStatus
+      required:
+      - id
+      - isFinished
+      - status
+      properties:
+        details:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        id:
+          type: string
+        isFinished:
+          type: boolean
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+        status:
+          type: string
+    JobSchedule:
+      type: object
+      title: io.ad.catalog.api.model.quality.JobSchedule
+      required:
+      - cronExpression
+      - enabled
+      - scheduleType
+      - timeZone
+      properties:
+        backingAssetId:
+          type: integer
+        cronExpression:
+          type: string
+        enabled:
+          type: boolean
+        id:
+          type: integer
+        marker:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        scheduleType:
+          type: string
+        tenantId:
+          type:
+          - string
+          - 'null'
+        timeZone:
+          type: string
+    DataplaneEngine:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.DataplaneEngine
+      required:
+      - current
+      - displayName
+      properties:
+        current:
+          type: string
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        displayName:
+          type: string
+        supported:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DataQuality.Engine'
+    ExecutionResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.ExecutionResult
+      required:
+      - execution
+      - items
+      - meta
+      - result
+      properties:
+        childExecutions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExecutionResult'
+        execution:
+          $ref: '#/components/schemas/GenericRuleExecution'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleItemResult'
+        meta:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Any'
+        result:
+          $ref: '#/components/schemas/RuleExecutionResult'
+    PolicyTransformUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      required:
+      - assetId
+      - name
+      - parameters
+      - udfId
+      properties:
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    RuleThresholdConfiguration:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleThresholdConfiguration
+      oneOf:
+      - $ref: '#/components/schemas/AbsoluteThresholdConfig'
+      - $ref: '#/components/schemas/AnomalyThresholdConfig'
+      - $ref: '#/components/schemas/RelativeThresholdConfig'
+      - $ref: '#/components/schemas/TimeBasedThresholdConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.quality.AbsoluteThresholdConfig: '#/components/schemas/AbsoluteThresholdConfig'
+          io.ad.catalog.api.model.quality.AnomalyThresholdConfig: '#/components/schemas/AnomalyThresholdConfig'
+          io.ad.catalog.api.model.quality.RelativeThresholdConfig: '#/components/schemas/RelativeThresholdConfig'
+          io.ad.catalog.api.model.quality.TimeBasedThresholdConfig: '#/components/schemas/TimeBasedThresholdConfig'
+    SparkJobStatus:
+      type: object
+      title: io.ad.catalog.api.model.SparkJobStatus
+      required:
+      - id
+      - isFinished
+      - status
+      properties:
+        details:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        id:
+          type: string
+        isFinished:
+          type: boolean
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+        status:
+          type: string
+    ItemExecution:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.ItemExecution
+      required:
+      - executionId
+      - isWarning
+      - ruleItemId
+      - startedAt
+      - threshold
+      - weightage
+      properties:
+        businessItemId:
+          type: integer
+        error:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type: integer
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        finishedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        id:
+          type: integer
+        isWarning:
+          type: boolean
+        item:
+          oneOf:
+          - $ref: '#/components/schemas/Item'
+          - type: 'null'
+        rca:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RootCauseAnalysis'
+        result:
+          type:
+          - string
+          - 'null'
+        resultPercentage:
+          type: number
+        rowsFailed:
+          type: integer
+        rowsScanned:
+          type: integer
+        rowsWarning:
+          type: integer
+        ruleItemId:
+          type: integer
+        segmentHash:
+          type:
+          - string
+          - 'null'
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ItemSegment'
+        startedAt:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type:
+          - string
+          - 'null'
+        threshold:
+          type: number
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - string
+          - 'null'
+        weightage:
+          type: number
+    Item:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Item
+      required:
+      - aggregateType
+      - executionOrder
+      - isArchived
+      - isDimension
+      - isWarning
+      - measurementType
+      - name
+      - resultThreshold
+      - ruleVersion
+      - weightage
+      properties:
+        aggregateType:
+          type: string
+          enum:
+          - SUM
+          - AVG
+          - MIN
+          - MAX
+          - RULE
+          - CUSTOM
+          - COUNT
+        associatedDQRecommendationId:
+          type: integer
+        bulkPolicyDqRuleId:
+          type: integer
+        businessExplanation:
+          type:
+          - string
+          - 'null'
+        columnName:
+          type:
+          - string
+          - 'null'
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        executionOrder:
+          type: integer
+        id:
+          type: integer
+        isArchived:
+          type: boolean
+        isDimension:
+          type: boolean
+        isWarning:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        measurementType:
+          type: string
+          enum:
+          - MISSING_VALUES
+          - FRESHNESS_CHECK
+          - DATATYPE_MATCH
+          - REGEX_MATCH
+          - VALUES_IN_LIST
+          - VALUES_IN_LOOKUP
+          - DISTINCTNESS_CHECK
+          - DUPLICATE_ROWS_CHECK
+          - PRECISION_SCALE_CHECK
+          - BUSINESS_MEASURE
+          - TAG_MATCH
+          - RANGE_MATCH
+          - SIZE_CHECK
+          - CUSTOM
+          - UDF_PREDICATE
+          - SQL_METRIC
+          - AGGREGATES
+          - DATA_FRESHNESS
+          - RECORD_COUNT_TOTAL
+          - RECORD_COUNT_DRIFT
+          - DATA_VOLUME_TOTAL
+          - DATA_VOLUME_DRIFT
+          - FILE_COUNT_TOTAL
+          - FILE_COUNT_DRIFT
+          - CHANGE_IN_FILE_SIZE
+          - ABSOLUTE_FILE_SIZE
+          - RAW_ABSOLUTE_SIZE
+          - RAW_DATA_FRESHNESS
+          - MESSAGES_COUNT_TOTAL
+          - MESSAGES_COUNT_DRIFT
+          - CHANGE_IN_TOPIC_SIZE
+          - ABSOLUTE_TOPIC_SIZE
+        name:
+          type: string
+        resultThreshold:
+          type: number
+        ruleExpression:
+          type:
+          - string
+          - 'null'
+        ruleId:
+          type: integer
+        ruleVersion:
+          type: integer
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        weightage:
+          type: number
+    AnomalyConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AnomalyConfig
+      required:
+      - successSensitivityLevel
+      properties:
+        successSensitivityLevel:
+          type: string
+          enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+        warningSensitivityLevel:
+          type:
+          - string
+          - 'null'
+          enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+    RuleResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.RuleResponse
+      required:
+      - rule
+      properties:
+        details:
+          oneOf:
+          - $ref: '#/components/schemas/Rule'
+          - type: 'null'
+        engine:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneEngine'
+          - type: 'null'
+        rule:
+          $ref: '#/components/schemas/DataQualityRule'
+    RuleSparkSQLDynamicFilterVariableMapping:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleSparkSQLDynamicFilterVariableMapping
+      required:
+      - mapping
+      - ruleName
+      properties:
+        mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mapping'
+        ruleId:
+          type: integer
+        ruleName:
+          type: string
+    AnomalyThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AnomalyThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/AnomalyConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    DataQualityRule:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.DataQualityRule
+      required:
+      - additionalPersistedColumns
+      - archived
+      - backingAsset
+      - continueExecutionOnFailure
+      - createdAt
+      - enabled
+      - executionSequence
+      - includeInQualityScore
+      - isCompositeRule
+      - isProtectedResource
+      - name
+      - policyScoreStrategy
+      - scheduled
+      - sparkSQLFilterType
+      - thresholdLevel
+      - timeZone
+      - treatZeroRowsAsSuccess
+      - type
+      - updatedAt
+      - version
+      properties:
+        additionalPersistedColumns:
+          type: array
+          items:
+            type: string
+        archivalReason:
+          type:
+          - string
+          - 'null'
+        archived:
+          type: boolean
+        autoCreated:
+          type: boolean
+        autoRetryEnabled:
+          type: boolean
+        backingAsset:
+          $ref: '#/components/schemas/BackingAsset'
+        continueExecutionOnFailure:
+          type: boolean
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        customSqlConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CustomSqlConfig'
+          - type: 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        enabled:
+          type: boolean
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionSequence:
+          type: integer
+        executionTimeoutInMinutes:
+          type: integer
+        filter:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        isCompositeRule:
+          type: boolean
+        isProtectedResource:
+          type: boolean
+        jobSchedule:
+          oneOf:
+          - $ref: '#/components/schemas/JobSchedule'
+          - type: 'null'
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        notificationChannels:
+          oneOf:
+          - $ref: '#/components/schemas/NotificationPayload'
+          - type: 'null'
+        parentId:
+          type: integer
+        policyGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyGroup'
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        ruleSetId:
+          type: integer
+        schedule:
+          type:
+          - string
+          - 'null'
+        scheduled:
+          type: boolean
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShortSegment'
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        sparkSQLDynamicFilterVariableMapping:
+          oneOf:
+          - $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+          - type: 'null'
+        sparkSQLFilterType:
+          type: string
+          enum:
+          - STATIC
+          - DYNAMIC
+        subType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - SQL
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleTag'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        thresholdLevel:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        timeZone:
+          type: string
+        totalExecutionTimeoutInMinutes:
+          type: integer
+        treatZeroRowsAsSuccess:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - DATA_QUALITY
+          - RECONCILIATION
+          - EQUALITY
+          - DATA_DRIFT
+          - SCHEMA_DRIFT
+          - DATA_CADENCE
+          - PROFILE_ANOMALY
+          - AUTO_ANOMALY
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        version:
+          type: integer
+    DecreasedByConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.DecreasedByConfig
+      required:
+      - direction
+      - operator
+      - success
+      - unit
+      - isDirectional
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        operator:
+          type: string
+          enum:
+          - LEGACY
+          - EQ
+          - NEQ
+          - GT
+          - GTE
+          - LT
+          - LTE
+        success:
+          type: number
+        unit:
+          type: string
+          enum:
+          - PERCENTAGE
+          - ABSOLUTE
+        warning:
+          type: number
+        isDirectional:
+          type: boolean
+    DataQualityRuleList:
+      type: object
+      description: Paginated list of data quality rules
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataQualityRule_2'
+        total:
+          type: integer
+          example: 35
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
     CreateDataQualityRuleRequest:
       type: object
       description: Request body for creating a data quality rule
@@ -172,23 +4082,7 @@ components:
           type: string
           description: Severity of alerts triggered by this rule
           example: high
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
-    DataQualityRule:
+    DataQualityRule_2:
       type: object
       description: A data quality monitoring rule
       properties:
@@ -250,26 +4144,12 @@ components:
           format: date-time
           description: Rule creation timestamp
           example: '2026-01-10T12:00:00Z'
-    DataQualityRuleList:
-      type: object
-      description: Paginated list of data quality rules
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataQualityRule'
-        total:
-          type: integer
-          example: 35
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
   securitySchemes:
     apiKey:
       type: apiKey
       in: header
       name: X-API-Key
       description: Acceldata API key for authentication
+x-refined-from:
+- acceldata-catalog-api-openapi.json
+- acceldata-adoc-api.yaml

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Acceldata - Data Observability Cloud Alerts Users API
+  title: Acceldata - Data Observability Cloud Users API
   description: The Acceldata Data Observability Cloud (ADOC) API provides programmatic access to data observability, data quality, pipeline monitoring, alerts, data lineage, and administration features. It enables enterprise teams to integrate Acceldata's observability data into custom workflows, dashboards, and automation pipelines.
   version: 1.0.0
   contact:
@@ -72,39 +72,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UserList:
-      type: object
-      description: Paginated list of users
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        total:
-          type: integer
-          example: 50
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
     User:
       type: object
       description: A user in the Acceldata platform
@@ -139,6 +106,39 @@ components:
           format: date-time
           description: Account creation timestamp
           example: '2026-01-05T10:00:00Z'
+    UserList:
+      type: object
+      description: Paginated list of users
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        total:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
   securitySchemes:
     apiKey:
       type: apiKey

@@ -1,0 +1,1161 @@
+openapi: 3.2.0
+info:
+  title: Catalog Custom Assets API
+  version: '1.0'
+  description: API for managing the ADOC data catalog, including assets, asset metadata, tags, labels, sampling, lineage, and watched assets, as well as data reliability policies (data quality, reconciliation, data drift, schema drift, and related rule types) and their executions. Covers discovering and searching assets, retrieving asset configuration and activity, and creating, scheduling, and running policies against catalog assets.
+tags:
+- name: Custom Assets
+paths:
+  /catalog-server/api/custom-assets/sql-view/{id}:
+    put:
+      operationId: updateSqlView
+      tags:
+      - Custom Assets
+      summary: Update a SQL view custom asset
+      description: 'This endpoint updates the content of an existing SQL view custom asset, identified by its `ID`. The request body should be in raw format and include the following payload structure:
+
+
+        #### Request Body
+
+
+        - **data** (object, required)
+
+
+        - Represents the request object to update an SQL view.
+
+
+        - **name** (string)
+
+
+        - The updated name for the SQL view. If omitted, the existing name is retained.
+
+
+        - **details** (object, required)
+
+
+        - Provides details about the SQL view, including the query.
+
+
+        - **query** (string, required)
+
+
+        - The query used to construct the SQL view.
+
+
+        - **description** (string, required)
+
+
+        - Description of the SQL view query.
+
+
+        - **schema** (array\[object\], required)
+
+
+        - Specifies the schema for SQL view columns. Update this field with data from the API response of the `/catalog-server/api/custom-assets/sql-view/sample/result/:requestId` GET request, particularly from `result.schema.fields`.
+
+
+        - **type** (string, required)
+
+
+        - Specifies the SQL view column type.
+
+
+        - **nullable** (boolean, required)
+
+
+        - Indicates whether the SQL view column is nullable.
+
+
+        - **name** (string, required)
+
+
+        - Describes the SQL view column name.'
+      parameters:
+      - name: id
+        in: path
+        description: Custom asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      - name: Content-Type
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Updated SQL view definition and metadata
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSqlViewRequest'
+      responses:
+        '200':
+          description: Updated custom asset wrapped in StandardResponse
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                properties:
+                  data:
+                    type: object
+        '400':
+          description: '"Schema cannot be empty" / "Query cannot be empty" / "Description cannot be empty"'
+        '404':
+          description: '"Custom asset with id {id} not found"'
+    delete:
+      operationId: deleteSqlView
+      tags:
+      - Custom Assets
+      summary: Delete a SQL view custom asset
+      description: This DELETE method is used to delete a SQL View based on its id.
+      parameters:
+      - name: id
+        in: path
+        description: Custom asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: SQL view deleted successfully
+        '404':
+          description: '"Custom asset with id {id} not found"'
+        '422':
+          description: '"Failed to delete the Custom Asset. Most Probably there is a Policy associated with this CustomAsset and hence it can''t be deleted"'
+    get:
+      operationId: getSqlView
+      tags:
+      - Custom Assets
+      summary: Get a SQL view custom asset
+      description: '---
+
+
+        This endpoint retrieves the custom asset SQL view by providing the asset ID of the custom asset.'
+      parameters:
+      - name: id
+        in: path
+        description: Custom asset ID
+        required: true
+        schema:
+          type: integer
+      - name: accessKey
+        in: header
+        description: API access key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: secretKey
+        in: header
+        description: API secret key generated from ADOC UI
+        required: true
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        description: Always set to application/json
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: SQL view custom asset details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomAssetResponse'
+        '404':
+          description: '"Asset with id:{id} does not exist" / "No Custom Asset found for assetId:{id}"'
+components:
+  schemas:
+    UpdateSqlViewRequest:
+      type: object
+      title: io.ad.catalog.api.model.UpdateSqlViewRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/UpdateSqlView'
+    Assembly:
+      type: object
+      title: io.ad.catalog.api.model.Assembly
+      required:
+      - autoProfile
+      - crawler
+      - createdAt
+      - description
+      - isSecured
+      - isVirtual
+      - name
+      - sourceType
+      - status
+      - tenantId
+      - timeZone
+      - updatedAt
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assemblyProperties:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        autoProfile:
+          type: boolean
+        configuration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        conn:
+          oneOf:
+          - $ref: '#/components/schemas/Connection'
+          - type: 'null'
+        connectionId:
+          type: integer
+        crawler:
+          $ref: '#/components/schemas/Crawler'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        currentSnapshot:
+          type:
+          - string
+          - 'null'
+        description:
+          type: string
+        id:
+          type: integer
+        integrationId:
+          type:
+          - string
+          - 'null'
+        isProtectedResource:
+          type: boolean
+        isSecured:
+          type: boolean
+        isVirtual:
+          type: boolean
+        name:
+          type: string
+        schedule:
+          type:
+          - string
+          - 'null'
+        securityConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SecurityConfig'
+          - type: 'null'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - MARKED_FOR_DELETED
+        tenantId:
+          type: string
+        timeZone:
+          type: string
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    ConfigProperty:
+      type: object
+      title: io.ad.catalog.api.model.ConfigProperty
+      required:
+      - key
+      - value
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
+          type: string
+    LivyComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.LivyComputeConfig
+      required:
+      - driverCores
+      - driverMemory
+      properties:
+        driverCores:
+          type: integer
+        driverMemory:
+          type: string
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        numExecutors:
+          type: integer
+    Connection:
+      type: object
+      title: io.ad.catalog.api.model.Connection
+      required:
+      - analyticsPipeline
+      - assembliesCount
+      - connectionType
+      - createdAt
+      - name
+      - properties
+      - updatedAt
+      properties:
+        analyticsPipeline:
+          $ref: '#/components/schemas/AnalyticsPipeline'
+        assembliesCount:
+          type: integer
+        configuration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        connectionType:
+          $ref: '#/components/schemas/ConnectionType'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        name:
+          type: string
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigProperty'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    SecretManagerConfigurationWithOption:
+      type: object
+      title: io.ad.catalog.api.model.SecretManagerConfigurationWithOption
+      required:
+      - defaultOption
+      - secretManagerConfig
+      properties:
+        defaultOption:
+          type: boolean
+        secretManagerConfig:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecretManagerConfiguration'
+    Any:
+      type: object
+      title: kotlin.Any
+    SourceType:
+      type: object
+      title: io.ad.catalog.api.model.SourceType
+      required:
+      - miniProfiling
+      - name
+      properties:
+        connectionTypeId:
+          type: integer
+        id:
+          type: integer
+        miniProfiling:
+          type: boolean
+        name:
+          type: string
+        sourceModel:
+          oneOf:
+          - $ref: '#/components/schemas/SourceModel'
+          - type: 'null'
+    KubernetesMetrics:
+      type: object
+      title: io.ad.catalog.api.model.KubernetesMetrics
+      required:
+      - reportingTime
+      - status
+      properties:
+        reportingTime:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type: string
+    GlobalStorageConfigDTO:
+      type: object
+      title: io.ad.catalog.api.model.GlobalStorageConfigDTO
+      required:
+      - measureResultFsType
+      properties:
+        adlsGeneration:
+          type:
+          - string
+          - 'null'
+        adlsStorageAccountName:
+          type:
+          - string
+          - 'null'
+        adlsStorageContainerName:
+          type:
+          - string
+          - 'null'
+        gcsBucketName:
+          type:
+          - string
+          - 'null'
+        gcsProjectId:
+          type:
+          - string
+          - 'null'
+        hdfsDirectory:
+          type:
+          - string
+          - 'null'
+        measureResultADLSAccessMode:
+          type:
+          - string
+          - 'null'
+        measureResultFsType:
+          type: string
+        measureResultGCSAccessMode:
+          type:
+          - string
+          - 'null'
+        measureResultS3AAccessInstanceProfileARN:
+          type:
+          - string
+          - 'null'
+        measureResultS3AAccessMode:
+          type:
+          - string
+          - 'null'
+        s3BucketName:
+          type:
+          - string
+          - 'null'
+        s3Region:
+          type:
+          - string
+          - 'null'
+    AnalyticsPipeline:
+      type: object
+      title: io.ad.catalog.api.model.AnalyticsPipeline
+      required:
+      - dataplaneType
+      - isHosted
+      - isInternalCall
+      - isPaused
+      - isRequestSentByDataplane
+      - isRotationInProgress
+      - name
+      - statusReportInterval
+      - tenantId
+      - version
+      properties:
+        accessKey:
+          type:
+          - string
+          - 'null'
+        accessKeyExpiry:
+          type: integer
+        additionalConfiguration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        autoRetryEnabled:
+          type: boolean
+        cloudProvider:
+          type:
+          - string
+          - 'null'
+        connectionCount:
+          type: integer
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        dataplaneAccessKey:
+          type:
+          - string
+          - 'null'
+        dataplaneSecretKey:
+          type:
+          - string
+          - 'null'
+        dataplaneType:
+          type: string
+        dataplaneVersion:
+          type:
+          - string
+          - 'null'
+        deploymentDetails:
+          oneOf:
+          - $ref: '#/components/schemas/HostedDPDeploymentResponse'
+          - type: 'null'
+        deploymentStackId:
+          type:
+          - string
+          - 'null'
+        deploymentStackRegion:
+          type:
+          - string
+          - 'null'
+        deploymentStatus:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        endpoint:
+          oneOf:
+          - $ref: '#/components/schemas/AnalyticsPipelineEndpoint'
+          - type: 'null'
+        externalUrl:
+          type:
+          - string
+          - 'null'
+        globalStorageBasePath:
+          type:
+          - string
+          - 'null'
+        globalStorageConfig:
+          oneOf:
+          - $ref: '#/components/schemas/GlobalStorageConfigDTO'
+          - type: 'null'
+        hbaseEnabled:
+          type: boolean
+        hdfsEnabled:
+          type: boolean
+        healthReport:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneHealthMetrics'
+          - type: 'null'
+        helmTemplateValues:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        hiveEnabled:
+          type: boolean
+        id:
+          type: integer
+        ingestKey:
+          type:
+          - string
+          - 'null'
+        installationType:
+          type:
+          - string
+          - 'null'
+        isHosted:
+          type: boolean
+        isInternalCall:
+          type: boolean
+        isPaused:
+          type: boolean
+        isRequestSentByDataplane:
+          type: boolean
+        isRotationInProgress:
+          type: boolean
+        kerberosEnabled:
+          type: boolean
+        lastStatusReportTime:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        measureResultFsType:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        namespace:
+          type:
+          - string
+          - 'null'
+        parentPipelineId:
+          type: integer
+        pausedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        pausedBy:
+          type:
+          - string
+          - 'null'
+        pipelineComputeConfig:
+          oneOf:
+          - $ref: '#/components/schemas/PipelineComputeConfig'
+          - type: 'null'
+        pipelineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ANALYSIS
+          - MONITOR
+          - QUERY_ANALYSIS
+        registryPrefix:
+          type:
+          - string
+          - 'null'
+        registryUrl:
+          type:
+          - string
+          - 'null'
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        rotationAccessKey:
+          type:
+          - string
+          - 'null'
+        rotationIngestKey:
+          type:
+          - string
+          - 'null'
+        rotationSecretKey:
+          type:
+          - string
+          - 'null'
+        secretKey:
+          type:
+          - string
+          - 'null'
+        secretsManagerConfiguration:
+          oneOf:
+          - $ref: '#/components/schemas/SecretManagerConfigurationWithOption'
+          - type: 'null'
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        serviceUserId:
+          type:
+          - string
+          - 'null'
+        sparkMajorVersion:
+          type:
+          - string
+          - 'null'
+        sparkRuntime:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        statusReportInterval:
+          type: integer
+        tenantId:
+          type: string
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        upgradeAvailable:
+          type: boolean
+        url:
+          type:
+          - string
+          - 'null'
+        version:
+          type: string
+    SqlViewColumn:
+      type: object
+      title: io.ad.catalog.api.model.SqlViewColumn
+      required:
+      - name
+      - nullable
+      - type
+      properties:
+        name:
+          type: string
+        nullable:
+          type: boolean
+        type:
+          type: string
+    DatabricksComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.DatabricksComputeConfig
+      properties:
+        clusterDriverType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        jobClusterType:
+          type:
+          - string
+          - 'null'
+        maxWorkers:
+          type: integer
+        minWorkers:
+          type: integer
+    ConnectionType:
+      type: object
+      title: io.ad.catalog.api.model.ConnectionType
+      required:
+      - id
+      - type
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+    SecurityConfig:
+      type: object
+      title: io.ad.catalog.api.model.SecurityConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          type: object
+          additionalProperties:
+            type: string
+        type:
+          type: string
+    PipelineComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.PipelineComputeConfig
+      properties:
+        databricks:
+          oneOf:
+          - $ref: '#/components/schemas/DatabricksComputeConfig'
+          - type: 'null'
+        dataproc:
+          oneOf:
+          - $ref: '#/components/schemas/DataprocComputeConfig'
+          - type: 'null'
+        livy:
+          oneOf:
+          - $ref: '#/components/schemas/LivyComputeConfig'
+          - type: 'null'
+        yunikorn:
+          oneOf:
+          - $ref: '#/components/schemas/YunikornComputeConfig'
+          - type: 'null'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    Crawler:
+      type: object
+      title: io.ad.catalog.api.model.Crawler
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    ProcessMetrics:
+      type: object
+      title: io.ad.catalog.api.model.ProcessMetrics
+      required:
+      - reportingTime
+      - status
+      properties:
+        reportingTime:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type: string
+    SqlView:
+      type: object
+      title: io.ad.catalog.api.model.SqlView
+      required:
+      - asset
+      - createdAt
+      - query
+      - queryType
+      - updatedAt
+      properties:
+        asset:
+          $ref: '#/components/schemas/Asset'
+        backingAssetId:
+          type: integer
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        query:
+          type: string
+        queryType:
+          type: string
+          enum:
+          - SQL_QUERY
+          - FILTER
+          - AGGREGATION_PIPELINE
+        tableAlias:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    DataprocComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.DataprocComputeConfig
+      properties:
+        clusterMasterType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        numMasterNodes:
+          type: integer
+        numWorkerNodes:
+          type: integer
+    YunikornComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.YunikornComputeConfig
+      required:
+      - driverCores
+      - driverMemory
+      properties:
+        driverCoreLimit:
+          type:
+          - string
+          - 'null'
+        driverCoreRequest:
+          type:
+          - string
+          - 'null'
+        driverCores:
+          type: integer
+        driverMemory:
+          type: string
+        executorCoreLimit:
+          type:
+          - string
+          - 'null'
+        executorCoreRequest:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        maxExecutors:
+          type: integer
+        minExecutors:
+          type: integer
+    HostedDPDeploymentResponse:
+      type: object
+      title: io.ad.catalog.api.model.HostedDPDeploymentResponse
+      required:
+      - dataplaneName
+      - deploymentName
+      - message
+      - namespace
+      - status
+      - uid
+      properties:
+        dataplaneName:
+          type: string
+        deploymentName:
+          type: string
+        message:
+          type: string
+        namespace:
+          type: string
+        status:
+          type: string
+        uid:
+          type: string
+    DataplaneHealthMetrics:
+      type: object
+      title: io.ad.catalog.api.model.DataplaneHealthMetrics
+      required:
+      - process
+      - reportingTime
+      properties:
+        kubernetes:
+          oneOf:
+          - $ref: '#/components/schemas/KubernetesMetrics'
+          - type: 'null'
+        process:
+          $ref: '#/components/schemas/ProcessMetrics'
+        reportingTime:
+          $ref: '#/components/schemas/DateTime'
+    Asset:
+      type: object
+      title: io.ad.catalog.api.model.Asset
+      required:
+      - assembly
+      - assetType
+      - createdAt
+      - description
+      - isActive
+      - isCustom
+      - isDeleted
+      - isSegmented
+      - name
+      - sourceType
+      - uid
+      - updatedAt
+      properties:
+        alias:
+          type:
+          - string
+          - 'null'
+        assembly:
+          $ref: '#/components/schemas/Assembly'
+        assetType:
+          $ref: '#/components/schemas/AssetType'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        currentSnapshot:
+          type:
+          - string
+          - 'null'
+        customAssetType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SQL_VIEW
+          - SQL_VIEW_COLUMN
+          - VISUAL_VIEW
+          - VISUAL_VIEW_COLUMN
+        description:
+          type: string
+        id:
+          type: integer
+        imprint:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        isCustom:
+          type: boolean
+        isDeleted:
+          type: boolean
+        isSegmented:
+          type: boolean
+        name:
+          type: string
+        parentId:
+          type: integer
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        uid:
+          type: string
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    CustomAssetResponse:
+      type: object
+      title: io.ad.catalog.api.model.CustomAssetResponse
+      required:
+      - customAsset
+      properties:
+        customAsset:
+          $ref: '#/components/schemas/SqlView'
+    SourceModel:
+      type: object
+      title: io.ad.catalog.api.model.SourceModel
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    SecretManagerConfiguration:
+      type: object
+      title: io.ad.catalog.api.model.SecretManagerConfiguration
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    AnalyticsPipelineEndpoint:
+      type: object
+      title: io.ad.catalog.api.model.AnalyticsPipelineEndpoint
+      required:
+      - type
+      - useCertificate
+      properties:
+        analyticsPipelineId:
+          type: integer
+        caRoot:
+          type:
+          - string
+          - 'null'
+        certificate:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        expiresAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        id:
+          type: integer
+        key:
+          type:
+          - string
+          - 'null'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+          enum:
+          - EXTERNAL
+          - TUNNEL_V1
+          - TUNNEL_V2
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        useCertificate:
+          type: boolean
+    SqlViewDetails:
+      type: object
+      title: io.ad.catalog.api.model.SqlViewDetails
+      required:
+      - description
+      - query
+      - queryType
+      properties:
+        description:
+          type: string
+        query:
+          type: string
+        queryType:
+          type: string
+          enum:
+          - SQL_QUERY
+          - FILTER
+          - AGGREGATION_PIPELINE
+        tableAlias:
+          type:
+          - string
+          - 'null'
+    AssetType:
+      type: object
+      title: io.ad.catalog.api.model.AssetType
+      required:
+      - canMonitor
+      - canProfile
+      - canSample
+      - name
+      properties:
+        canMonitor:
+          type: boolean
+        canProfile:
+          type: boolean
+        canSample:
+          type: boolean
+        id:
+          type: integer
+        name:
+          type: string
+    UpdateSqlView:
+      type: object
+      title: io.ad.catalog.api.model.UpdateSqlView
+      required:
+      - details
+      - schema
+      properties:
+        details:
+          $ref: '#/components/schemas/SqlViewDetails'
+        name:
+          type:
+          - string
+          - 'null'
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/SqlViewColumn'

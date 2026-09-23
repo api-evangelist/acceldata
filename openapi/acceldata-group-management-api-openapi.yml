@@ -1,0 +1,763 @@
+openapi: 3.2.0
+info:
+  title: Admin Group Management API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: Group Management
+  description: Create, retrieve, update, and delete user groups, and view the roles available to a group. Groups let administrators assign roles and permissions to multiple users at once instead of managing them individually.
+paths:
+  /admin/api/groups/list:
+    get:
+      operationId: listGroupsSummary
+      tags:
+      - Group Management
+      summary: List groups (summary view)
+      description: 'Returns a paginated list of user groups with summary information.
+
+        Supports filtering by name and SCIM management status.'
+      parameters:
+      - name: first
+        in: query
+        description: 'Starting index for pagination (default: 0)'
+        schema:
+          type: string
+      - name: last
+        in: query
+        description: 'Maximum number of groups to return (default: 10)'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search string to filter groups by name
+        schema:
+          type: string
+      - name: scimEnabled
+        in: query
+        description: Filter by SCIM management status (true/false)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of groups with metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsListResponse'
+  /admin/api/groups/metadata:
+    post:
+      operationId: getGroupsMetadata
+      tags:
+      - Group Management
+      summary: Get metadata for groups
+      description: Returns display names for the specified group IDs.
+      requestBody:
+        description: List of group IDs
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: Map of group ID to display name
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /admin/api/groups:
+    post:
+      operationId: createGroup
+      tags:
+      - Group Management
+      summary: Create a group
+      description: Creates a new user group. Requires CREATE_USER_GROUPS permission.
+      requestBody:
+        description: Group creation request with name, members, roles, and attributes
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserGroupRequest'
+      responses:
+        '200':
+          description: Created group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetails'
+    get:
+      operationId: listGroups
+      tags:
+      - Group Management
+      summary: List all groups
+      description: Returns a paginated list of user groups. Requires VIEW_USER_GROUPS permission.
+      parameters:
+      - name: first
+        in: query
+        description: 'Starting index for pagination (default: 0)'
+        schema:
+          type: string
+      - name: last
+        in: query
+        description: 'Maximum number of groups to return (default: 10)'
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search string to filter groups by name
+        schema:
+          type: string
+      - name: scimEnabled
+        in: query
+        description: Filter by SCIM management status (true/false)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of groups with metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupsListResponse'
+  /admin/api/groups/{groupId}:
+    put:
+      operationId: updateGroup
+      tags:
+      - Group Management
+      summary: Update a group
+      description: 'Updates the specified group. Requires MODIFY_USER_GROUPS permission.
+
+        SCIM-managed groups cannot have their name changed.'
+      parameters:
+      - name: groupId
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Group update request with name, role changes, member changes, and attributes
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditUserGroupRequest'
+      responses:
+        '200':
+          description: Updated group details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetails'
+        '403':
+          description: Cannot rename SCIM-managed groups
+    delete:
+      operationId: deleteGroup
+      tags:
+      - Group Management
+      summary: Delete a group
+      description: 'Deletes the specified user group. Requires MODIFY_USER_GROUPS permission.
+
+        SCIM-managed groups cannot be deleted.'
+      parameters:
+      - name: groupId
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '403':
+          description: Cannot delete SCIM-managed groups
+        '500':
+          description: Failed to delete group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+    get:
+      operationId: getGroup
+      tags:
+      - Group Management
+      summary: Get a group by ID
+      description: Returns the group details for the specified group ID. Requires VIEW_USER_GROUPS permission.
+      parameters:
+      - name: groupId
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Group details including members, roles, and attributes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetails'
+  /admin/api/groups/{groupId}/available-roles:
+    get:
+      operationId: getGroupAvailableRoles
+      tags:
+      - Group Management
+      summary: Get available roles for a group
+      description: 'Returns client roles available to assign to the specified group.
+
+        Requires VIEW_USER_GROUPS permission.'
+      parameters:
+      - name: groupId
+        in: path
+        description: Group ID
+        required: true
+        schema:
+          type: string
+      - name: clientId
+        in: query
+        description: Client ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Available client roles for the group
+components:
+  schemas:
+    Group:
+      type: object
+      title: Group
+      required:
+      - domainRoleMappings
+      - id
+      - membersCount
+      - name
+      - roles
+      - rolesCount
+      - scimManaged
+      properties:
+        createdAt:
+          type: integer
+        createdBy:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        id:
+          type: string
+        membersCount:
+          type: integer
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        rolesCount:
+          type: integer
+        scimManaged:
+          type: boolean
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    CredentialRepresentation:
+      type: object
+      title: CredentialRepresentation
+      required:
+      - id
+      - type
+      - userLabel
+      - createdDate
+      - secretData
+      - credentialData
+      - priority
+      - value
+      - temporary
+      - device
+      - hashedSaltedValue
+      - salt
+      - hashIterations
+      - counter
+      - algorithm
+      - digits
+      - period
+      - config
+      - federationLink
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        userLabel:
+          type: string
+        createdDate:
+          type: integer
+        secretData:
+          type: string
+        credentialData:
+          type: string
+        priority:
+          type: integer
+        value:
+          type: string
+        temporary:
+          type: boolean
+        device:
+          type: string
+        hashedSaltedValue:
+          type: string
+        salt:
+          type: string
+        hashIterations:
+          type: integer
+        counter:
+          type: integer
+        algorithm:
+          type: string
+        digits:
+          type: integer
+        period:
+          type: integer
+        config:
+          type: object
+          additionalProperties:
+            type: string
+        federationLink:
+          type: string
+    UserRepresentation:
+      type: object
+      title: UserRepresentation
+      required:
+      - self
+      - origin
+      - createdTimestamp
+      - totp
+      - federationLink
+      - serviceAccountClientId
+      - credentials
+      - disableableCredentialTypes
+      - requiredActions
+      - federatedIdentities
+      - realmRoles
+      - clientRoles
+      - clientConsents
+      - notBefore
+      - applicationRoles
+      - socialLinks
+      - groups
+      - access
+      - id
+      - username
+      - firstName
+      - lastName
+      - email
+      - emailVerified
+      - attributes
+      - enabled
+      properties:
+        self:
+          type: string
+        origin:
+          type: string
+        createdTimestamp:
+          type: integer
+        totp:
+          type: boolean
+        federationLink:
+          type: string
+        serviceAccountClientId:
+          type: string
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialRepresentation'
+        disableableCredentialTypes:
+          type: array
+          items:
+            type: string
+        requiredActions:
+          type: array
+          items:
+            type: string
+        federatedIdentities:
+          type: array
+          items:
+            $ref: '#/components/schemas/FederatedIdentityRepresentation'
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        clientConsents:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserConsentRepresentation'
+        notBefore:
+          type: integer
+        applicationRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        socialLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialLinkRepresentation'
+        groups:
+          type: array
+          items:
+            type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        emailVerified:
+          type: boolean
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        enabled:
+          type: boolean
+    EditUserGroupRequest:
+      type: object
+      title: EditUserGroupRequest
+      required:
+      - addDomainRoleMappings
+      - name
+      - removeDomainRoleMappings
+      - rolesAdded
+      - rolesRemoved
+      - usersAdded
+      - usersRemoved
+      properties:
+        addDomainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        description:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        removeDomainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        rolesAdded:
+          type: array
+          items:
+            type: integer
+        rolesRemoved:
+          type: array
+          items:
+            type: integer
+        usersAdded:
+          type: array
+          items:
+            type: string
+        usersRemoved:
+          type: array
+          items:
+            type: string
+    EntityDomainRoleMapping:
+      type: object
+      title: EntityDomainRoleMapping
+      required:
+      - domainId
+      - entityType
+      - roleId
+      - roleType
+      properties:
+        domainId:
+          type: integer
+        entityId:
+          type:
+          - string
+          - 'null'
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        id:
+          type: integer
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    Metadata:
+      type: object
+      title: Metadata
+      required:
+      - createdAt
+      - createdBy
+      - numberOfDirectGroupsAssigned
+      - numberOfDirectUsersAssigned
+      - numberOfDomainUserGroupAssigned
+      properties:
+        createdAt:
+          type: integer
+        createdBy:
+          type: string
+        numberOfDirectGroupsAssigned:
+          type: integer
+        numberOfDirectUsersAssigned:
+          type: integer
+        numberOfDomainUserGroupAssigned:
+          type: integer
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    Role:
+      type: object
+      title: Role
+      required:
+      - id
+      - name
+      properties:
+        default:
+          type: boolean
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    GroupsListResponse:
+      type: object
+      title: GroupsListResponse
+      required:
+      - groups
+      - meta
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    GroupDetails:
+      type: object
+      title: GroupDetails
+      required:
+      - domainRoleMappings
+      - id
+      - members
+      - name
+      - roles
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        createdAt:
+          type: integer
+        createdBy:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        id:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRepresentation'
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    UserConsentRepresentation:
+      type: object
+      title: UserConsentRepresentation
+      required:
+      - clientId
+      - grantedClientScopes
+      - createdDate
+      - lastUpdatedDate
+      - grantedRealmRoles
+      properties:
+        clientId:
+          type: string
+        grantedClientScopes:
+          type: array
+          items:
+            type: string
+        createdDate:
+          type: integer
+        lastUpdatedDate:
+          type: integer
+        grantedRealmRoles:
+          type: array
+          items:
+            type: string
+    Meta:
+      type: object
+      title: Meta
+      required:
+      - page
+      - size
+      - total
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    SocialLinkRepresentation:
+      type: object
+      title: SocialLinkRepresentation
+      required:
+      - socialProvider
+      - socialUserId
+      - socialUsername
+      properties:
+        socialProvider:
+          type: string
+        socialUserId:
+          type: string
+        socialUsername:
+          type: string
+    FederatedIdentityRepresentation:
+      type: object
+      title: FederatedIdentityRepresentation
+      required:
+      - identityProvider
+      - userId
+      - userName
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+    CreateUserGroupRequest:
+      type: object
+      title: CreateUserGroupRequest
+      required:
+      - domainRoleMappings
+      - members
+      - name
+      - roles
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        members:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            type: integer

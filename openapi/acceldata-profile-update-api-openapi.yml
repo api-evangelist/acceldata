@@ -1,0 +1,59 @@
+openapi: 3.2.0
+info:
+  title: Admin Profile Update API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: Profile Update
+  description: Self-service account operations, such as triggering a forgot-password email for a user.
+paths:
+  /admin/api/profile-update/forgot-password:
+    post:
+      operationId: forgotPassword
+      tags:
+      - Profile Update
+      summary: Trigger forgot-password email
+      description: Sends a password reset email to the specified user.
+      requestBody:
+        description: Realm and email address
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Password reset email triggered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Failed to trigger password reset email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+components:
+  schemas:
+    ForgotPasswordRequest:
+      type: object
+      title: ForgotPasswordRequest
+      required:
+      - email
+      - realm
+      properties:
+        email:
+          type: string
+        realm:
+          type: string
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean

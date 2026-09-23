@@ -1,0 +1,36 @@
+openapi: 3.2.0
+info:
+  title: Admin Role Mapping API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: Role Mapping
+  description: Retrieve the client roles currently assigned to a user.
+paths:
+  /admin/api/assigned-client-roles/{userId}:
+    get:
+      operationId: getAssignedClientRoles
+      tags:
+      - Role Mapping
+      summary: Get assigned client roles for a user
+      description: 'Returns client roles assigned to the specified user.
+
+        Requires VIEW_ROLE permission or matching user identity.'
+      parameters:
+      - name: userId
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: string
+      - name: clientId
+        in: query
+        description: Client ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Assigned client roles
+        '403':
+          description: Insufficient permissions

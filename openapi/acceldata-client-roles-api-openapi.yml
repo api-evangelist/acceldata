@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: Admin Client Roles API
+  version: '1.0'
+  description: API for managing users, groups, API keys, and role assignments in Acceldata's tenant administration service. Covers user and service user lifecycle (create, update, disable), user group management, client role assignment, and API key issuance and revocation. SCIM-managed users and groups have restricted edit and delete operations, since their source of truth is the identity provider.
+tags:
+- name: Client Roles
+  description: Assign and remove client (platform) roles for a user. Client roles determine which platform-wide actions a user can perform, independent of any domain-scoped access.
+paths:
+  /admin/api/assign-client-roles:
+    put:
+      operationId: assignClientRoles
+      tags:
+      - Client Roles
+      summary: Assign client roles to a user
+      description: 'Assigns one or more client-level roles to a user.
+
+        Requires VIEW_ROLE and MODIFY_USERS permissions.'
+      requestBody:
+        description: Client role assignment request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignClientRoleRequest'
+      responses:
+        '200':
+          description: Roles assigned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '500':
+          description: Failed to assign roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+  /admin/api/remove-assigned-client-roles:
+    put:
+      operationId: removeAssignedClientRoles
+      tags:
+      - Client Roles
+      summary: Remove assigned client roles from a user
+      description: 'Removes previously assigned client-level roles from a user.
+
+        Requires VIEW_ROLE and MODIFY_USERS permissions.'
+      requestBody:
+        description: Client role removal request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignClientRoleRequest'
+      responses:
+        '200':
+          description: Roles removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '500':
+          description: Failed to remove roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+components:
+  schemas:
+    AssignClientRoleRequest:
+      type: object
+      title: AssignClientRoleRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignClientRole'
+    EntityRoleMapping:
+      type: object
+      title: EntityRoleMapping
+      required:
+      - entityId
+      - entityType
+      - roleId
+      - roleType
+      properties:
+        entityId:
+          type: string
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    ServiceUserDomainRoleMappingChunk:
+      type: object
+      title: ServiceUserDomainRoleMappingChunk
+      required:
+      - domainId
+      - roleIds
+      properties:
+        domainId:
+          type: integer
+        roleIds:
+          type: array
+          items:
+            type: integer
+    AssignClientRole:
+      type: object
+      title: AssignClientRole
+      required:
+      - clientId
+      - domainRoleMapping
+      - roles
+      - serviceUserDomainRoleMappings
+      - userId
+      properties:
+        clientId:
+          type: string
+        domainRoleMapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityRoleMapping'
+        roles:
+          type: array
+          items:
+            type: integer
+        serviceUserDomainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceUserDomainRoleMappingChunk'
+        userId:
+          type: string
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
