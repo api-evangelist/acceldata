@@ -56,6 +56,23 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    RoleList:
+      type: object
+      description: Paginated list of roles
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        total:
+          type: integer
+          example: 5
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
     Role:
       type: object
       description: A role with associated permissions
@@ -81,23 +98,6 @@ components:
           - read:all
           - write:all
           - admin:users
-    RoleList:
-      type: object
-      description: Paginated list of roles
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        total:
-          type: integer
-          example: 5
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
     ErrorResponse:
       type: object
       description: Error response

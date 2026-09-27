@@ -339,6 +339,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Label'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
     TagDomain:
       type: object
       title: io.ad.catalog.api.model.tags.TagDomain
@@ -368,6 +371,26 @@ components:
           oneOf:
           - $ref: '#/components/schemas/DateTime'
           - type: 'null'
+    AssetTagResponse:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagResponse
+      required:
+      - assetTags
+      properties:
+        assetTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetTag'
+    AssetTagRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagRequest
+      properties:
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
     Label:
       type: object
       title: io.ad.catalog.api.model.Label
@@ -390,9 +413,6 @@ components:
           - USER_DEFINED_FUNCTION
         value:
           type: string
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
     AssetTag:
       type: object
       title: io.ad.catalog.api.model.AssetTag
@@ -433,23 +453,3 @@ components:
           type:
           - string
           - 'null'
-    AssetTagRequest:
-      type: object
-      title: io.ad.catalog.api.model.AssetTagRequest
-      properties:
-        id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-    AssetTagResponse:
-      type: object
-      title: io.ad.catalog.api.model.AssetTagResponse
-      required:
-      - assetTags
-      properties:
-        assetTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetTag'

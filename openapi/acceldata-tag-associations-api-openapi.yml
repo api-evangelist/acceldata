@@ -187,32 +187,6 @@ components:
           type: array
           items:
             type: integer
-    TagDetail:
-      type: object
-      title: TagDetail
-      required:
-      - keyValueId
-      properties:
-        keyId:
-          type: integer
-        keyName:
-          type:
-          - string
-          - 'null'
-        keyType:
-          type:
-          - string
-          - 'null'
-        keyValueId:
-          type: integer
-        valueName:
-          type:
-          - string
-          - 'null'
-        valueStatus:
-          type:
-          - string
-          - 'null'
     AssociateTagsResponse:
       type: object
       title: AssociateTagsResponse
@@ -242,3 +216,29 @@ components:
           type: integer
         message:
           type: string
+    TagDetail:
+      type: object
+      title: TagDetail
+      required:
+      - keyValueId
+      properties:
+        keyId:
+          type: integer
+        keyName:
+          type:
+          - string
+          - 'null'
+        keyType:
+          type:
+          - string
+          - 'null'
+        keyValueId:
+          type: integer
+        valueName:
+          type:
+          - string
+          - 'null'
+        valueStatus:
+          type:
+          - string
+          - 'null'

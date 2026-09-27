@@ -65,6 +65,56 @@ paths:
                 $ref: '#/components/schemas/Status'
 components:
   schemas:
+    ServiceUserDomainRoleMappingChunk:
+      type: object
+      title: ServiceUserDomainRoleMappingChunk
+      required:
+      - domainId
+      - roleIds
+      properties:
+        domainId:
+          type: integer
+        roleIds:
+          type: array
+          items:
+            type: integer
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    AssignClientRole:
+      type: object
+      title: AssignClientRole
+      required:
+      - clientId
+      - domainRoleMapping
+      - roles
+      - serviceUserDomainRoleMappings
+      - userId
+      properties:
+        clientId:
+          type: string
+        domainRoleMapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityRoleMapping'
+        roles:
+          type: array
+          items:
+            type: integer
+        serviceUserDomainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceUserDomainRoleMappingChunk'
+        userId:
+          type: string
     AssignClientRoleRequest:
       type: object
       title: AssignClientRoleRequest
@@ -96,53 +146,3 @@ components:
           enum:
           - FEATURE_ROLE
           - RESOURCE_ROLE
-    ServiceUserDomainRoleMappingChunk:
-      type: object
-      title: ServiceUserDomainRoleMappingChunk
-      required:
-      - domainId
-      - roleIds
-      properties:
-        domainId:
-          type: integer
-        roleIds:
-          type: array
-          items:
-            type: integer
-    AssignClientRole:
-      type: object
-      title: AssignClientRole
-      required:
-      - clientId
-      - domainRoleMapping
-      - roles
-      - serviceUserDomainRoleMappings
-      - userId
-      properties:
-        clientId:
-          type: string
-        domainRoleMapping:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityRoleMapping'
-        roles:
-          type: array
-          items:
-            type: integer
-        serviceUserDomainRoleMappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceUserDomainRoleMappingChunk'
-        userId:
-          type: string
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean

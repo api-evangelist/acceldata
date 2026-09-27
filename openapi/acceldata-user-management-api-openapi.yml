@@ -260,66 +260,26 @@ paths:
           description: Cannot view groups of another user
 components:
   schemas:
-    GroupRepresentation:
+    AllRealmUsersListResponse:
       type: object
-      title: GroupRepresentation
+      title: AllRealmUsersListResponse
       required:
-      - id
-      - name
-      - description
-      - path
-      - parentId
-      - subGroupCount
-      - subGroups
-      - attributes
-      - realmRoles
-      - clientRoles
-      - access
+      - message
+      - meta
+      - status
       properties:
-        id:
+        message:
           type: string
-        name:
-          type: string
-        description:
-          type: string
-        path:
-          type: string
-        parentId:
-          type: string
-        subGroupCount:
-          type: integer
-        subGroups:
-          type: array
+        meta:
+          $ref: '#/components/schemas/Meta'
+        status:
+          type: boolean
+        users:
+          type:
+          - array
+          - 'null'
           items:
-            $ref: '#/components/schemas/GroupRepresentation'
-        attributes:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        realmRoles:
-          type: array
-          items:
-            type: string
-        clientRoles:
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        access:
-          type: object
-          additionalProperties:
-            type: boolean
-    AssignUserGroupRequest:
-      type: object
-      title: AssignUserGroupRequest
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/AssignUserGroup'
+            $ref: '#/components/schemas/User'
     Metadata:
       type: object
       title: Metadata
@@ -346,44 +306,6 @@ components:
           type:
           - string
           - 'null'
-    Role:
-      type: object
-      title: Role
-      required:
-      - id
-      - name
-      properties:
-        default:
-          type: boolean
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        metadata:
-          oneOf:
-          - $ref: '#/components/schemas/Metadata'
-          - type: 'null'
-        name:
-          type: string
-        type:
-          type:
-          - string
-          - 'null'
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
-    AssignUserGroup:
-      type: object
-      title: AssignUserGroup
-      required:
-      - groups
-      properties:
-        groups:
-          type: array
-          items:
-            type: string
     Meta:
       type: object
       title: Meta
@@ -398,17 +320,6 @@ components:
           type: integer
         total:
           type: integer
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
     User:
       type: object
       title: User
@@ -499,23 +410,112 @@ components:
           type:
           - string
           - 'null'
-    AllRealmUsersListResponse:
+    AssignUserGroupRequest:
       type: object
-      title: AllRealmUsersListResponse
+      title: AssignUserGroupRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignUserGroup'
+    Role:
+      type: object
+      title: Role
+      required:
+      - id
+      - name
+      properties:
+        default:
+          type: boolean
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    AssignUserGroup:
+      type: object
+      title: AssignUserGroup
+      required:
+      - groups
+      properties:
+        groups:
+          type: array
+          items:
+            type: string
+    GroupRepresentation:
+      type: object
+      title: GroupRepresentation
+      required:
+      - id
+      - name
+      - description
+      - path
+      - parentId
+      - subGroupCount
+      - subGroups
+      - attributes
+      - realmRoles
+      - clientRoles
+      - access
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        path:
+          type: string
+        parentId:
+          type: string
+        subGroupCount:
+          type: integer
+        subGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupRepresentation'
+        attributes:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        realmRoles:
+          type: array
+          items:
+            type: string
+        clientRoles:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        access:
+          type: object
+          additionalProperties:
+            type: boolean
+    Status:
+      type: object
+      title: Status
       required:
       - message
-      - meta
       - status
       properties:
         message:
           type: string
-        meta:
-          $ref: '#/components/schemas/Meta'
         status:
           type: boolean
-        users:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/User'

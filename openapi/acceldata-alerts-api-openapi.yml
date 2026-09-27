@@ -165,14 +165,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    AcknowledgeAlertRequest:
-      type: object
-      description: Request body for acknowledging an alert
-      properties:
-        comment:
-          type: string
-          description: Optional comment explaining the acknowledgement
-          example: Investigating root cause — data pipeline delayed
     AlertList:
       type: object
       description: Paginated list of alerts
@@ -191,22 +183,14 @@ components:
         limit:
           type: integer
           example: 25
-    ErrorResponse:
+    AcknowledgeAlertRequest:
       type: object
-      description: Error response
+      description: Request body for acknowledging an alert
       properties:
-        message:
+        comment:
           type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
+          description: Optional comment explaining the acknowledgement
+          example: Investigating root cause — data pipeline delayed
     Alert:
       type: object
       description: A data quality or pipeline monitoring alert
@@ -263,6 +247,22 @@ components:
           format: date-time
           description: When the alert was triggered
           example: '2026-04-19T08:30:00Z'
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
   securitySchemes:
     apiKey:
       type: apiKey

@@ -211,65 +211,31 @@ paths:
                 $ref: '#/components/schemas/Status'
 components:
   schemas:
-    GoogleProtobufAny:
-      type: object
-      properties:
-        '@type':
-          type: string
-          description: The type of the serialized message.
-      additionalProperties: true
-      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-    TagKeyValuePairProto:
+    AddValuesToKeyRequest:
       type: object
       properties:
         keyId:
           type: string
-        keyName:
-          type: string
-        keyType:
-          enum:
-          - UNSPECIFIED_TYPE
-          - GOVERNED
-          - USER
-          type: string
-          format: enum
-        keyStatus:
-          enum:
-          - UNSPECIFIED_STATUS
-          - ACTIVE
-          - RETIRED
-          - MERGED
-          - DELETED
-          type: string
-          format: enum
-        keyValueId:
-          type: string
-        value:
-          type: string
-        valueStatus:
-          enum:
-          - UNSPECIFIED_STATUS
-          - ACTIVE
-          - RETIRED
-          - MERGED
-          - DELETED
-          type: string
-          format: enum
-        dataProtection:
-          type: boolean
-        valueCreatedBy:
-          type: string
-        valueCreatedAt:
-          type: string
-    TagResponseProto:
-      type: object
-      properties:
-        key:
-          $ref: '#/components/schemas/TagKeyProto'
         values:
           type: array
           items:
-            $ref: '#/components/schemas/TagValueProto'
+            type: string
+    SearchKeyValuesResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagKeyValuePairProto'
+        total:
+          type: integer
+          format: int32
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
     TagValueProto:
       type: object
       properties:
@@ -302,15 +268,6 @@ components:
           type: string
         tenantId:
           type: string
-    AddValuesToKeyRequest:
-      type: object
-      properties:
-        keyId:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
     CreateTagRequest:
       type: object
       properties:
@@ -329,6 +286,14 @@ components:
           format: enum
         keyDescription:
           type: string
+    GoogleProtobufAny:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
     TagKeyProto:
       type: object
       properties:
@@ -382,25 +347,60 @@ components:
             $ref: '#/components/schemas/GoogleProtobufAny'
           description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
       description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    SearchKeyValuesResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagKeyValuePairProto'
-        total:
-          type: integer
-          format: int32
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
     TagValuesResponse:
       type: object
       properties:
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagValueProto'
+    TagKeyValuePairProto:
+      type: object
+      properties:
+        keyId:
+          type: string
+        keyName:
+          type: string
+        keyType:
+          enum:
+          - UNSPECIFIED_TYPE
+          - GOVERNED
+          - USER
+          type: string
+          format: enum
+        keyStatus:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        keyValueId:
+          type: string
+        value:
+          type: string
+        valueStatus:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        dataProtection:
+          type: boolean
+        valueCreatedBy:
+          type: string
+        valueCreatedAt:
+          type: string
+    TagResponseProto:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/TagKeyProto'
         values:
           type: array
           items:

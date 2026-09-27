@@ -105,22 +105,6 @@ components:
           description: Downstream data consumers
           items:
             $ref: '#/components/schemas/LineageNode'
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
     LineageNode:
       type: object
       description: A node in the data lineage graph
@@ -137,6 +121,22 @@ components:
           type: string
           description: Source platform
           example: s3
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
   securitySchemes:
     apiKey:
       type: apiKey

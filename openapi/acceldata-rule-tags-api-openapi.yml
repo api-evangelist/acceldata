@@ -99,6 +99,14 @@ paths:
           description: Bad Request — missing or non-numeric id
 components:
   schemas:
+    RuleTagRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleTagRequest
+      required:
+      - ruleTag
+      properties:
+        ruleTag:
+          $ref: '#/components/schemas/RuleTag'
     RuleTag:
       type: object
       title: io.ad.catalog.api.model.quality.RuleTag
@@ -117,11 +125,3 @@ components:
           type:
           - string
           - 'null'
-    RuleTagRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.RuleTagRequest
-      required:
-      - ruleTag
-      properties:
-        ruleTag:
-          $ref: '#/components/schemas/RuleTag'

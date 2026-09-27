@@ -96,6 +96,74 @@ paths:
           description: 'Rule with the given name: {name} not found'
 components:
   schemas:
+    CustomPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.CustomPolicyPersistencePathConfig
+      required:
+      - categoriesConfig
+      properties:
+        categoriesConfig:
+          $ref: '#/components/schemas/CategoriesPersistenceConfig'
+    MetadataPersistenceConfig:
+      type: object
+      title: io.ad.catalog.api.model.MetadataPersistenceConfig
+      required:
+      - suffixTemplate
+      properties:
+        suffixTemplate:
+          type: string
+    DefaultPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig
+    PolicyPersistencePathConfig:
+      type:
+      - object
+      - 'null'
+      title: io.ad.catalog.api.model.PolicyPersistencePathConfig
+      oneOf:
+      - $ref: '#/components/schemas/CustomPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/SavedPolicyPersistencePathConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.CustomPolicyPersistencePathConfig: '#/components/schemas/CustomPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.SavedPolicyPersistencePathConfig: '#/components/schemas/SavedPolicyPersistencePathConfig'
+    CategoriesResultHandlingConfig:
+      type: object
+      title: io.ad.catalog.api.model.CategoriesResultHandlingConfig
+      required:
+      - bad
+      - good
+      properties:
+        bad:
+          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
+        good:
+          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
+    SavedPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.SavedPolicyPersistencePathConfig
+      required:
+      - configId
+      properties:
+        configId:
+          type: integer
+    CategoriesPersistenceConfig:
+      type: object
+      title: io.ad.catalog.api.model.CategoriesPersistenceConfig
+      required:
+      - bad
+      - good
+      properties:
+        bad:
+          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
+        good:
+          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/MetadataPersistenceConfig'
+          - type: 'null'
     SingleCategoryPersistenceConfig:
       type: object
       title: io.ad.catalog.api.model.SingleCategoryPersistenceConfig
@@ -112,20 +180,6 @@ components:
           - JSON
         suffixTemplate:
           type: string
-    SingleCategoryResultHandlingConfig:
-      type: object
-      title: io.ad.catalog.api.model.SingleCategoryResultHandlingConfig
-      required:
-      - sampleOnly
-      - storeResult
-      properties:
-        sampleOnly:
-          type: boolean
-        storeResult:
-          type: boolean
-    DefaultPolicyPersistencePathConfig:
-      type: object
-      title: io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig
     RuleConfig:
       type: object
       title: io.ad.catalog.api.model.quality.RuleConfig
@@ -146,68 +200,14 @@ components:
           - 'null'
         ruleId:
           type: integer
-    CustomPolicyPersistencePathConfig:
+    SingleCategoryResultHandlingConfig:
       type: object
-      title: io.ad.catalog.api.model.CustomPolicyPersistencePathConfig
+      title: io.ad.catalog.api.model.SingleCategoryResultHandlingConfig
       required:
-      - categoriesConfig
+      - sampleOnly
+      - storeResult
       properties:
-        categoriesConfig:
-          $ref: '#/components/schemas/CategoriesPersistenceConfig'
-    PolicyPersistencePathConfig:
-      type:
-      - object
-      - 'null'
-      title: io.ad.catalog.api.model.PolicyPersistencePathConfig
-      oneOf:
-      - $ref: '#/components/schemas/CustomPolicyPersistencePathConfig'
-      - $ref: '#/components/schemas/DefaultPolicyPersistencePathConfig'
-      - $ref: '#/components/schemas/SavedPolicyPersistencePathConfig'
-      discriminator:
-        propertyName: type
-        mapping:
-          io.ad.catalog.api.model.CustomPolicyPersistencePathConfig: '#/components/schemas/CustomPolicyPersistencePathConfig'
-          io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig: '#/components/schemas/DefaultPolicyPersistencePathConfig'
-          io.ad.catalog.api.model.SavedPolicyPersistencePathConfig: '#/components/schemas/SavedPolicyPersistencePathConfig'
-    CategoriesPersistenceConfig:
-      type: object
-      title: io.ad.catalog.api.model.CategoriesPersistenceConfig
-      required:
-      - bad
-      - good
-      properties:
-        bad:
-          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
-        good:
-          $ref: '#/components/schemas/SingleCategoryPersistenceConfig'
-        metadata:
-          oneOf:
-          - $ref: '#/components/schemas/MetadataPersistenceConfig'
-          - type: 'null'
-    CategoriesResultHandlingConfig:
-      type: object
-      title: io.ad.catalog.api.model.CategoriesResultHandlingConfig
-      required:
-      - bad
-      - good
-      properties:
-        bad:
-          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
-        good:
-          $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
-    SavedPolicyPersistencePathConfig:
-      type: object
-      title: io.ad.catalog.api.model.SavedPolicyPersistencePathConfig
-      required:
-      - configId
-      properties:
-        configId:
-          type: integer
-    MetadataPersistenceConfig:
-      type: object
-      title: io.ad.catalog.api.model.MetadataPersistenceConfig
-      required:
-      - suffixTemplate
-      properties:
-        suffixTemplate:
-          type: string
+        sampleOnly:
+          type: boolean
+        storeResult:
+          type: boolean

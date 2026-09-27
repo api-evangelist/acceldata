@@ -567,6 +567,9 @@ components:
           - 'null'
         referenceAssetUid:
           type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
     RulesWithUDF:
       type: object
       title: io.ad.catalog.api.model.quality.RulesWithUDF
@@ -577,6 +580,67 @@ components:
         ruleId:
           type: integer
         ruleName:
+          type: string
+    PackageUdfDetail:
+      type: object
+      title: io.ad.catalog.api.model.quality.PackageUdfDetail
+      required:
+      - createdAt
+      - createdBy
+      - id
+      - language
+      - name
+      - packagePath
+      - storageType
+      - tenantId
+      - updatedAt
+      - version
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        language:
+          type: string
+          enum:
+          - SCALA
+          - JAVA
+          - PYTHON
+          - JAVASCRIPT
+          - EXPRESSION
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        packageDetail:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/Any'
+        packagePath:
+          type: string
+        storageType:
+          type: string
+        tenantId:
+          type: string
+        udtTemplates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/UDFTemplate'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        version:
           type: string
     PolicyTransformUDF:
       type: object
@@ -629,6 +693,100 @@ components:
           - USER_DEFINED_FUNCTION
         value:
           type: string
+    UdfTemplateRequestWithValidation:
+      type: object
+      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
+      required:
+      - code
+      - description
+      - isLookup
+      - isMetadata
+      - isPackage
+      - isTemplate
+      - language
+      - name
+      - override
+      - udfDataType
+      - udfType
+      - useTestData
+      - variables
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assetId:
+          type: integer
+        className:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+        description:
+          type: string
+        enableValidation:
+          type: boolean
+        isLookup:
+          type: boolean
+        isMetadata:
+          type: boolean
+        isPackage:
+          type: boolean
+        isTemplate:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        language:
+          type: string
+        name:
+          type: string
+        override:
+          type: boolean
+        packageId:
+          type: integer
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        testData:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        udfDataType:
+          type: string
+        udfType:
+          type: string
+        useTestData:
+          type: boolean
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
     UDFTemplate:
       type: object
       title: io.ad.catalog.api.model.quality.UDFTemplate
@@ -734,164 +892,6 @@ components:
           type: array
           items:
             type: string
-    PackageUdfDetail:
-      type: object
-      title: io.ad.catalog.api.model.quality.PackageUdfDetail
-      required:
-      - createdAt
-      - createdBy
-      - id
-      - language
-      - name
-      - packagePath
-      - storageType
-      - tenantId
-      - updatedAt
-      - version
-      properties:
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        createdBy:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        language:
-          type: string
-          enum:
-          - SCALA
-          - JAVA
-          - PYTHON
-          - JAVASCRIPT
-          - EXPRESSION
-        lastUpdatedBy:
-          type:
-          - string
-          - 'null'
-        name:
-          type: string
-        packageDetail:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            $ref: '#/components/schemas/Any'
-        packagePath:
-          type: string
-        storageType:
-          type: string
-        tenantId:
-          type: string
-        udtTemplates:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/UDFTemplate'
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
-        version:
-          type: string
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    UdfTemplateRequestWithValidation:
-      type: object
-      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
-      required:
-      - code
-      - description
-      - isLookup
-      - isMetadata
-      - isPackage
-      - isTemplate
-      - language
-      - name
-      - override
-      - udfDataType
-      - udfType
-      - useTestData
-      - variables
-      properties:
-        analyticsPipelineId:
-          type: integer
-        assetId:
-          type: integer
-        className:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-        description:
-          type: string
-        enableValidation:
-          type: boolean
-        isLookup:
-          type: boolean
-        isMetadata:
-          type: boolean
-        isPackage:
-          type: boolean
-        isTemplate:
-          type: boolean
-        labels:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Label'
-        language:
-          type: string
-        name:
-          type: string
-        override:
-          type: boolean
-        packageId:
-          type: integer
-        referenceAssets:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
-        testData:
-          type:
-          - string
-          - 'null'
-        transformUDFs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-        udfDataType:
-          type: string
-        udfType:
-          type: string
-        useTestData:
-          type: boolean
-        variables:
-          type: array
-          items:
-            $ref: '#/components/schemas/UdfVariable'
     Any:
       type: object
       title: kotlin.Any

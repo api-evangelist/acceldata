@@ -232,70 +232,31 @@ paths:
           description: Service user not found
 components:
   schemas:
-    ServiceUserApiKeyRequest:
+    ApiKeyResponse:
       type: object
-      title: ServiceUserApiKeyRequest
+      title: ApiKeyResponse
       required:
+      - accessKey
       - displayName
+      - secretKey
       - validTill
       properties:
+        accessKey:
+          type: string
         displayName:
           type: string
-        namespace:
+        email:
           type:
           - string
           - 'null'
-        nid:
-          type: integer
-        niid:
-          type: integer
-        realm:
+        ingestKey:
           type:
           - string
           - 'null'
+        secretKey:
+          type: string
         validTill:
           type: integer
-    CreateServiceUserRequest:
-      type: object
-      title: CreateServiceUserRequest
-      required:
-      - username
-      properties:
-        description:
-          type:
-          - string
-          - 'null'
-        username:
-          type: string
-    EntityDomainRoleMapping:
-      type: object
-      title: EntityDomainRoleMapping
-      required:
-      - domainId
-      - entityType
-      - roleId
-      - roleType
-      properties:
-        domainId:
-          type: integer
-        entityId:
-          type:
-          - string
-          - 'null'
-        entityType:
-          type: string
-          enum:
-          - USER
-          - USER_GROUP
-        id:
-          type: integer
-        roleId:
-          type: integer
-        roleType:
-          type: string
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
     Metadata:
       type: object
       title: Metadata
@@ -322,6 +283,58 @@ components:
           type:
           - string
           - 'null'
+    ServiceUserListResponse:
+      type: object
+      title: ServiceUserListResponse
+      required:
+      - meta
+      - serviceUsers
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        serviceUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceUser'
+    CreateServiceUserRequest:
+      type: object
+      title: CreateServiceUserRequest
+      required:
+      - username
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+        username:
+          type: string
+    ServiceUserDomainRoleMappingRequest:
+      type: object
+      title: ServiceUserDomainRoleMappingRequest
+      required:
+      - domainId
+      - roleId
+      properties:
+        domainId:
+          type: integer
+        roleId:
+          type: array
+          items:
+            type: integer
+    Meta:
+      type: object
+      title: Meta
+      required:
+      - page
+      - size
+      - total
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
     Role:
       type: object
       title: Role
@@ -362,6 +375,96 @@ components:
           - 'null'
         enabled:
           type: boolean
+    EntityDomainRoleMapping:
+      type: object
+      title: EntityDomainRoleMapping
+      required:
+      - domainId
+      - entityType
+      - roleId
+      - roleType
+      properties:
+        domainId:
+          type: integer
+        entityId:
+          type:
+          - string
+          - 'null'
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        id:
+          type: integer
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    ServiceUserApiKeyRequest:
+      type: object
+      title: ServiceUserApiKeyRequest
+      required:
+      - displayName
+      - validTill
+      properties:
+        displayName:
+          type: string
+        namespace:
+          type:
+          - string
+          - 'null'
+        nid:
+          type: integer
+        niid:
+          type: integer
+        realm:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    ApiKeyDetails:
+      type: object
+      title: ApiKeyDetails
+      required:
+      - accessKey
+      - createdAt
+      - displayName
+      - email
+      - secretKey
+      - validTill
+      properties:
+        accessKey:
+          type: string
+        createdAt:
+          type: integer
+        displayName:
+          type: string
+        email:
+          type: string
+        secretKey:
+          type: string
+        userName:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
     ServiceUser:
       type: object
       title: ServiceUser
@@ -410,71 +513,6 @@ components:
           type: integer
         username:
           type: string
-    ServiceUserListResponse:
-      type: object
-      title: ServiceUserListResponse
-      required:
-      - meta
-      - serviceUsers
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        serviceUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceUser'
-    ApiKeyDetails:
-      type: object
-      title: ApiKeyDetails
-      required:
-      - accessKey
-      - createdAt
-      - displayName
-      - email
-      - secretKey
-      - validTill
-      properties:
-        accessKey:
-          type: string
-        createdAt:
-          type: integer
-        displayName:
-          type: string
-        email:
-          type: string
-        secretKey:
-          type: string
-        userName:
-          type:
-          - string
-          - 'null'
-        validTill:
-          type: integer
-    Meta:
-      type: object
-      title: Meta
-      required:
-      - page
-      - size
-      - total
-      properties:
-        page:
-          type: integer
-        size:
-          type: integer
-        total:
-          type: integer
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
     ServiceUserRolesRequest:
       type: object
       title: ServiceUserRolesRequest
@@ -494,41 +532,3 @@ components:
           type: array
           items:
             type: integer
-    ServiceUserDomainRoleMappingRequest:
-      type: object
-      title: ServiceUserDomainRoleMappingRequest
-      required:
-      - domainId
-      - roleId
-      properties:
-        domainId:
-          type: integer
-        roleId:
-          type: array
-          items:
-            type: integer
-    ApiKeyResponse:
-      type: object
-      title: ApiKeyResponse
-      required:
-      - accessKey
-      - displayName
-      - secretKey
-      - validTill
-      properties:
-        accessKey:
-          type: string
-        displayName:
-          type: string
-        email:
-          type:
-          - string
-          - 'null'
-        ingestKey:
-          type:
-          - string
-          - 'null'
-        secretKey:
-          type: string
-        validTill:
-          type: integer

@@ -137,6 +137,48 @@ paths:
           description: '"Invalid Asset Id ''{assetId}"'
 components:
   schemas:
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      required:
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
+      properties:
+        referenceAssetAlias:
+          type: string
+        referenceAssetColumns:
+          type: array
+          items:
+            type: string
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
+          type: string
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
     CustomSqlConfig:
       type: object
       title: io.ad.catalog.api.model.quality.CustomSqlConfig
@@ -168,26 +210,35 @@ components:
           type:
           - string
           - 'null'
-    ReferenceAssetUDFRequest:
+    PolicyTransformUDF:
       type: object
-      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
       required:
-      - referenceAssetAlias
-      - referenceAssetColumns
-      - referenceAssetUid
+      - assetId
+      - name
+      - parameters
+      - udfId
       properties:
-        referenceAssetAlias:
-          type: string
-        referenceAssetColumns:
-          type: array
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
           items:
             type: string
-        referenceAssetSqlFilter:
-          type:
-          - string
-          - 'null'
-        referenceAssetUid:
+        id:
+          type: integer
+        name:
           type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
     ColumnMetadata:
       type: object
       title: io.ad.catalog.api.model.quality.ColumnMetadata
@@ -274,38 +325,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UdfVariable'
-    PolicyTransformUDF:
-      type: object
-      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
-      required:
-      - assetId
-      - name
-      - parameters
-      - udfId
-      properties:
-        assetId:
-          type: integer
-        columnNames:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        id:
-          type: integer
-        name:
-          type: string
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/UdfVariable'
-        ruleId:
-          type: integer
-        udfId:
-          type: integer
-    Any:
-      type: object
-      title: kotlin.Any
     UdfVariable:
       type: object
       title: io.ad.catalog.api.model.UdfVariable
@@ -320,25 +339,6 @@ components:
           type:
           - string
           - 'null'
-    ColumnVariable:
+    Any:
       type: object
-      title: io.ad.catalog.api.model.quality.ColumnVariable
-      required:
-      - getOnlyWithVariableName
-      - isNumber
-      - name
-      properties:
-        format:
-          type:
-          - string
-          - 'null'
-        getOnlyWithVariableName:
-          $ref: '#/components/schemas/ColumnVariable'
-        isNumber:
-          type: boolean
-        name:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
+      title: kotlin.Any

@@ -139,6 +139,29 @@ paths:
           description: 'Dataplane job not found for requestId: {requestId}'
 components:
   schemas:
+    SampleDataWithTransformUDFsRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
+      required:
+      - enableSyncForPushdown
+      - filterAssetSelections
+      - invalidateCache
+      - transformUDFs
+      properties:
+        enableSyncForPushdown:
+          type: boolean
+        filter:
+          type:
+          - string
+          - 'null'
+        filterAssetSelections:
+          type: boolean
+        invalidateCache:
+          type: boolean
+        transformUDFs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
     PolicyTransformUDF:
       type: object
       title: io.ad.catalog.api.model.quality.PolicyTransformUDF
@@ -168,32 +191,6 @@ components:
           type: integer
         udfId:
           type: integer
-    SampleDataWithTransformUDFsRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
-      required:
-      - enableSyncForPushdown
-      - filterAssetSelections
-      - invalidateCache
-      - transformUDFs
-      properties:
-        enableSyncForPushdown:
-          type: boolean
-        filter:
-          type:
-          - string
-          - 'null'
-        filterAssetSelections:
-          type: boolean
-        invalidateCache:
-          type: boolean
-        transformUDFs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-    Any:
-      type: object
-      title: kotlin.Any
     File:
       type: object
       title: java.io.File
@@ -272,3 +269,6 @@ components:
           - 'null'
           additionalProperties:
             $ref: '#/components/schemas/Any'
+    Any:
+      type: object
+      title: kotlin.Any
