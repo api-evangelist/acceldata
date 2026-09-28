@@ -152,30 +152,43 @@ gaps:
 tools_count: 13
 tools:
 - name: list_products
-  description: ''
+  description: List published documentation products for this workspace.
 - name: list_tabs
-  description: ''
+  description: List tabs with published pages. Optionally filter by product_slug.
 - name: list_sections
-  description: ''
+  description: List sections/subsections with published pages. Supports product/tab filters and parent
+    section.
 - name: list_pages
-  description: ''
+  description: List published pages with rich metadata. Supports product/tab/section/parent filters.
 - name: search_published_docs
-  description: ''
+  description: Search published documentation pages and return ranked matches with URLs and snippets.
+    Always cite the source URL for each result you use in your response — format as [Page Title](url).
 - name: get_published_doc
-  description: ''
+  description: Fetch the full content of one published page by page_id, slug, or URL path. The response
+    includes the page URL — always cite it as [Page Title](url) when presenting this content to a user.
 - name: get_page_metadata
-  description: ''
+  description: Get navigation and hierarchy metadata for one published page.
 - name: generate_class
-  description: ''
+  description: Generate a structured class/lesson from documentation on a given topic. Searches relevant
+    pages, gathers content, and returns it with instructions for creating a class with modules, exercises,
+    and quizzes. Returns source content and a trans
 - name: generate_deck_content
-  description: ''
+  description: Gather documentation content for building a presentation/slide deck on a topic. Returns
+    source content and slide planning instructions tailored to the target audience.
 - name: generate_translation
-  description: ''
+  description: Gather documentation content and return it with instructions for translating into a target
+    language while preserving structure. Code blocks and product names stay in English.
 - name: generate_role_guide
-  description: ''
+  description: Gather documentation and return it with instructions for reframing the content for a specific
+    role (admin, developer, executive, data-engineer, analyst, etc.).
 - name: generate_learning_path
-  description: ''
+  description: Gather documentation for a self-paced learning guide with progressive stages. Returns source
+    content and instructions for building a structured learning path with checkpoints, exercises, and
+    key concepts.
 - name: generate_best_practices
-  description: ''
+  description: Search documentation broadly for a topic and return content with instructions for extracting
+    and organizing best practices, anti-patterns, and recommendations.
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
