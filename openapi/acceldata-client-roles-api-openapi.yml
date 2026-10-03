@@ -65,30 +65,29 @@ paths:
                 $ref: '#/components/schemas/Status'
 components:
   schemas:
-    ServiceUserDomainRoleMappingChunk:
+    EntityRoleMapping:
       type: object
-      title: ServiceUserDomainRoleMappingChunk
+      title: EntityRoleMapping
       required:
-      - domainId
-      - roleIds
+      - entityId
+      - entityType
+      - roleId
+      - roleType
       properties:
-        domainId:
-          type: integer
-        roleIds:
-          type: array
-          items:
-            type: integer
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
+        entityId:
           type: string
-        status:
-          type: boolean
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
     AssignClientRole:
       type: object
       title: AssignClientRole
@@ -123,26 +122,27 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/AssignClientRole'
-    EntityRoleMapping:
+    ServiceUserDomainRoleMappingChunk:
       type: object
-      title: EntityRoleMapping
+      title: ServiceUserDomainRoleMappingChunk
       required:
-      - entityId
-      - entityType
-      - roleId
-      - roleType
+      - domainId
+      - roleIds
       properties:
-        entityId:
-          type: string
-        entityType:
-          type: string
-          enum:
-          - USER
-          - USER_GROUP
-        roleId:
+        domainId:
           type: integer
-        roleType:
+        roleIds:
+          type: array
+          items:
+            type: integer
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
           type: string
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
+        status:
+          type: boolean

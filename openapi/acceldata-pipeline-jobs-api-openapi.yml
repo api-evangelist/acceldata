@@ -94,23 +94,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    PipelineJobList:
-      type: object
-      description: Paginated list of pipeline jobs
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PipelineJob'
-        total:
-          type: integer
-          example: 85
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
     PipelineJob:
       type: object
       description: A monitored data pipeline job execution
@@ -180,6 +163,23 @@ components:
           type: integer
           description: HTTP-style error code
           example: 401
+    PipelineJobList:
+      type: object
+      description: Paginated list of pipeline jobs
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PipelineJob'
+        total:
+          type: integer
+          example: 85
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
   securitySchemes:
     apiKey:
       type: apiKey

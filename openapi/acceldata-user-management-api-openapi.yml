@@ -260,6 +260,16 @@ paths:
           description: Cannot view groups of another user
 components:
   schemas:
+    AssignUserGroup:
+      type: object
+      title: AssignUserGroup
+      required:
+      - groups
+      properties:
+        groups:
+          type: array
+          items:
+            type: string
     AllRealmUsersListResponse:
       type: object
       title: AllRealmUsersListResponse
@@ -280,46 +290,14 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/User'
-    Metadata:
+    AssignUserGroupRequest:
       type: object
-      title: Metadata
+      title: AssignUserGroupRequest
       required:
-      - createdAt
-      - createdBy
-      - numberOfDirectGroupsAssigned
-      - numberOfDirectUsersAssigned
-      - numberOfDomainUserGroupAssigned
+      - data
       properties:
-        createdAt:
-          type: integer
-        createdBy:
-          type: string
-        numberOfDirectGroupsAssigned:
-          type: integer
-        numberOfDirectUsersAssigned:
-          type: integer
-        numberOfDomainUserGroupAssigned:
-          type: integer
-        updatedAt:
-          type: integer
-        updatedBy:
-          type:
-          - string
-          - 'null'
-    Meta:
-      type: object
-      title: Meta
-      required:
-      - page
-      - size
-      - total
-      properties:
-        page:
-          type: integer
-        size:
-          type: integer
-        total:
-          type: integer
+        data:
+          $ref: '#/components/schemas/AssignUserGroup'
     User:
       type: object
       title: User
@@ -410,14 +388,32 @@ components:
           type:
           - string
           - 'null'
-    AssignUserGroupRequest:
+    Metadata:
       type: object
-      title: AssignUserGroupRequest
+      title: Metadata
       required:
-      - data
+      - createdAt
+      - createdBy
+      - numberOfDirectGroupsAssigned
+      - numberOfDirectUsersAssigned
+      - numberOfDomainUserGroupAssigned
       properties:
-        data:
-          $ref: '#/components/schemas/AssignUserGroup'
+        createdAt:
+          type: integer
+        createdBy:
+          type: string
+        numberOfDirectGroupsAssigned:
+          type: integer
+        numberOfDirectUsersAssigned:
+          type: integer
+        numberOfDomainUserGroupAssigned:
+          type: integer
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
     Role:
       type: object
       title: Role
@@ -446,16 +442,17 @@ components:
           enum:
           - FEATURE_ROLE
           - RESOURCE_ROLE
-    AssignUserGroup:
+    Status:
       type: object
-      title: AssignUserGroup
+      title: Status
       required:
-      - groups
+      - message
+      - status
       properties:
-        groups:
-          type: array
-          items:
-            type: string
+        message:
+          type: string
+        status:
+          type: boolean
     GroupRepresentation:
       type: object
       title: GroupRepresentation
@@ -508,14 +505,17 @@ components:
           type: object
           additionalProperties:
             type: boolean
-    Status:
+    Meta:
       type: object
-      title: Status
+      title: Meta
       required:
-      - message
-      - status
+      - page
+      - size
+      - total
       properties:
-        message:
-          type: string
-        status:
-          type: boolean
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer

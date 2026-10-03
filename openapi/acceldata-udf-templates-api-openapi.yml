@@ -547,39 +547,56 @@ paths:
           description: '"Could not fetch udf template"'
 components:
   schemas:
-    ReferenceAssetUDFRequest:
+    PolicyTransformUDF:
       type: object
-      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
       required:
-      - referenceAssetAlias
-      - referenceAssetColumns
-      - referenceAssetUid
+      - assetId
+      - name
+      - parameters
+      - udfId
       properties:
-        referenceAssetAlias:
-          type: string
-        referenceAssetColumns:
-          type: array
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
           items:
             type: string
-        referenceAssetSqlFilter:
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    Label:
+      type: object
+      title: io.ad.catalog.api.model.Label
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        labelType:
           type:
           - string
           - 'null'
-        referenceAssetUid:
-          type: string
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    RulesWithUDF:
-      type: object
-      title: io.ad.catalog.api.model.quality.RulesWithUDF
-      required:
-      - ruleId
-      - ruleName
-      properties:
-        ruleId:
-          type: integer
-        ruleName:
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
           type: string
     PackageUdfDetail:
       type: object
@@ -642,151 +659,43 @@ components:
           $ref: '#/components/schemas/DateTime'
         version:
           type: string
-    PolicyTransformUDF:
+    DateTime:
       type: object
-      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      title: org.joda.time.DateTime
+    Any:
+      type: object
+      title: kotlin.Any
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
       required:
-      - assetId
-      - name
-      - parameters
-      - udfId
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
       properties:
-        assetId:
-          type: integer
-        columnNames:
-          type:
-          - array
-          - 'null'
+        referenceAssetAlias:
+          type: string
+        referenceAssetColumns:
+          type: array
           items:
             type: string
-        id:
-          type: integer
-        name:
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
           type: string
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/UdfVariable'
+    RulesWithUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.RulesWithUDF
+      required:
+      - ruleId
+      - ruleName
+      properties:
         ruleId:
           type: integer
-        udfId:
-          type: integer
-    Label:
-      type: object
-      title: io.ad.catalog.api.model.Label
-      required:
-      - key
-      - value
-      properties:
-        key:
+        ruleName:
           type: string
-        labelType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
-        value:
-          type: string
-    UdfTemplateRequestWithValidation:
-      type: object
-      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
-      required:
-      - code
-      - description
-      - isLookup
-      - isMetadata
-      - isPackage
-      - isTemplate
-      - language
-      - name
-      - override
-      - udfDataType
-      - udfType
-      - useTestData
-      - variables
-      properties:
-        analyticsPipelineId:
-          type: integer
-        assetId:
-          type: integer
-        className:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-        description:
-          type: string
-        enableValidation:
-          type: boolean
-        isLookup:
-          type: boolean
-        isMetadata:
-          type: boolean
-        isPackage:
-          type: boolean
-        isTemplate:
-          type: boolean
-        labels:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Label'
-        language:
-          type: string
-        name:
-          type: string
-        override:
-          type: boolean
-        packageId:
-          type: integer
-        referenceAssets:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
-        testData:
-          type:
-          - string
-          - 'null'
-        transformUDFs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-        udfDataType:
-          type: string
-        udfType:
-          type: string
-        useTestData:
-          type: boolean
-        variables:
-          type: array
-          items:
-            $ref: '#/components/schemas/UdfVariable'
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
     UDFTemplate:
       type: object
       title: io.ad.catalog.api.model.quality.UDFTemplate
@@ -892,6 +801,97 @@ components:
           type: array
           items:
             type: string
-    Any:
+    UdfTemplateRequestWithValidation:
       type: object
-      title: kotlin.Any
+      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
+      required:
+      - code
+      - description
+      - isLookup
+      - isMetadata
+      - isPackage
+      - isTemplate
+      - language
+      - name
+      - override
+      - udfDataType
+      - udfType
+      - useTestData
+      - variables
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assetId:
+          type: integer
+        className:
+          type:
+          - string
+          - 'null'
+        code:
+          type: string
+        description:
+          type: string
+        enableValidation:
+          type: boolean
+        isLookup:
+          type: boolean
+        isMetadata:
+          type: boolean
+        isPackage:
+          type: boolean
+        isTemplate:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        language:
+          type: string
+        name:
+          type: string
+        override:
+          type: boolean
+        packageId:
+          type: integer
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        testData:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        udfDataType:
+          type: string
+        udfType:
+          type: string
+        useTestData:
+          type: boolean
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'

@@ -139,29 +139,6 @@ paths:
           description: 'Dataplane job not found for requestId: {requestId}'
 components:
   schemas:
-    SampleDataWithTransformUDFsRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
-      required:
-      - enableSyncForPushdown
-      - filterAssetSelections
-      - invalidateCache
-      - transformUDFs
-      properties:
-        enableSyncForPushdown:
-          type: boolean
-        filter:
-          type:
-          - string
-          - 'null'
-        filterAssetSelections:
-          type: boolean
-        invalidateCache:
-          type: boolean
-        transformUDFs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
     PolicyTransformUDF:
       type: object
       title: io.ad.catalog.api.model.quality.PolicyTransformUDF
@@ -191,42 +168,32 @@ components:
           type: integer
         udfId:
           type: integer
-    File:
+    SampleDataWithTransformUDFsRequest:
       type: object
-      title: java.io.File
+      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
       required:
-      - path
-      - status
-      - prefixLength
-      - filePath
+      - enableSyncForPushdown
+      - filterAssetSelections
+      - invalidateCache
+      - transformUDFs
       properties:
-        path:
-          type: string
-        status:
-          type: string
-          enum:
-          - INVALID
-          - CHECKED
-        prefixLength:
-          type: integer
-        filePath:
-          type: array
-          items:
-            type: object
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
+        enableSyncForPushdown:
           type: boolean
-        key:
-          type: string
-        value:
+        filter:
           type:
           - string
           - 'null'
+        filterAssetSelections:
+          type: boolean
+        invalidateCache:
+          type: boolean
+        transformUDFs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+    Any:
+      type: object
+      title: kotlin.Any
     SampleDataApiResponse:
       type: object
       title: io.ad.torch.client.analysis.models.SampleDataApiResponse
@@ -269,6 +236,39 @@ components:
           - 'null'
           additionalProperties:
             $ref: '#/components/schemas/Any'
-    Any:
+    File:
       type: object
-      title: kotlin.Any
+      title: java.io.File
+      required:
+      - path
+      - status
+      - prefixLength
+      - filePath
+      properties:
+        path:
+          type: string
+        status:
+          type: string
+          enum:
+          - INVALID
+          - CHECKED
+        prefixLength:
+          type: integer
+        filePath:
+          type: array
+          items:
+            type: object
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'

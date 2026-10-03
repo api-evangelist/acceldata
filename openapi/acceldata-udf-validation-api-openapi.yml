@@ -137,79 +137,6 @@ paths:
           description: '"Invalid Asset Id ''{assetId}"'
 components:
   schemas:
-    ReferenceAssetUDFRequest:
-      type: object
-      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
-      required:
-      - referenceAssetAlias
-      - referenceAssetColumns
-      - referenceAssetUid
-      properties:
-        referenceAssetAlias:
-          type: string
-        referenceAssetColumns:
-          type: array
-          items:
-            type: string
-        referenceAssetSqlFilter:
-          type:
-          - string
-          - 'null'
-        referenceAssetUid:
-          type: string
-    ColumnVariable:
-      type: object
-      title: io.ad.catalog.api.model.quality.ColumnVariable
-      required:
-      - getOnlyWithVariableName
-      - isNumber
-      - name
-      properties:
-        format:
-          type:
-          - string
-          - 'null'
-        getOnlyWithVariableName:
-          $ref: '#/components/schemas/ColumnVariable'
-        isNumber:
-          type: boolean
-        name:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    CustomSqlConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.CustomSqlConfig
-      required:
-      - columnMetadataList
-      - columnVariables
-      - queryType
-      - ruleVersion
-      - sanitizedQuery
-      - sqlExpression
-      properties:
-        columnMetadataList:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnMetadata'
-        columnVariables:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnVariable'
-        queryType:
-          type: string
-        ruleVersion:
-          type: integer
-        sanitizedQuery:
-          type: string
-        sqlExpression:
-          type: string
-        tableAlias:
-          type:
-          - string
-          - 'null'
     PolicyTransformUDF:
       type: object
       title: io.ad.catalog.api.model.quality.PolicyTransformUDF
@@ -250,37 +177,9 @@ components:
           type: string
         type:
           type: string
-    UdfValidationResult:
+    Any:
       type: object
-      title: io.ad.catalog.api.model.quality.UdfValidationResult
-      required:
-      - jobExecutionStatus
-      - requestId
-      properties:
-        errorMsg:
-          type:
-          - string
-          - 'null'
-        jobExecutionStatus:
-          type: string
-          enum:
-          - WAITING
-          - SKIPPED
-          - SUBMITTED
-          - QUEUED
-          - IN_PROGRESS
-          - ABORTED
-          - FAILED
-          - POSTPROCESSING
-          - ANOMALY_DETECTION
-          - EXECUTION_RESULT
-          - SUCCESSFUL
-        requestId:
-          type: string
-        result:
-          oneOf:
-          - $ref: '#/components/schemas/Any'
-          - type: 'null'
+      title: kotlin.Any
     UdfTemplateValidationRequest:
       type: object
       title: io.ad.catalog.api.model.quality.UdfTemplateValidationRequest
@@ -325,6 +224,79 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UdfVariable'
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      required:
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
+      properties:
+        referenceAssetAlias:
+          type: string
+        referenceAssetColumns:
+          type: array
+          items:
+            type: string
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
+          type: string
+    UdfValidationResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.UdfValidationResult
+      required:
+      - jobExecutionStatus
+      - requestId
+      properties:
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        jobExecutionStatus:
+          type: string
+          enum:
+          - WAITING
+          - SKIPPED
+          - SUBMITTED
+          - QUEUED
+          - IN_PROGRESS
+          - ABORTED
+          - FAILED
+          - POSTPROCESSING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+          - SUCCESSFUL
+        requestId:
+          type: string
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
     UdfVariable:
       type: object
       title: io.ad.catalog.api.model.UdfVariable
@@ -339,6 +311,34 @@ components:
           type:
           - string
           - 'null'
-    Any:
+    CustomSqlConfig:
       type: object
-      title: kotlin.Any
+      title: io.ad.catalog.api.model.quality.CustomSqlConfig
+      required:
+      - columnMetadataList
+      - columnVariables
+      - queryType
+      - ruleVersion
+      - sanitizedQuery
+      - sqlExpression
+      properties:
+        columnMetadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMetadata'
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        queryType:
+          type: string
+        ruleVersion:
+          type: integer
+        sanitizedQuery:
+          type: string
+        sqlExpression:
+          type: string
+        tableAlias:
+          type:
+          - string
+          - 'null'

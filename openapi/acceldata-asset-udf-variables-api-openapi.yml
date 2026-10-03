@@ -315,23 +315,6 @@ paths:
           description: 'Could not fetch Asset Udf Variable: {message}'
 components:
   schemas:
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    AssetUDFVariableChild:
-      type: object
-      title: io.ad.catalog.api.model.AssetUDFVariableChild
-      required:
-      - id
-      - key
-      - value
-      properties:
-        id:
-          type: integer
-        key:
-          type: string
-        value:
-          type: string
     AssetUDFVariableRequest:
       type: object
       title: io.ad.catalog.api.model.AssetUDFVariableRequest
@@ -362,6 +345,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AssetUDFVariableChild'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
     AssetUDFVariable:
       type: object
       title: io.ad.catalog.api.model.AssetUDFVariable
@@ -383,5 +369,19 @@ components:
           type: string
         updatedAt:
           $ref: '#/components/schemas/DateTime'
+        value:
+          type: string
+    AssetUDFVariableChild:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariableChild
+      required:
+      - id
+      - key
+      - value
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
         value:
           type: string

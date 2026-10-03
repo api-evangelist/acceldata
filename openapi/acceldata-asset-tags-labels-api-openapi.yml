@@ -329,19 +329,28 @@ paths:
                   $ref: '#/components/schemas/Label'
 components:
   schemas:
-    AssetLabelRequest:
+    Label:
       type: object
-      title: io.ad.catalog.api.model.AssetLabelRequest
+      title: io.ad.catalog.api.model.Label
       required:
-      - labels
+      - key
+      - value
       properties:
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
+        key:
+          type: string
+        labelType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
+          type: string
     TagDomain:
       type: object
       title: io.ad.catalog.api.model.tags.TagDomain
@@ -371,16 +380,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/DateTime'
           - type: 'null'
-    AssetTagResponse:
+    DateTime:
       type: object
-      title: io.ad.catalog.api.model.AssetTagResponse
-      required:
-      - assetTags
-      properties:
-        assetTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetTag'
+      title: org.joda.time.DateTime
     AssetTagRequest:
       type: object
       title: io.ad.catalog.api.model.AssetTagRequest
@@ -391,28 +393,16 @@ components:
           type:
           - string
           - 'null'
-    Label:
+    AssetLabelRequest:
       type: object
-      title: io.ad.catalog.api.model.Label
+      title: io.ad.catalog.api.model.AssetLabelRequest
       required:
-      - key
-      - value
+      - labels
       properties:
-        key:
-          type: string
-        labelType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
-        value:
-          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
     AssetTag:
       type: object
       title: io.ad.catalog.api.model.AssetTag
@@ -453,3 +443,13 @@ components:
           type:
           - string
           - 'null'
+    AssetTagResponse:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagResponse
+      required:
+      - assetTags
+      properties:
+        assetTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetTag'

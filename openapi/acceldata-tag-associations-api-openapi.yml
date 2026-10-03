@@ -202,20 +202,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/InvalidTagError'
-    InvalidTagError:
-      type: object
-      title: InvalidTagError
-      required:
-      - code
-      - keyValueId
-      - message
-      properties:
-        code:
-          type: string
-        keyValueId:
-          type: integer
-        message:
-          type: string
     TagDetail:
       type: object
       title: TagDetail
@@ -242,3 +228,17 @@ components:
           type:
           - string
           - 'null'
+    InvalidTagError:
+      type: object
+      title: InvalidTagError
+      required:
+      - code
+      - keyValueId
+      - message
+      properties:
+        code:
+          type: string
+        keyValueId:
+          type: integer
+        message:
+          type: string

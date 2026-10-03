@@ -211,81 +211,15 @@ paths:
                 $ref: '#/components/schemas/Status'
 components:
   schemas:
-    AddValuesToKeyRequest:
-      type: object
-      properties:
-        keyId:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
-    SearchKeyValuesResponse:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagKeyValuePairProto'
-        total:
-          type: integer
-          format: int32
-        page:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-    TagValueProto:
-      type: object
-      properties:
-        keyValueId:
-          type: string
-        keyId:
-          type: string
-        value:
-          type: string
-        dataProtection:
-          type: boolean
-        status:
-          enum:
-          - UNSPECIFIED_STATUS
-          - ACTIVE
-          - RETIRED
-          - MERGED
-          - DELETED
-          type: string
-          format: enum
-        mergedIntoId:
-          type: string
-        createdBy:
-          type: string
-        updatedBy:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-        tenantId:
-          type: string
-    CreateTagRequest:
+    TagResponseProto:
       type: object
       properties:
         key:
-          type: string
+          $ref: '#/components/schemas/TagKeyProto'
         values:
           type: array
           items:
-            type: string
-        type:
-          enum:
-          - UNSPECIFIED_TYPE
-          - GOVERNED
-          - USER
-          type: string
-          format: enum
-        keyDescription:
-          type: string
+            $ref: '#/components/schemas/TagValueProto'
     GoogleProtobufAny:
       type: object
       properties:
@@ -331,29 +265,22 @@ components:
           type: string
         tenantId:
           type: string
-    Status:
+    SearchKeyValuesResponse:
       type: object
       properties:
-        code:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagKeyValuePairProto'
+        total:
           type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
           format: int32
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/GoogleProtobufAny'
-          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
-    TagValuesResponse:
-      type: object
-      properties:
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagValueProto'
+        page:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
     TagKeyValuePairProto:
       type: object
       properties:
@@ -396,11 +323,84 @@ components:
           type: string
         valueCreatedAt:
           type: string
-    TagResponseProto:
+    CreateTagRequest:
       type: object
       properties:
         key:
-          $ref: '#/components/schemas/TagKeyProto'
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+        type:
+          enum:
+          - UNSPECIFIED_TYPE
+          - GOVERNED
+          - USER
+          type: string
+          format: enum
+        keyDescription:
+          type: string
+    AddValuesToKeyRequest:
+      type: object
+      properties:
+        keyId:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+    TagValueProto:
+      type: object
+      properties:
+        keyValueId:
+          type: string
+        keyId:
+          type: string
+        value:
+          type: string
+        dataProtection:
+          type: boolean
+        status:
+          enum:
+          - UNSPECIFIED_STATUS
+          - ACTIVE
+          - RETIRED
+          - MERGED
+          - DELETED
+          type: string
+          format: enum
+        mergedIntoId:
+          type: string
+        createdBy:
+          type: string
+        updatedBy:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        tenantId:
+          type: string
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleProtobufAny'
+          description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+    TagValuesResponse:
+      type: object
+      properties:
         values:
           type: array
           items:
