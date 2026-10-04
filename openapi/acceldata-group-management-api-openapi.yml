@@ -230,6 +230,162 @@ paths:
           description: Available client roles for the group
 components:
   schemas:
+    GroupDetails:
+      type: object
+      title: GroupDetails
+      required:
+      - domainRoleMappings
+      - id
+      - members
+      - name
+      - roles
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        createdAt:
+          type: integer
+        createdBy:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        id:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRepresentation'
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
+        updatedAt:
+          type: integer
+        updatedBy:
+          type:
+          - string
+          - 'null'
+    CreateUserGroupRequest:
+      type: object
+      title: CreateUserGroupRequest
+      required:
+      - domainRoleMappings
+      - members
+      - name
+      - roles
+      properties:
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        description:
+          type:
+          - string
+          - 'null'
+        domainRoleMappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityDomainRoleMapping'
+        members:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        roles:
+          type: array
+          items:
+            type: integer
+    FederatedIdentityRepresentation:
+      type: object
+      title: FederatedIdentityRepresentation
+      required:
+      - identityProvider
+      - userId
+      - userName
+      properties:
+        identityProvider:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+    Role:
+      type: object
+      title: Role
+      required:
+      - id
+      - name
+      properties:
+        default:
+          type: boolean
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
+    EntityDomainRoleMapping:
+      type: object
+      title: EntityDomainRoleMapping
+      required:
+      - domainId
+      - entityType
+      - roleId
+      - roleType
+      properties:
+        domainId:
+          type: integer
+        entityId:
+          type:
+          - string
+          - 'null'
+        entityType:
+          type: string
+          enum:
+          - USER
+          - USER_GROUP
+        id:
+          type: integer
+        roleId:
+          type: integer
+        roleType:
+          type: string
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE
     Group:
       type: object
       title: Group
@@ -276,41 +432,59 @@ components:
           type:
           - string
           - 'null'
-    CreateUserGroupRequest:
+    Meta:
       type: object
-      title: CreateUserGroupRequest
+      title: Meta
       required:
-      - domainRoleMappings
-      - members
-      - name
-      - roles
+      - page
+      - size
+      - total
       properties:
-        attributes:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        description:
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
+    GroupsListResponse:
+      type: object
+      title: GroupsListResponse
+      required:
+      - groups
+      - meta
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        meta:
+          $ref: '#/components/schemas/Meta'
+    Metadata:
+      type: object
+      title: Metadata
+      required:
+      - createdAt
+      - createdBy
+      - numberOfDirectGroupsAssigned
+      - numberOfDirectUsersAssigned
+      - numberOfDomainUserGroupAssigned
+      properties:
+        createdAt:
+          type: integer
+        createdBy:
+          type: string
+        numberOfDirectGroupsAssigned:
+          type: integer
+        numberOfDirectUsersAssigned:
+          type: integer
+        numberOfDomainUserGroupAssigned:
+          type: integer
+        updatedAt:
+          type: integer
+        updatedBy:
           type:
           - string
           - 'null'
-        domainRoleMappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityDomainRoleMapping'
-        members:
-          type: array
-          items:
-            type: string
-        name:
-          type: string
-        roles:
-          type: array
-          items:
-            type: integer
     EditUserGroupRequest:
       type: object
       title: EditUserGroupRequest
@@ -358,44 +532,6 @@ components:
           items:
             type: string
         usersRemoved:
-          type: array
-          items:
-            type: string
-    SocialLinkRepresentation:
-      type: object
-      title: SocialLinkRepresentation
-      required:
-      - socialProvider
-      - socialUserId
-      - socialUsername
-      properties:
-        socialProvider:
-          type: string
-        socialUserId:
-          type: string
-        socialUsername:
-          type: string
-    UserConsentRepresentation:
-      type: object
-      title: UserConsentRepresentation
-      required:
-      - clientId
-      - grantedClientScopes
-      - createdDate
-      - lastUpdatedDate
-      - grantedRealmRoles
-      properties:
-        clientId:
-          type: string
-        grantedClientScopes:
-          type: array
-          items:
-            type: string
-        createdDate:
-          type: integer
-        lastUpdatedDate:
-          type: integer
-        grantedRealmRoles:
           type: array
           items:
             type: string
@@ -512,103 +648,31 @@ components:
               type: string
         enabled:
           type: boolean
-    FederatedIdentityRepresentation:
+    SocialLinkRepresentation:
       type: object
-      title: FederatedIdentityRepresentation
+      title: SocialLinkRepresentation
       required:
-      - identityProvider
-      - userId
-      - userName
+      - socialProvider
+      - socialUserId
+      - socialUsername
       properties:
-        identityProvider:
+        socialProvider:
           type: string
-        userId:
+        socialUserId:
           type: string
-        userName:
+        socialUsername:
           type: string
-    Role:
+    Status:
       type: object
-      title: Role
+      title: Status
       required:
-      - id
-      - name
+      - message
+      - status
       properties:
-        default:
+        message:
+          type: string
+        status:
           type: boolean
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        metadata:
-          oneOf:
-          - $ref: '#/components/schemas/Metadata'
-          - type: 'null'
-        name:
-          type: string
-        type:
-          type:
-          - string
-          - 'null'
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
-    EntityDomainRoleMapping:
-      type: object
-      title: EntityDomainRoleMapping
-      required:
-      - domainId
-      - entityType
-      - roleId
-      - roleType
-      properties:
-        domainId:
-          type: integer
-        entityId:
-          type:
-          - string
-          - 'null'
-        entityType:
-          type: string
-          enum:
-          - USER
-          - USER_GROUP
-        id:
-          type: integer
-        roleId:
-          type: integer
-        roleType:
-          type: string
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
-    Metadata:
-      type: object
-      title: Metadata
-      required:
-      - createdAt
-      - createdBy
-      - numberOfDirectGroupsAssigned
-      - numberOfDirectUsersAssigned
-      - numberOfDomainUserGroupAssigned
-      properties:
-        createdAt:
-          type: integer
-        createdBy:
-          type: string
-        numberOfDirectGroupsAssigned:
-          type: integer
-        numberOfDirectUsersAssigned:
-          type: integer
-        numberOfDomainUserGroupAssigned:
-          type: integer
-        updatedAt:
-          type: integer
-        updatedBy:
-          type:
-          - string
-          - 'null'
     CredentialRepresentation:
       type: object
       title: CredentialRepresentation
@@ -673,91 +737,27 @@ components:
             type: string
         federationLink:
           type: string
-    GroupDetails:
+    UserConsentRepresentation:
       type: object
-      title: GroupDetails
+      title: UserConsentRepresentation
       required:
-      - domainRoleMappings
-      - id
-      - members
-      - name
-      - roles
+      - clientId
+      - grantedClientScopes
+      - createdDate
+      - lastUpdatedDate
+      - grantedRealmRoles
       properties:
-        attributes:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        createdAt:
-          type: integer
-        createdBy:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        domainRoleMappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityDomainRoleMapping'
-        id:
+        clientId:
           type: string
-        members:
+        grantedClientScopes:
           type: array
           items:
-            $ref: '#/components/schemas/UserRepresentation'
-        name:
-          type: string
-        roles:
+            type: string
+        createdDate:
+          type: integer
+        lastUpdatedDate:
+          type: integer
+        grantedRealmRoles:
           type: array
           items:
-            $ref: '#/components/schemas/Role'
-        updatedAt:
-          type: integer
-        updatedBy:
-          type:
-          - string
-          - 'null'
-    GroupsListResponse:
-      type: object
-      title: GroupsListResponse
-      required:
-      - groups
-      - meta
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-        meta:
-          $ref: '#/components/schemas/Meta'
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
-    Meta:
-      type: object
-      title: Meta
-      required:
-      - page
-      - size
-      - total
-      properties:
-        page:
-          type: integer
-        size:
-          type: integer
-        total:
-          type: integer
+            type: string

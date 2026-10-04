@@ -1677,6 +1677,1218 @@ components:
           type: string
         type:
           type: string
+    DataQuality.Engine:
+      type: object
+      title: DataQuality.Engine
+      required:
+      - displayName
+      - name
+      properties:
+        displayName:
+          type: string
+        name:
+          type: string
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+    DataplaneJobStatus:
+      type: object
+      title: io.ad.catalog.api.model.DataplaneJobStatus
+      required:
+      - id
+      - isFinished
+      - status
+      properties:
+        details:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        id:
+          type: string
+        isFinished:
+          type: boolean
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+        status:
+          type: string
+    ItemExecution:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.ItemExecution
+      required:
+      - executionId
+      - isWarning
+      - ruleItemId
+      - startedAt
+      - threshold
+      - weightage
+      properties:
+        businessItemId:
+          type: integer
+        error:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type: integer
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        finishedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        id:
+          type: integer
+        isWarning:
+          type: boolean
+        item:
+          oneOf:
+          - $ref: '#/components/schemas/Item'
+          - type: 'null'
+        rca:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RootCauseAnalysis'
+        result:
+          type:
+          - string
+          - 'null'
+        resultPercentage:
+          type: number
+        rowsFailed:
+          type: integer
+        rowsScanned:
+          type: integer
+        rowsWarning:
+          type: integer
+        ruleItemId:
+          type: integer
+        segmentHash:
+          type:
+          - string
+          - 'null'
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ItemSegment'
+        startedAt:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type:
+          - string
+          - 'null'
+        threshold:
+          type: number
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - string
+          - 'null'
+        weightage:
+          type: number
+    RangeConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.RangeConfigs
+      required:
+      - direction
+      - lowerSuccess
+      - upperSuccess
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        lowerSuccess:
+          type: number
+        lowerWarning:
+          type: number
+        upperSuccess:
+          type: number
+        upperWarning:
+          type: number
+    PolicyExecutionRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyExecutionRequest
+      required:
+      - columnVariables
+      - executionType
+      - includeInQualityScore
+      - resourceStrategyType
+      properties:
+        analysisJobRequestId:
+          type:
+          - string
+          - 'null'
+        analyticsPipelineId:
+          type: integer
+        assetDirection:
+          type:
+          - string
+          - 'null'
+        autoRetryEnabled:
+          type: boolean
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionType:
+          type: string
+          enum:
+          - SELECTIVE
+          - FULL
+          - INCREMENTAL
+        includeInQualityScore:
+          type: boolean
+        markerConfigs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyExecutionMarkerConfig'
+        monitorExecutionId:
+          type: integer
+        pipelineAutomationExecutionId:
+          type: integer
+        pipelineRunId:
+          type: integer
+        profileId:
+          type: integer
+        resourceStrategyType:
+          type: string
+          enum:
+          - INVENTORY
+          - CUSTOM
+        rightEngineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        rightSparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        rightSparkSQLDynamicFilterVariableMapping:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+        ruleItemSelections:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sourceExecutionId:
+          type: integer
+        sparkAppName:
+          type:
+          - string
+          - 'null'
+        sparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        sparkSQLDynamicFilterVariableMapping:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+    JobSpec:
+      type: object
+      title: io.ad.dataplane.model.spec.JobSpec
+      required:
+      - artifactFacts
+      properties:
+        artifactFacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artifact'
+    JobSchedule:
+      type: object
+      title: io.ad.catalog.api.model.quality.JobSchedule
+      required:
+      - cronExpression
+      - enabled
+      - scheduleType
+      - timeZone
+      properties:
+        backingAssetId:
+          type: integer
+        cronExpression:
+          type: string
+        enabled:
+          type: boolean
+        id:
+          type: integer
+        marker:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        scheduleType:
+          type: string
+        tenantId:
+          type:
+          - string
+          - 'null'
+        timeZone:
+          type: string
+    DataplaneEngine:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.DataplaneEngine
+      required:
+      - current
+      - displayName
+      properties:
+        current:
+          type: string
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        displayName:
+          type: string
+        supported:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DataQuality.Engine'
+    Artifact:
+      type: object
+      title: io.ad.dataplane.model.spec.Artifact
+      required:
+      - name
+      - path
+      - version
+      properties:
+        name:
+          type: string
+        path:
+          type: string
+        version:
+          type: string
+    Mapping:
+      type: object
+      title: io.ad.catalog.api.model.quality.Mapping
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    CloningDetails:
+      type: object
+      title: io.ad.catalog.api.model.quality.CloningDetails
+      required:
+      - ruleId
+      - version
+      properties:
+        ruleId:
+          type: integer
+        version:
+          type: integer
+    LivySparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.LivySparkResourceConfig
+      properties:
+        driverCores:
+          type: integer
+        driverMemory:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        numExecutors:
+          type: integer
+    YunikornSparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.YunikornSparkResourceConfig
+      properties:
+        driverCores:
+          type: integer
+        driverLimitCores:
+          type:
+          - string
+          - 'null'
+        driverMemory:
+          type:
+          - string
+          - 'null'
+        driverMemoryOverhead:
+          type:
+          - string
+          - 'null'
+        driverMemoryOverheadFactor:
+          type: number
+        driverRequestCores:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorLimitCores:
+          type:
+          - string
+          - 'null'
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        executorMemoryOverhead:
+          type:
+          - string
+          - 'null'
+        executorMemoryOverheadFactor:
+          type: number
+        executorRequestCores:
+          type:
+          - string
+          - 'null'
+        maxExecutors:
+          type: integer
+        minExecutors:
+          type: integer
+    DataBricksSparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.DataBricksSparkResourceConfig
+      properties:
+        clusterDriverType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        maxWorkers:
+          type: integer
+        minWorkers:
+          type: integer
+    AnalysisJobContext:
+      type: object
+      title: io.ad.catalog.api.model.AnalysisJobContext
+      required:
+      - type
+      properties:
+        dataplaneJobStatus:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneJobStatus'
+          - type: 'null'
+        sparkJobStatus:
+          oneOf:
+          - $ref: '#/components/schemas/SparkJobStatus'
+          - type: 'null'
+        statusRetryCount:
+          type: integer
+        type:
+          type: string
+    RuleResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.RuleResponse
+      required:
+      - rule
+      properties:
+        details:
+          oneOf:
+          - $ref: '#/components/schemas/Rule'
+          - type: 'null'
+        engine:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneEngine'
+          - type: 'null'
+        rule:
+          $ref: '#/components/schemas/DataQualityRule'
+    PolicyTransformUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      required:
+      - assetId
+      - name
+      - parameters
+      - udfId
+      properties:
+        assetId:
+          type: integer
+        columnNames:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        id:
+          type: integer
+        name:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer
+    DataQuality.ExecutionsResponse:
+      type: object
+      title: DataQuality.ExecutionsResponse
+      required:
+      - executions
+      - meta
+      properties:
+        executions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Execution'
+        meta:
+          $ref: '#/components/schemas/MetaData'
+    RelativeThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.RelativeThresholdConfig
+      required:
+      - config
+      - operationalConfig
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/RelativeConfig'
+        operationalConfig:
+          $ref: '#/components/schemas/OperationalConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    OperationalConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.OperationalConfig
+      required:
+      - lookBack
+      properties:
+        lookBack:
+          $ref: '#/components/schemas/LookBackConfig'
+    AbsoluteConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.AbsoluteConfigs
+      oneOf:
+      - $ref: '#/components/schemas/AboveConfigs'
+      - $ref: '#/components/schemas/BelowConfigs'
+      - $ref: '#/components/schemas/RangeConfigs'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.quality.AboveConfigs: '#/components/schemas/AboveConfigs'
+          io.ad.catalog.api.model.quality.BelowConfigs: '#/components/schemas/BelowConfigs'
+          io.ad.catalog.api.model.quality.RangeConfigs: '#/components/schemas/RangeConfigs'
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    ItemSegment:
+      type: object
+      title: io.ad.catalog.api.model.quality.ItemSegment
+      required:
+      - executionId
+      - itemExecutionId
+      - rowsScanned
+      - ruleItemId
+      - segmentHash
+      properties:
+        error:
+          type:
+          - string
+          - 'null'
+        executionId:
+          type: integer
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        id:
+          type: integer
+        itemExecutionId:
+          type: integer
+        result:
+          type: number
+        rowsFailed:
+          type: integer
+        rowsScanned:
+          type: integer
+        ruleItemId:
+          type: integer
+        segmentHash:
+          type: string
+        status:
+          type:
+          - string
+          - 'null'
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - string
+          - 'null'
+    Engine:
+      type: object
+      title: io.ad.dataplane.model.engine.Engine
+      required:
+      - type
+      properties:
+        config:
+          oneOf:
+          - $ref: '#/components/schemas/EngineConfig'
+          - type: 'null'
+        type:
+          type: string
+          enum:
+          - SPARK_ASYNC
+          - POD_ASYNC
+          - STANDALONE_ASYNC
+          - PUSHDOWN_ASYNC
+    IncreasedByConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.IncreasedByConfig
+      required:
+      - direction
+      - operator
+      - success
+      - unit
+      - isDirectional
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        operator:
+          type: string
+          enum:
+          - LEGACY
+          - EQ
+          - NEQ
+          - GT
+          - GTE
+          - LT
+          - LTE
+        success:
+          type: number
+        unit:
+          type: string
+          enum:
+          - PERCENTAGE
+          - ABSOLUTE
+        warning:
+          type: number
+        isDirectional:
+          type: boolean
+    ExecutionResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.ExecutionResult
+      required:
+      - execution
+      - items
+      - meta
+      - result
+      properties:
+        childExecutions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExecutionResult'
+        execution:
+          $ref: '#/components/schemas/GenericRuleExecution'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleItemResult'
+        meta:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Any'
+        result:
+          $ref: '#/components/schemas/RuleExecutionResult'
+    RuleItemResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleItemResult
+      required:
+      - dimension
+      - id
+      - includeInQualityScore
+      - ruleItemId
+      - threshold
+      - weightage
+      properties:
+        dimension:
+          type: string
+          enum:
+          - UNIQUENESS
+          - VALIDITY
+          - ACCURACY
+          - CONSISTENCY
+          - COMPLETENESS
+          - TIMELINESS
+          - OTHERS
+        error:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        isWarning:
+          type: boolean
+        name:
+          type:
+          - string
+          - 'null'
+        resultPercent:
+          type: number
+        ruleItemId:
+          type: integer
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        success:
+          type: boolean
+        threshold:
+          type: number
+        weightage:
+          type: number
+    Execution:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Execution
+      required:
+      - execution
+      - items
+      - policyScoreStrategy
+      - treatZeroRowsAsSuccess
+      properties:
+        execution:
+          $ref: '#/components/schemas/GenericRuleExecution'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemExecution'
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        treatZeroRowsAsSuccess:
+          type: boolean
+    TimeBasedThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.TimeBasedThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/TimeBasedConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    AnomalyConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AnomalyConfig
+      required:
+      - successSensitivityLevel
+      properties:
+        successSensitivityLevel:
+          type: string
+          enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+        warningSensitivityLevel:
+          type:
+          - string
+          - 'null'
+          enum:
+          - HIGH
+          - MEDIUM
+          - LOW
+    TimeBasedConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.TimeBasedConfig
+      required:
+      - lookBackWindowType
+      - successLookBackWindow
+      properties:
+        lookBackWindowType:
+          type: string
+          enum:
+          - RUNS
+          - DAYS
+          - HOURS
+          - MINUTES
+        successLookBackWindow:
+          type: integer
+        warningLookBackWindow:
+          type: integer
+    AboveConfigs:
+      type: object
+      title: io.ad.catalog.api.model.quality.AboveConfigs
+      required:
+      - direction
+      - success
+      properties:
+        direction:
+          type: string
+          enum:
+          - ABOVE
+          - BELOW
+          - RANGE
+          - CHANGES_BY
+          - DECREASED_BY
+          - INCREASED_BY
+        success:
+          type: number
+        warning:
+          type: number
+    DataplaneRequest:
+      type: object
+      title: io.ad.dataplane.model.DataplaneRequest
+      required:
+      - engine
+      - method
+      - requestId
+      properties:
+        engine:
+          $ref: '#/components/schemas/Engine'
+        method:
+          type: string
+          enum:
+          - SUBMIT
+          - CANCEL
+          - STATUS
+        requestId:
+          type: string
+    Item:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Item
+      required:
+      - aggregateType
+      - executionOrder
+      - isArchived
+      - isDimension
+      - isWarning
+      - measurementType
+      - name
+      - resultThreshold
+      - ruleVersion
+      - weightage
+      properties:
+        aggregateType:
+          type: string
+          enum:
+          - SUM
+          - AVG
+          - MIN
+          - MAX
+          - RULE
+          - CUSTOM
+          - COUNT
+        associatedDQRecommendationId:
+          type: integer
+        bulkPolicyDqRuleId:
+          type: integer
+        businessExplanation:
+          type:
+          - string
+          - 'null'
+        columnName:
+          type:
+          - string
+          - 'null'
+        executionInputs:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        executionOrder:
+          type: integer
+        id:
+          type: integer
+        isArchived:
+          type: boolean
+        isDimension:
+          type: boolean
+        isWarning:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        measurementType:
+          type: string
+          enum:
+          - MISSING_VALUES
+          - FRESHNESS_CHECK
+          - DATATYPE_MATCH
+          - REGEX_MATCH
+          - VALUES_IN_LIST
+          - VALUES_IN_LOOKUP
+          - DISTINCTNESS_CHECK
+          - DUPLICATE_ROWS_CHECK
+          - PRECISION_SCALE_CHECK
+          - BUSINESS_MEASURE
+          - TAG_MATCH
+          - RANGE_MATCH
+          - SIZE_CHECK
+          - CUSTOM
+          - UDF_PREDICATE
+          - SQL_METRIC
+          - AGGREGATES
+          - DATA_FRESHNESS
+          - RECORD_COUNT_TOTAL
+          - RECORD_COUNT_DRIFT
+          - DATA_VOLUME_TOTAL
+          - DATA_VOLUME_DRIFT
+          - FILE_COUNT_TOTAL
+          - FILE_COUNT_DRIFT
+          - CHANGE_IN_FILE_SIZE
+          - ABSOLUTE_FILE_SIZE
+          - RAW_ABSOLUTE_SIZE
+          - RAW_DATA_FRESHNESS
+          - MESSAGES_COUNT_TOTAL
+          - MESSAGES_COUNT_DRIFT
+          - CHANGE_IN_TOPIC_SIZE
+          - ABSOLUTE_TOPIC_SIZE
+        name:
+          type: string
+        resultThreshold:
+          type: number
+        ruleExpression:
+          type:
+          - string
+          - 'null'
+        ruleId:
+          type: integer
+        ruleVersion:
+          type: integer
+        thresholdConfig:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        value:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        weightage:
+          type: number
+    Rule:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.Rule
+      required:
+      - backingAssetId
+      - continueExecutionOnFailure
+      - executionSequence
+      - isCompositeRule
+      - isSegmented
+      - items
+      - policyScoreStrategy
+      - ruleId
+      - treatZeroRowsAsSuccess
+      properties:
+        backingAssetId:
+          type: integer
+        continueExecutionOnFailure:
+          type: boolean
+        customSqlConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CustomSqlConfig'
+          - type: 'null'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionSequence:
+          type: integer
+        filter:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        isCompositeRule:
+          type: boolean
+        isSegmented:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        jobSchedule:
+          oneOf:
+          - $ref: '#/components/schemas/JobSchedule'
+          - type: 'null'
+        parentId:
+          type: integer
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        ruleId:
+          type: integer
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShortSegment'
+        subType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - SQL
+        tenantId:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        treatZeroRowsAsSuccess:
+          type: boolean
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+    SparkJobStatus:
+      type: object
+      title: io.ad.catalog.api.model.SparkJobStatus
+      required:
+      - id
+      - isFinished
+      - status
+      properties:
+        details:
+          type:
+          - string
+          - 'null'
+        errorMsg:
+          type:
+          - string
+          - 'null'
+        id:
+          type: string
+        isFinished:
+          type: boolean
+        result:
+          oneOf:
+          - $ref: '#/components/schemas/Any'
+          - type: 'null'
+        status:
+          type: string
+    PolicyGroup:
+      type: object
+      title: io.ad.catalog.api.model.PolicyGroup
+      properties:
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+    RuleExecutionResult:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleExecutionResult
+      required:
+      - ruleExecutionType
+      - status
+      properties:
+        ruleExecutionType:
+          type: string
+          enum:
+          - RECONCILIATION_RULE_TYPE_EXECUTION
+          - DQ_RULE_TYPE_EXECUTION
+          - DATA_DRIFT_EXECUTION
+          - SCHEMA_DRIFT_EXECUTION
+          - DATA_CADENCE_TYPE_EXECUTION
+          - PROFILE_ANOMALY_TYPE_EXECUTION
+          - AUTO_ANOMALY_TYPE_EXECUTION
+        status:
+          type: string
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+    ItemsResponse:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.ItemsResponse
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
     RulesResponse:
       type: object
       title: io.ad.catalog.api.model.quality.DataQuality.RulesResponse
@@ -1690,9 +2902,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RuleResponse'
-    IncreasedByConfig:
+    Marker:
       type: object
-      title: io.ad.catalog.api.model.quality.IncreasedByConfig
+      title: io.ad.catalog.api.model.profile.incrementalstrategies.Marker
+      required:
+      - type
+      properties:
+        type:
+          type: string
+    DecreasedByConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.DecreasedByConfig
       required:
       - direction
       - operator
@@ -1750,40 +2970,9 @@ components:
           type: number
         warning:
           type: number
-    MetaData:
+    EngineConfig:
       type: object
-      title: io.ad.catalog.api.model.quality.MetaData
-      required:
-      - count
-      - page
-      - size
-      properties:
-        count:
-          type: integer
-        page:
-          type: integer
-        size:
-          type: integer
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    Engine:
-      type: object
-      title: io.ad.dataplane.model.engine.Engine
-      required:
-      - type
-      properties:
-        config:
-          oneOf:
-          - $ref: '#/components/schemas/EngineConfig'
-          - type: 'null'
-        type:
-          type: string
-          enum:
-          - SPARK_ASYNC
-          - POD_ASYNC
-          - STANDALONE_ASYNC
-          - PUSHDOWN_ASYNC
+      title: io.ad.dataplane.model.engine.EngineConfig
     NotificationPayload:
       type: object
       title: io.ad.catalog.api.model.NotificationPayload
@@ -1836,48 +3025,6 @@ components:
           - 'null'
           items:
             type: string
-    LookBackConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.LookBackConfig
-      required:
-      - window
-      - windowType
-      properties:
-        window:
-          type: integer
-        windowType:
-          type: string
-          enum:
-          - RUNS
-          - DAYS
-          - HOURS
-          - MINUTES
-    Marker:
-      type: object
-      title: io.ad.catalog.api.model.profile.incrementalstrategies.Marker
-      required:
-      - type
-      properties:
-        type:
-          type: string
-    RuleTag:
-      type: object
-      title: io.ad.catalog.api.model.quality.RuleTag
-      required:
-      - name
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        ruleId:
-          type: integer
-        tagId:
-          type: integer
-        tenantId:
-          type:
-          - string
-          - 'null'
     BackingAsset:
       type: object
       title: io.ad.catalog.api.model.quality.BackingAsset
@@ -1910,186 +3057,230 @@ components:
           type:
           - string
           - 'null'
-    DataQuality.Engine:
+    GenericRuleExecution:
       type: object
-      title: DataQuality.Engine
+      title: io.ad.catalog.api.model.quality.GenericRuleExecution
       required:
-      - displayName
-      - name
+      - dataPersistenceEnabled
+      - executionMode
+      - executionStatus
+      - executionType
+      - includeInQualityScore
+      - resultStatus
+      - ruleId
+      - ruleSelectionEnabled
+      - ruleVersion
+      - startedAt
       properties:
-        displayName:
-          type: string
-        name:
-          type: string
+        analysisJob:
+          oneOf:
+          - $ref: '#/components/schemas/DataplaneJob'
+          - type: 'null'
+        autoRetries:
+          type: integer
+        autoRetryEnabled:
+          type: boolean
+        dataPersistenceEnabled:
+          type: boolean
+        engineType:
+          type:
+          - string
+          - 'null'
           enum:
           - SPARK
           - JDBC_SQL
           - POD
-    DataBricksSparkResourceConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.DataBricksSparkResourceConfig
-      properties:
-        clusterDriverType:
+        executionError:
           type:
           - string
           - 'null'
-        clusterWorkerType:
-          type:
-          - string
-          - 'null'
-        maxWorkers:
-          type: integer
-        minWorkers:
-          type: integer
-    AboveConfigs:
-      type: object
-      title: io.ad.catalog.api.model.quality.AboveConfigs
-      required:
-      - direction
-      - success
-      properties:
-        direction:
+        executionMode:
           type: string
           enum:
-          - ABOVE
-          - BELOW
-          - RANGE
-          - CHANGES_BY
-          - DECREASED_BY
-          - INCREASED_BY
-        success:
-          type: number
-        warning:
-          type: number
-    Artifact:
-      type: object
-      title: io.ad.dataplane.model.spec.Artifact
-      required:
-      - name
-      - path
-      - version
-      properties:
-        name:
+          - SCHEDULED
+          - MANUAL
+          - WEBHOOK
+          - API
+        executionStatus:
           type: string
-        path:
+          enum:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        executionType:
           type: string
-        version:
-          type: string
-    SparkJobStatus:
-      type: object
-      title: io.ad.catalog.api.model.SparkJobStatus
-      required:
-      - id
-      - isFinished
-      - status
-      properties:
-        details:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
-        id:
-          type: string
-        isFinished:
-          type: boolean
-        result:
+          enum:
+          - SELECTIVE
+          - FULL
+          - INCREMENTAL
+        finishedAt:
           oneOf:
-          - $ref: '#/components/schemas/Any'
+          - $ref: '#/components/schemas/DateTime'
           - type: 'null'
-        status:
-          type: string
-    SparkResourceConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.SparkResourceConfig
-      required:
-      - invalidFields
-      properties:
-        additionalConfiguration:
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        lastMarker:
+          oneOf:
+          - $ref: '#/components/schemas/Marker'
+          - type: 'null'
+        leftLastMarker:
+          oneOf:
+          - $ref: '#/components/schemas/Marker'
+          - type: 'null'
+        leftMarkerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        markerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        parentId:
+          type: integer
+        persistencePath:
+          type:
+          - string
+          - 'null'
+        resetPoint:
+          type: integer
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        resultPersistencePath:
           type:
           - object
           - 'null'
           additionalProperties:
             type: string
-        databricks:
-          oneOf:
-          - $ref: '#/components/schemas/DataBricksSparkResourceConfig'
-          - type: 'null'
-        dataproc:
-          oneOf:
-          - $ref: '#/components/schemas/DataprocSparkResourceConfig'
-          - type: 'null'
-        invalidFields:
-          type: array
-          items:
-            type: string
-        livy:
-          oneOf:
-          - $ref: '#/components/schemas/LivySparkResourceConfig'
-          - type: 'null'
-        yunikorn:
-          oneOf:
-          - $ref: '#/components/schemas/YunikornSparkResourceConfig'
-          - type: 'null'
-    DataQuality.ExecutionsResponse:
-      type: object
-      title: DataQuality.ExecutionsResponse
-      required:
-      - executions
-      - meta
-      properties:
-        executions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Execution'
-        meta:
-          $ref: '#/components/schemas/MetaData'
-    TimeBasedConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.TimeBasedConfig
-      required:
-      - lookBackWindowType
-      - successLookBackWindow
-      properties:
-        lookBackWindowType:
+        resultStatus:
           type: string
           enum:
-          - RUNS
-          - DAYS
-          - HOURS
-          - MINUTES
-        successLookBackWindow:
-          type: integer
-        warningLookBackWindow:
-          type: integer
-    DataplaneJobStatus:
-      type: object
-      title: io.ad.catalog.api.model.DataplaneJobStatus
-      required:
-      - id
-      - isFinished
-      - status
-      properties:
-        details:
-          type:
-          - string
-          - 'null'
-        errorMsg:
-          type:
-          - string
-          - 'null'
-        id:
-          type: string
-        isFinished:
-          type: boolean
-        result:
+          - STARTED
+          - RUNNING
+          - ERRORED
+          - WARNING
+          - SUCCESSFUL
+          - ABORTED
+          - SKIPPED
+          - WAITING
+          - ANOMALY_DETECTION
+          - EXECUTION_RESULT
+        rightLastMarker:
           oneOf:
-          - $ref: '#/components/schemas/Any'
+          - $ref: '#/components/schemas/Marker'
           - type: 'null'
-        status:
+        rightMarkerConfig:
+          oneOf:
+          - $ref: '#/components/schemas/MarkerConfig'
+          - type: 'null'
+        ruleId:
+          type: integer
+        ruleName:
+          type:
+          - string
+          - 'null'
+        ruleSelectionEnabled:
+          type: boolean
+        ruleType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - DATA_QUALITY
+          - RECONCILIATION
+          - EQUALITY
+          - DATA_DRIFT
+          - SCHEMA_DRIFT
+          - DATA_CADENCE
+          - PROFILE_ANOMALY
+          - AUTO_ANOMALY
+        ruleVersion:
+          type: integer
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        startedAt:
+          $ref: '#/components/schemas/DateTime'
+        thresholdLevel:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+    MarkerConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.incrementalstrategies.MarkerConfig
+      required:
+      - type
+      properties:
+        type:
           type: string
+    AnomalyThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AnomalyThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/AnomalyConfig'
+        success:
+          type: number
+        type:
+          type: string
+          enum:
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
+          - ABSOLUTE
+        warning:
+          type: number
+    ShortSegment:
+      type: object
+      title: io.ad.catalog.api.model.ShortSegment
+      required:
+      - type
+      properties:
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+    RuleTag:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleTag
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        ruleId:
+          type: integer
+        tagId:
+          type: integer
+        tenantId:
+          type:
+          - string
+          - 'null'
     ChangesByConfig:
       type: object
       title: io.ad.catalog.api.model.quality.ChangesByConfig
@@ -2130,45 +3321,23 @@ components:
           type: number
         isDirectional:
           type: boolean
-    UnarchiveResponse:
+    MetaData:
       type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.UnarchiveResponse
+      title: io.ad.catalog.api.model.quality.MetaData
       required:
-      - status
+      - count
+      - page
+      - size
       properties:
-        status:
-          type: string
-          enum:
-          - SUCCESS
-          - FAILED_ON_BACKING_ASSET
-          - FAILED_ON_RULE_ITEMS
-    PolicyExecutionMarkerConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.PolicyExecutionMarkerConfig
-      required:
-      - assetId
-      - markerConfig
-      properties:
-        assetId:
+        count:
           type: integer
-        markerConfig:
-          $ref: '#/components/schemas/MarkerConfig'
-    RuleResponse:
+        page:
+          type: integer
+        size:
+          type: integer
+    Any:
       type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.RuleResponse
-      required:
-      - rule
-      properties:
-        details:
-          oneOf:
-          - $ref: '#/components/schemas/Rule'
-          - type: 'null'
-        engine:
-          oneOf:
-          - $ref: '#/components/schemas/DataplaneEngine'
-          - type: 'null'
-        rule:
-          $ref: '#/components/schemas/DataQualityRule'
+      title: kotlin.Any
     CustomSqlConfig:
       type: object
       title: io.ad.catalog.api.model.quality.CustomSqlConfig
@@ -2200,68 +3369,410 @@ components:
           type:
           - string
           - 'null'
-    ShortSegment:
+    UnarchiveResponse:
       type: object
-      title: io.ad.catalog.api.model.ShortSegment
+      title: io.ad.catalog.api.model.quality.DataQuality.UnarchiveResponse
       required:
-      - type
+      - status
       properties:
-        id:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILED_ON_BACKING_ASSET
+          - FAILED_ON_RULE_ITEMS
+    LookBackConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.LookBackConfig
+      required:
+      - window
+      - windowType
+      properties:
+        window:
           type: integer
-        name:
+        windowType:
+          type: string
+          enum:
+          - RUNS
+          - DAYS
+          - HOURS
+          - MINUTES
+    RuleSparkSQLDynamicFilterVariableMapping:
+      type: object
+      title: io.ad.catalog.api.model.quality.RuleSparkSQLDynamicFilterVariableMapping
+      required:
+      - mapping
+      - ruleName
+      properties:
+        mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mapping'
+        ruleId:
+          type: integer
+        ruleName:
+          type: string
+    ScheduleRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.ScheduleRequest
+      required:
+      - scheduled
+      properties:
+        cronExpression:
           type:
           - string
           - 'null'
-        type:
-          type: string
-    DecreasedByConfig:
+        scheduled:
+          type: boolean
+        timeZone:
+          type:
+          - string
+          - 'null'
+    Label:
       type: object
-      title: io.ad.catalog.api.model.quality.DecreasedByConfig
+      title: io.ad.catalog.api.model.Label
       required:
-      - direction
-      - operator
-      - success
-      - unit
-      - isDirectional
+      - key
+      - value
       properties:
-        direction:
+        key:
           type: string
+        labelType:
+          type:
+          - string
+          - 'null'
           enum:
-          - ABOVE
-          - BELOW
-          - RANGE
-          - CHANGES_BY
-          - DECREASED_BY
-          - INCREASED_BY
-        operator:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
           type: string
-          enum:
-          - LEGACY
-          - EQ
-          - NEQ
-          - GT
-          - GTE
-          - LT
-          - LTE
+    RootCauseAnalysis:
+      type: object
+      title: io.ad.dataplane.model.response.spark.dq.RootCauseAnalysis
+      required:
+      - bad
+      - badFraction
+      - good
+      - goodFraction
+      - key
+      - totalFraction
+      properties:
+        bad:
+          type: integer
+        badFraction:
+          type: number
+        good:
+          type: integer
+        goodFraction:
+          type: number
+        key:
+          type: string
+        totalFraction:
+          type: number
+    SparkResourceConfig:
+      type: object
+      title: io.ad.catalog.api.model.profile.SparkResourceConfig
+      required:
+      - invalidFields
+      properties:
+        additionalConfiguration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        databricks:
+          oneOf:
+          - $ref: '#/components/schemas/DataBricksSparkResourceConfig'
+          - type: 'null'
+        dataproc:
+          oneOf:
+          - $ref: '#/components/schemas/DataprocSparkResourceConfig'
+          - type: 'null'
+        invalidFields:
+          type: array
+          items:
+            type: string
+        livy:
+          oneOf:
+          - $ref: '#/components/schemas/LivySparkResourceConfig'
+          - type: 'null'
+        yunikorn:
+          oneOf:
+          - $ref: '#/components/schemas/YunikornSparkResourceConfig'
+          - type: 'null'
+    AbsoluteThresholdConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.AbsoluteThresholdConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          $ref: '#/components/schemas/AbsoluteConfigs'
         success:
           type: number
-        unit:
+        type:
           type: string
           enum:
-          - PERCENTAGE
+          - ANOMALY
+          - RELATIVE
+          - TIME_BASED
           - ABSOLUTE
         warning:
           type: number
-        isDirectional:
-          type: boolean
-    OperationalConfig:
+    DataprocSparkResourceConfig:
       type: object
-      title: io.ad.catalog.api.model.quality.OperationalConfig
-      required:
-      - lookBack
+      title: io.ad.catalog.api.model.profile.DataprocSparkResourceConfig
       properties:
-        lookBack:
-          $ref: '#/components/schemas/LookBackConfig'
+        clusterMasterType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        numMasterNodes:
+          type: integer
+        numWorkerNodes:
+          type: integer
+    RuleRequest:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.RuleRequest
+      required:
+      - items
+      - rule
+      properties:
+        cloningDetails:
+          oneOf:
+          - $ref: '#/components/schemas/CloningDetails'
+          - type: 'null'
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        rule:
+          $ref: '#/components/schemas/DataQualityRule'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+    DataQualityRule:
+      type: object
+      title: io.ad.catalog.api.model.quality.DataQuality.DataQualityRule
+      required:
+      - additionalPersistedColumns
+      - archived
+      - backingAsset
+      - continueExecutionOnFailure
+      - createdAt
+      - enabled
+      - executionSequence
+      - includeInQualityScore
+      - isCompositeRule
+      - isProtectedResource
+      - name
+      - policyScoreStrategy
+      - scheduled
+      - sparkSQLFilterType
+      - thresholdLevel
+      - timeZone
+      - treatZeroRowsAsSuccess
+      - type
+      - updatedAt
+      - version
+      properties:
+        additionalPersistedColumns:
+          type: array
+          items:
+            type: string
+        archivalReason:
+          type:
+          - string
+          - 'null'
+        archived:
+          type: boolean
+        autoCreated:
+          type: boolean
+        autoRetryEnabled:
+          type: boolean
+        backingAsset:
+          $ref: '#/components/schemas/BackingAsset'
+        continueExecutionOnFailure:
+          type: boolean
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        customSqlConfig:
+          oneOf:
+          - $ref: '#/components/schemas/CustomSqlConfig'
+          - type: 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        enabled:
+          type: boolean
+        engineType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SPARK
+          - JDBC_SQL
+          - POD
+        executionSequence:
+          type: integer
+        executionTimeoutInMinutes:
+          type: integer
+        filter:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        includeInQualityScore:
+          type: boolean
+        isCompositeRule:
+          type: boolean
+        isProtectedResource:
+          type: boolean
+        jobSchedule:
+          oneOf:
+          - $ref: '#/components/schemas/JobSchedule'
+          - type: 'null'
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        notificationChannels:
+          oneOf:
+          - $ref: '#/components/schemas/NotificationPayload'
+          - type: 'null'
+        parentId:
+          type: integer
+        policyGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyGroup'
+        policyScoreStrategy:
+          type: string
+          enum:
+          - CUSTOM
+          - WEIGHTAGE
+          - RULES
+        resourceStrategyType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - INVENTORY
+          - CUSTOM
+        ruleSetId:
+          type: integer
+        schedule:
+          type:
+          - string
+          - 'null'
+        scheduled:
+          type: boolean
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShortSegment'
+        selectedResourceInventory:
+          type:
+          - string
+          - 'null'
+        sparkFilterSelectedColumns:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sparkResourceConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SparkResourceConfig'
+          - type: 'null'
+        sparkSQLDynamicFilterVariableMapping:
+          oneOf:
+          - $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
+          - type: 'null'
+        sparkSQLFilterType:
+          type: string
+          enum:
+          - STATIC
+          - DYNAMIC
+        subType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - SQL
+        tags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/RuleTag'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        thresholdLevel:
+          $ref: '#/components/schemas/RuleThresholdConfiguration'
+        timeZone:
+          type: string
+        totalExecutionTimeoutInMinutes:
+          type: integer
+        treatZeroRowsAsSuccess:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - DATA_QUALITY
+          - RECONCILIATION
+          - EQUALITY
+          - DATA_DRIFT
+          - SCHEMA_DRIFT
+          - DATA_CADENCE
+          - PROFILE_ANOMALY
+          - AUTO_ANOMALY
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+        version:
+          type: integer
     DataplaneJob:
       type: object
       title: io.ad.catalog.api.model.analysisservice.DataplaneJob
@@ -2466,689 +3977,22 @@ components:
           oneOf:
           - $ref: '#/components/schemas/DateTime'
           - type: 'null'
-    PolicyGroup:
+    DateTime:
       type: object
-      title: io.ad.catalog.api.model.PolicyGroup
-      properties:
-        createdAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-        tenantId:
-          type:
-          - string
-          - 'null'
-        updatedAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-    DataplaneRequest:
+      title: org.joda.time.DateTime
+    RelativeConfig:
       type: object
-      title: io.ad.dataplane.model.DataplaneRequest
-      required:
-      - engine
-      - method
-      - requestId
-      properties:
-        engine:
-          $ref: '#/components/schemas/Engine'
-        method:
-          type: string
-          enum:
-          - SUBMIT
-          - CANCEL
-          - STATUS
-        requestId:
-          type: string
-    ItemsResponse:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.ItemsResponse
-      required:
-      - items
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-    AnalysisJobContext:
-      type: object
-      title: io.ad.catalog.api.model.AnalysisJobContext
-      required:
-      - type
-      properties:
-        dataplaneJobStatus:
-          oneOf:
-          - $ref: '#/components/schemas/DataplaneJobStatus'
-          - type: 'null'
-        sparkJobStatus:
-          oneOf:
-          - $ref: '#/components/schemas/SparkJobStatus'
-          - type: 'null'
-        statusRetryCount:
-          type: integer
-        type:
-          type: string
-    LivySparkResourceConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.LivySparkResourceConfig
-      properties:
-        driverCores:
-          type: integer
-        driverMemory:
-          type:
-          - string
-          - 'null'
-        executorCores:
-          type: integer
-        executorMemory:
-          type:
-          - string
-          - 'null'
-        numExecutors:
-          type: integer
-    RuleExecutionResult:
-      type: object
-      title: io.ad.catalog.api.model.quality.RuleExecutionResult
-      required:
-      - ruleExecutionType
-      - status
-      properties:
-        ruleExecutionType:
-          type: string
-          enum:
-          - RECONCILIATION_RULE_TYPE_EXECUTION
-          - DQ_RULE_TYPE_EXECUTION
-          - DATA_DRIFT_EXECUTION
-          - SCHEMA_DRIFT_EXECUTION
-          - DATA_CADENCE_TYPE_EXECUTION
-          - PROFILE_ANOMALY_TYPE_EXECUTION
-          - AUTO_ANOMALY_TYPE_EXECUTION
-        status:
-          type: string
-          enum:
-          - STARTED
-          - RUNNING
-          - ERRORED
-          - WARNING
-          - SUCCESSFUL
-          - ABORTED
-          - SKIPPED
-          - WAITING
-          - ANOMALY_DETECTION
-          - EXECUTION_RESULT
-    ExecutionResult:
-      type: object
-      title: io.ad.catalog.api.model.quality.ExecutionResult
-      required:
-      - execution
-      - items
-      - meta
-      - result
-      properties:
-        childExecutions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExecutionResult'
-        execution:
-          $ref: '#/components/schemas/GenericRuleExecution'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuleItemResult'
-        meta:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/Any'
-        result:
-          $ref: '#/components/schemas/RuleExecutionResult'
-    Rule:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.Rule
-      required:
-      - backingAssetId
-      - continueExecutionOnFailure
-      - executionSequence
-      - isCompositeRule
-      - isSegmented
-      - items
-      - policyScoreStrategy
-      - ruleId
-      - treatZeroRowsAsSuccess
-      properties:
-        backingAssetId:
-          type: integer
-        continueExecutionOnFailure:
-          type: boolean
-        customSqlConfig:
-          oneOf:
-          - $ref: '#/components/schemas/CustomSqlConfig'
-          - type: 'null'
-        engineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        executionSequence:
-          type: integer
-        filter:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        isCompositeRule:
-          type: boolean
-        isSegmented:
-          type: boolean
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-        jobSchedule:
-          oneOf:
-          - $ref: '#/components/schemas/JobSchedule'
-          - type: 'null'
-        parentId:
-          type: integer
-        policyScoreStrategy:
-          type: string
-          enum:
-          - CUSTOM
-          - WEIGHTAGE
-          - RULES
-        ruleId:
-          type: integer
-        segments:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShortSegment'
-        subType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - SQL
-        tenantId:
-          type:
-          - string
-          - 'null'
-        transformUDFs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-        treatZeroRowsAsSuccess:
-          type: boolean
-    EngineConfig:
-      type: object
-      title: io.ad.dataplane.model.engine.EngineConfig
-    PolicyTransformUDF:
-      type: object
-      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
-      required:
-      - assetId
-      - name
-      - parameters
-      - udfId
-      properties:
-        assetId:
-          type: integer
-        columnNames:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        id:
-          type: integer
-        name:
-          type: string
-        parameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/UdfVariable'
-        ruleId:
-          type: integer
-        udfId:
-          type: integer
-    CloningDetails:
-      type: object
-      title: io.ad.catalog.api.model.quality.CloningDetails
-      required:
-      - ruleId
-      - version
-      properties:
-        ruleId:
-          type: integer
-        version:
-          type: integer
-    Mapping:
-      type: object
-      title: io.ad.catalog.api.model.quality.Mapping
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    TimeBasedThresholdConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.TimeBasedThresholdConfig
-      required:
-      - config
-      - type
-      properties:
-        config:
-          $ref: '#/components/schemas/TimeBasedConfig'
-        success:
-          type: number
-        type:
-          type: string
-          enum:
-          - ANOMALY
-          - RELATIVE
-          - TIME_BASED
-          - ABSOLUTE
-        warning:
-          type: number
-    AbsoluteConfigs:
-      type: object
-      title: io.ad.catalog.api.model.quality.AbsoluteConfigs
+      title: io.ad.catalog.api.model.quality.RelativeConfig
       oneOf:
-      - $ref: '#/components/schemas/AboveConfigs'
-      - $ref: '#/components/schemas/BelowConfigs'
-      - $ref: '#/components/schemas/RangeConfigs'
+      - $ref: '#/components/schemas/ChangesByConfig'
+      - $ref: '#/components/schemas/DecreasedByConfig'
+      - $ref: '#/components/schemas/IncreasedByConfig'
       discriminator:
         propertyName: type
         mapping:
-          io.ad.catalog.api.model.quality.AboveConfigs: '#/components/schemas/AboveConfigs'
-          io.ad.catalog.api.model.quality.BelowConfigs: '#/components/schemas/BelowConfigs'
-          io.ad.catalog.api.model.quality.RangeConfigs: '#/components/schemas/RangeConfigs'
-    YunikornSparkResourceConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.YunikornSparkResourceConfig
-      properties:
-        driverCores:
-          type: integer
-        driverLimitCores:
-          type:
-          - string
-          - 'null'
-        driverMemory:
-          type:
-          - string
-          - 'null'
-        driverMemoryOverhead:
-          type:
-          - string
-          - 'null'
-        driverMemoryOverheadFactor:
-          type: number
-        driverRequestCores:
-          type:
-          - string
-          - 'null'
-        executorCores:
-          type: integer
-        executorLimitCores:
-          type:
-          - string
-          - 'null'
-        executorMemory:
-          type:
-          - string
-          - 'null'
-        executorMemoryOverhead:
-          type:
-          - string
-          - 'null'
-        executorMemoryOverheadFactor:
-          type: number
-        executorRequestCores:
-          type:
-          - string
-          - 'null'
-        maxExecutors:
-          type: integer
-        minExecutors:
-          type: integer
-    Any:
-      type: object
-      title: kotlin.Any
-    AnomalyConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.AnomalyConfig
-      required:
-      - successSensitivityLevel
-      properties:
-        successSensitivityLevel:
-          type: string
-          enum:
-          - HIGH
-          - MEDIUM
-          - LOW
-        warningSensitivityLevel:
-          type:
-          - string
-          - 'null'
-          enum:
-          - HIGH
-          - MEDIUM
-          - LOW
-    ItemSegment:
-      type: object
-      title: io.ad.catalog.api.model.quality.ItemSegment
-      required:
-      - executionId
-      - itemExecutionId
-      - rowsScanned
-      - ruleItemId
-      - segmentHash
-      properties:
-        error:
-          type:
-          - string
-          - 'null'
-        executionId:
-          type: integer
-        executionInputs:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        id:
-          type: integer
-        itemExecutionId:
-          type: integer
-        result:
-          type: number
-        rowsFailed:
-          type: integer
-        rowsScanned:
-          type: integer
-        ruleItemId:
-          type: integer
-        segmentHash:
-          type: string
-        status:
-          type:
-          - string
-          - 'null'
-        thresholdConfig:
-          $ref: '#/components/schemas/RuleThresholdConfiguration'
-        value:
-          type:
-          - string
-          - 'null'
-    RootCauseAnalysis:
-      type: object
-      title: io.ad.dataplane.model.response.spark.dq.RootCauseAnalysis
-      required:
-      - bad
-      - badFraction
-      - good
-      - goodFraction
-      - key
-      - totalFraction
-      properties:
-        bad:
-          type: integer
-        badFraction:
-          type: number
-        good:
-          type: integer
-        goodFraction:
-          type: number
-        key:
-          type: string
-        totalFraction:
-          type: number
-    RangeConfigs:
-      type: object
-      title: io.ad.catalog.api.model.quality.RangeConfigs
-      required:
-      - direction
-      - lowerSuccess
-      - upperSuccess
-      properties:
-        direction:
-          type: string
-          enum:
-          - ABOVE
-          - BELOW
-          - RANGE
-          - CHANGES_BY
-          - DECREASED_BY
-          - INCREASED_BY
-        lowerSuccess:
-          type: number
-        lowerWarning:
-          type: number
-        upperSuccess:
-          type: number
-        upperWarning:
-          type: number
-    RuleRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.RuleRequest
-      required:
-      - items
-      - rule
-      properties:
-        cloningDetails:
-          oneOf:
-          - $ref: '#/components/schemas/CloningDetails'
-          - type: 'null'
-        engineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Item'
-        rule:
-          $ref: '#/components/schemas/DataQualityRule'
-        transformUDFs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-    MarkerConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.incrementalstrategies.MarkerConfig
-      required:
-      - type
-      properties:
-        type:
-          type: string
-    DataprocSparkResourceConfig:
-      type: object
-      title: io.ad.catalog.api.model.profile.DataprocSparkResourceConfig
-      properties:
-        clusterMasterType:
-          type:
-          - string
-          - 'null'
-        clusterWorkerType:
-          type:
-          - string
-          - 'null'
-        numMasterNodes:
-          type: integer
-        numWorkerNodes:
-          type: integer
-    JobSpec:
-      type: object
-      title: io.ad.dataplane.model.spec.JobSpec
-      required:
-      - artifactFacts
-      properties:
-        artifactFacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Artifact'
-    ColumnVariable:
-      type: object
-      title: io.ad.catalog.api.model.quality.ColumnVariable
-      required:
-      - getOnlyWithVariableName
-      - isNumber
-      - name
-      properties:
-        format:
-          type:
-          - string
-          - 'null'
-        getOnlyWithVariableName:
-          $ref: '#/components/schemas/ColumnVariable'
-        isNumber:
-          type: boolean
-        name:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    JobSchedule:
-      type: object
-      title: io.ad.catalog.api.model.quality.JobSchedule
-      required:
-      - cronExpression
-      - enabled
-      - scheduleType
-      - timeZone
-      properties:
-        backingAssetId:
-          type: integer
-        cronExpression:
-          type: string
-        enabled:
-          type: boolean
-        id:
-          type: integer
-        marker:
-          oneOf:
-          - $ref: '#/components/schemas/MarkerConfig'
-          - type: 'null'
-        name:
-          type:
-          - string
-          - 'null'
-        scheduleType:
-          type: string
-        tenantId:
-          type:
-          - string
-          - 'null'
-        timeZone:
-          type: string
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    RuleItemResult:
-      type: object
-      title: io.ad.catalog.api.model.quality.RuleItemResult
-      required:
-      - dimension
-      - id
-      - includeInQualityScore
-      - ruleItemId
-      - threshold
-      - weightage
-      properties:
-        dimension:
-          type: string
-          enum:
-          - UNIQUENESS
-          - VALIDITY
-          - ACCURACY
-          - CONSISTENCY
-          - COMPLETENESS
-          - TIMELINESS
-          - OTHERS
-        error:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        includeInQualityScore:
-          type: boolean
-        isWarning:
-          type: boolean
-        name:
-          type:
-          - string
-          - 'null'
-        resultPercent:
-          type: number
-        ruleItemId:
-          type: integer
-        status:
-          type:
-          - string
-          - 'null'
-          enum:
-          - STARTED
-          - RUNNING
-          - ERRORED
-          - WARNING
-          - SUCCESSFUL
-          - ABORTED
-          - SKIPPED
-          - WAITING
-          - ANOMALY_DETECTION
-          - EXECUTION_RESULT
-        success:
-          type: boolean
-        threshold:
-          type: number
-        weightage:
-          type: number
+          io.ad.catalog.api.model.quality.ChangesByConfig: '#/components/schemas/ChangesByConfig'
+          io.ad.catalog.api.model.quality.DecreasedByConfig: '#/components/schemas/DecreasedByConfig'
+          io.ad.catalog.api.model.quality.IncreasedByConfig: '#/components/schemas/IncreasedByConfig'
     RuleThresholdConfiguration:
       type: object
       title: io.ad.catalog.api.model.quality.RuleThresholdConfiguration
@@ -3164,877 +4008,17 @@ components:
           io.ad.catalog.api.model.quality.AnomalyThresholdConfig: '#/components/schemas/AnomalyThresholdConfig'
           io.ad.catalog.api.model.quality.RelativeThresholdConfig: '#/components/schemas/RelativeThresholdConfig'
           io.ad.catalog.api.model.quality.TimeBasedThresholdConfig: '#/components/schemas/TimeBasedThresholdConfig'
-    Label:
+    PolicyExecutionMarkerConfig:
       type: object
-      title: io.ad.catalog.api.model.Label
+      title: io.ad.catalog.api.model.quality.PolicyExecutionMarkerConfig
       required:
-      - key
-      - value
+      - assetId
+      - markerConfig
       properties:
-        key:
-          type: string
-        labelType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
-        value:
-          type: string
-    RelativeThresholdConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.RelativeThresholdConfig
-      required:
-      - config
-      - operationalConfig
-      - type
-      properties:
-        config:
-          $ref: '#/components/schemas/RelativeConfig'
-        operationalConfig:
-          $ref: '#/components/schemas/OperationalConfig'
-        success:
-          type: number
-        type:
-          type: string
-          enum:
-          - ANOMALY
-          - RELATIVE
-          - TIME_BASED
-          - ABSOLUTE
-        warning:
-          type: number
-    RelativeConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.RelativeConfig
-      oneOf:
-      - $ref: '#/components/schemas/ChangesByConfig'
-      - $ref: '#/components/schemas/DecreasedByConfig'
-      - $ref: '#/components/schemas/IncreasedByConfig'
-      discriminator:
-        propertyName: type
-        mapping:
-          io.ad.catalog.api.model.quality.ChangesByConfig: '#/components/schemas/ChangesByConfig'
-          io.ad.catalog.api.model.quality.DecreasedByConfig: '#/components/schemas/DecreasedByConfig'
-          io.ad.catalog.api.model.quality.IncreasedByConfig: '#/components/schemas/IncreasedByConfig'
-    Item:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.Item
-      required:
-      - aggregateType
-      - executionOrder
-      - isArchived
-      - isDimension
-      - isWarning
-      - measurementType
-      - name
-      - resultThreshold
-      - ruleVersion
-      - weightage
-      properties:
-        aggregateType:
-          type: string
-          enum:
-          - SUM
-          - AVG
-          - MIN
-          - MAX
-          - RULE
-          - CUSTOM
-          - COUNT
-        associatedDQRecommendationId:
+        assetId:
           type: integer
-        bulkPolicyDqRuleId:
-          type: integer
-        businessExplanation:
-          type:
-          - string
-          - 'null'
-        columnName:
-          type:
-          - string
-          - 'null'
-        executionInputs:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        executionOrder:
-          type: integer
-        id:
-          type: integer
-        isArchived:
-          type: boolean
-        isDimension:
-          type: boolean
-        isWarning:
-          type: boolean
-        labels:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Label'
-        measurementType:
-          type: string
-          enum:
-          - MISSING_VALUES
-          - FRESHNESS_CHECK
-          - DATATYPE_MATCH
-          - REGEX_MATCH
-          - VALUES_IN_LIST
-          - VALUES_IN_LOOKUP
-          - DISTINCTNESS_CHECK
-          - DUPLICATE_ROWS_CHECK
-          - PRECISION_SCALE_CHECK
-          - BUSINESS_MEASURE
-          - TAG_MATCH
-          - RANGE_MATCH
-          - SIZE_CHECK
-          - CUSTOM
-          - UDF_PREDICATE
-          - SQL_METRIC
-          - AGGREGATES
-          - DATA_FRESHNESS
-          - RECORD_COUNT_TOTAL
-          - RECORD_COUNT_DRIFT
-          - DATA_VOLUME_TOTAL
-          - DATA_VOLUME_DRIFT
-          - FILE_COUNT_TOTAL
-          - FILE_COUNT_DRIFT
-          - CHANGE_IN_FILE_SIZE
-          - ABSOLUTE_FILE_SIZE
-          - RAW_ABSOLUTE_SIZE
-          - RAW_DATA_FRESHNESS
-          - MESSAGES_COUNT_TOTAL
-          - MESSAGES_COUNT_DRIFT
-          - CHANGE_IN_TOPIC_SIZE
-          - ABSOLUTE_TOPIC_SIZE
-        name:
-          type: string
-        resultThreshold:
-          type: number
-        ruleExpression:
-          type:
-          - string
-          - 'null'
-        ruleId:
-          type: integer
-        ruleVersion:
-          type: integer
-        thresholdConfig:
-          $ref: '#/components/schemas/RuleThresholdConfiguration'
-        value:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        weightage:
-          type: number
-    RuleSparkSQLDynamicFilterVariableMapping:
-      type: object
-      title: io.ad.catalog.api.model.quality.RuleSparkSQLDynamicFilterVariableMapping
-      required:
-      - mapping
-      - ruleName
-      properties:
-        mapping:
-          type: array
-          items:
-            $ref: '#/components/schemas/Mapping'
-        ruleId:
-          type: integer
-        ruleName:
-          type: string
-    ScheduleRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.ScheduleRequest
-      required:
-      - scheduled
-      properties:
-        cronExpression:
-          type:
-          - string
-          - 'null'
-        scheduled:
-          type: boolean
-        timeZone:
-          type:
-          - string
-          - 'null'
-    GenericRuleExecution:
-      type: object
-      title: io.ad.catalog.api.model.quality.GenericRuleExecution
-      required:
-      - dataPersistenceEnabled
-      - executionMode
-      - executionStatus
-      - executionType
-      - includeInQualityScore
-      - resultStatus
-      - ruleId
-      - ruleSelectionEnabled
-      - ruleVersion
-      - startedAt
-      properties:
-        analysisJob:
-          oneOf:
-          - $ref: '#/components/schemas/DataplaneJob'
-          - type: 'null'
-        autoRetries:
-          type: integer
-        autoRetryEnabled:
-          type: boolean
-        dataPersistenceEnabled:
-          type: boolean
-        engineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        executionError:
-          type:
-          - string
-          - 'null'
-        executionMode:
-          type: string
-          enum:
-          - SCHEDULED
-          - MANUAL
-          - WEBHOOK
-          - API
-        executionStatus:
-          type: string
-          enum:
-          - STARTED
-          - RUNNING
-          - ERRORED
-          - WARNING
-          - SUCCESSFUL
-          - ABORTED
-          - SKIPPED
-          - WAITING
-          - ANOMALY_DETECTION
-          - EXECUTION_RESULT
-        executionType:
-          type: string
-          enum:
-          - SELECTIVE
-          - FULL
-          - INCREMENTAL
-        finishedAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        id:
-          type: integer
-        includeInQualityScore:
-          type: boolean
-        lastMarker:
-          oneOf:
-          - $ref: '#/components/schemas/Marker'
-          - type: 'null'
-        leftLastMarker:
-          oneOf:
-          - $ref: '#/components/schemas/Marker'
-          - type: 'null'
-        leftMarkerConfig:
-          oneOf:
-          - $ref: '#/components/schemas/MarkerConfig'
-          - type: 'null'
         markerConfig:
-          oneOf:
-          - $ref: '#/components/schemas/MarkerConfig'
-          - type: 'null'
-        parentId:
-          type: integer
-        persistencePath:
-          type:
-          - string
-          - 'null'
-        resetPoint:
-          type: integer
-        resourceStrategyType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - INVENTORY
-          - CUSTOM
-        resultPersistencePath:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: string
-        resultStatus:
-          type: string
-          enum:
-          - STARTED
-          - RUNNING
-          - ERRORED
-          - WARNING
-          - SUCCESSFUL
-          - ABORTED
-          - SKIPPED
-          - WAITING
-          - ANOMALY_DETECTION
-          - EXECUTION_RESULT
-        rightLastMarker:
-          oneOf:
-          - $ref: '#/components/schemas/Marker'
-          - type: 'null'
-        rightMarkerConfig:
-          oneOf:
-          - $ref: '#/components/schemas/MarkerConfig'
-          - type: 'null'
-        ruleId:
-          type: integer
-        ruleName:
-          type:
-          - string
-          - 'null'
-        ruleSelectionEnabled:
-          type: boolean
-        ruleType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - DATA_QUALITY
-          - RECONCILIATION
-          - EQUALITY
-          - DATA_DRIFT
-          - SCHEMA_DRIFT
-          - DATA_CADENCE
-          - PROFILE_ANOMALY
-          - AUTO_ANOMALY
-        ruleVersion:
-          type: integer
-        selectedResourceInventory:
-          type:
-          - string
-          - 'null'
-        sparkResourceConfig:
-          oneOf:
-          - $ref: '#/components/schemas/SparkResourceConfig'
-          - type: 'null'
-        startedAt:
-          $ref: '#/components/schemas/DateTime'
-        thresholdLevel:
-          $ref: '#/components/schemas/RuleThresholdConfiguration'
-    DataQualityRule:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.DataQualityRule
-      required:
-      - additionalPersistedColumns
-      - archived
-      - backingAsset
-      - continueExecutionOnFailure
-      - createdAt
-      - enabled
-      - executionSequence
-      - includeInQualityScore
-      - isCompositeRule
-      - isProtectedResource
-      - name
-      - policyScoreStrategy
-      - scheduled
-      - sparkSQLFilterType
-      - thresholdLevel
-      - timeZone
-      - treatZeroRowsAsSuccess
-      - type
-      - updatedAt
-      - version
-      properties:
-        additionalPersistedColumns:
-          type: array
-          items:
-            type: string
-        archivalReason:
-          type:
-          - string
-          - 'null'
-        archived:
-          type: boolean
-        autoCreated:
-          type: boolean
-        autoRetryEnabled:
-          type: boolean
-        backingAsset:
-          $ref: '#/components/schemas/BackingAsset'
-        continueExecutionOnFailure:
-          type: boolean
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        createdBy:
-          type:
-          - string
-          - 'null'
-        customSqlConfig:
-          oneOf:
-          - $ref: '#/components/schemas/CustomSqlConfig'
-          - type: 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        enabled:
-          type: boolean
-        engineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        executionSequence:
-          type: integer
-        executionTimeoutInMinutes:
-          type: integer
-        filter:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        includeInQualityScore:
-          type: boolean
-        isCompositeRule:
-          type: boolean
-        isProtectedResource:
-          type: boolean
-        jobSchedule:
-          oneOf:
-          - $ref: '#/components/schemas/JobSchedule'
-          - type: 'null'
-        labels:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Label'
-        lastUpdatedBy:
-          type:
-          - string
-          - 'null'
-        name:
-          type: string
-        notificationChannels:
-          oneOf:
-          - $ref: '#/components/schemas/NotificationPayload'
-          - type: 'null'
-        parentId:
-          type: integer
-        policyGroups:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyGroup'
-        policyScoreStrategy:
-          type: string
-          enum:
-          - CUSTOM
-          - WEIGHTAGE
-          - RULES
-        resourceStrategyType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - INVENTORY
-          - CUSTOM
-        ruleSetId:
-          type: integer
-        schedule:
-          type:
-          - string
-          - 'null'
-        scheduled:
-          type: boolean
-        segments:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShortSegment'
-        selectedResourceInventory:
-          type:
-          - string
-          - 'null'
-        sparkFilterSelectedColumns:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        sparkResourceConfig:
-          oneOf:
-          - $ref: '#/components/schemas/SparkResourceConfig'
-          - type: 'null'
-        sparkSQLDynamicFilterVariableMapping:
-          oneOf:
-          - $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
-          - type: 'null'
-        sparkSQLFilterType:
-          type: string
-          enum:
-          - STATIC
-          - DYNAMIC
-        subType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - SQL
-        tags:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleTag'
-        tenantId:
-          type:
-          - string
-          - 'null'
-        thresholdLevel:
-          $ref: '#/components/schemas/RuleThresholdConfiguration'
-        timeZone:
-          type: string
-        totalExecutionTimeoutInMinutes:
-          type: integer
-        treatZeroRowsAsSuccess:
-          type: boolean
-        type:
-          type: string
-          enum:
-          - DATA_QUALITY
-          - RECONCILIATION
-          - EQUALITY
-          - DATA_DRIFT
-          - SCHEMA_DRIFT
-          - DATA_CADENCE
-          - PROFILE_ANOMALY
-          - AUTO_ANOMALY
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
-        version:
-          type: integer
-    DataplaneEngine:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.DataplaneEngine
-      required:
-      - current
-      - displayName
-      properties:
-        current:
-          type: string
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        displayName:
-          type: string
-        supported:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DataQuality.Engine'
-    ItemExecution:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.ItemExecution
-      required:
-      - executionId
-      - isWarning
-      - ruleItemId
-      - startedAt
-      - threshold
-      - weightage
-      properties:
-        businessItemId:
-          type: integer
-        error:
-          type:
-          - string
-          - 'null'
-        executionId:
-          type: integer
-        executionInputs:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        finishedAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        id:
-          type: integer
-        isWarning:
-          type: boolean
-        item:
-          oneOf:
-          - $ref: '#/components/schemas/Item'
-          - type: 'null'
-        rca:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RootCauseAnalysis'
-        result:
-          type:
-          - string
-          - 'null'
-        resultPercentage:
-          type: number
-        rowsFailed:
-          type: integer
-        rowsScanned:
-          type: integer
-        rowsWarning:
-          type: integer
-        ruleItemId:
-          type: integer
-        segmentHash:
-          type:
-          - string
-          - 'null'
-        segments:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ItemSegment'
-        startedAt:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type:
-          - string
-          - 'null'
-        threshold:
-          type: number
-        thresholdConfig:
-          $ref: '#/components/schemas/RuleThresholdConfiguration'
-        value:
-          type:
-          - string
-          - 'null'
-        weightage:
-          type: number
-    AnomalyThresholdConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.AnomalyThresholdConfig
-      required:
-      - config
-      - type
-      properties:
-        config:
-          $ref: '#/components/schemas/AnomalyConfig'
-        success:
-          type: number
-        type:
-          type: string
-          enum:
-          - ANOMALY
-          - RELATIVE
-          - TIME_BASED
-          - ABSOLUTE
-        warning:
-          type: number
-    PolicyExecutionRequest:
-      type: object
-      title: io.ad.catalog.api.model.quality.PolicyExecutionRequest
-      required:
-      - columnVariables
-      - executionType
-      - includeInQualityScore
-      - resourceStrategyType
-      properties:
-        analysisJobRequestId:
-          type:
-          - string
-          - 'null'
-        analyticsPipelineId:
-          type: integer
-        assetDirection:
-          type:
-          - string
-          - 'null'
-        autoRetryEnabled:
-          type: boolean
-        columnVariables:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnVariable'
-        engineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        executionType:
-          type: string
-          enum:
-          - SELECTIVE
-          - FULL
-          - INCREMENTAL
-        includeInQualityScore:
-          type: boolean
-        markerConfigs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyExecutionMarkerConfig'
-        monitorExecutionId:
-          type: integer
-        pipelineAutomationExecutionId:
-          type: integer
-        pipelineRunId:
-          type: integer
-        profileId:
-          type: integer
-        resourceStrategyType:
-          type: string
-          enum:
-          - INVENTORY
-          - CUSTOM
-        rightEngineType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SPARK
-          - JDBC_SQL
-          - POD
-        rightSparkFilterSelectedColumns:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        rightSparkSQLDynamicFilterVariableMapping:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
-        ruleItemSelections:
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-        selectedResourceInventory:
-          type:
-          - string
-          - 'null'
-        sourceExecutionId:
-          type: integer
-        sparkAppName:
-          type:
-          - string
-          - 'null'
-        sparkFilterSelectedColumns:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        sparkResourceConfig:
-          oneOf:
-          - $ref: '#/components/schemas/SparkResourceConfig'
-          - type: 'null'
-        sparkSQLDynamicFilterVariableMapping:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/RuleSparkSQLDynamicFilterVariableMapping'
-    Execution:
-      type: object
-      title: io.ad.catalog.api.model.quality.DataQuality.Execution
-      required:
-      - execution
-      - items
-      - policyScoreStrategy
-      - treatZeroRowsAsSuccess
-      properties:
-        execution:
-          $ref: '#/components/schemas/GenericRuleExecution'
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ItemExecution'
-        policyScoreStrategy:
-          type: string
-          enum:
-          - CUSTOM
-          - WEIGHTAGE
-          - RULES
-        treatZeroRowsAsSuccess:
-          type: boolean
-    AbsoluteThresholdConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.AbsoluteThresholdConfig
-      required:
-      - config
-      - type
-      properties:
-        config:
-          $ref: '#/components/schemas/AbsoluteConfigs'
-        success:
-          type: number
-        type:
-          type: string
-          enum:
-          - ANOMALY
-          - RELATIVE
-          - TIME_BASED
-          - ABSOLUTE
-        warning:
-          type: number
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
+          $ref: '#/components/schemas/MarkerConfig'
     DataQualityRule_2:
       type: object
       description: A data quality monitoring rule
@@ -4097,6 +4081,22 @@ components:
           format: date-time
           description: Rule creation timestamp
           example: '2026-01-10T12:00:00Z'
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
     DataQualityRuleList:
       type: object
       description: Paginated list of data quality rules

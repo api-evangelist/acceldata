@@ -315,39 +315,20 @@ paths:
           description: 'Could not fetch Asset Udf Variable: {message}'
 components:
   schemas:
-    AssetUDFVariableRequest:
+    AssetUDFVariableChild:
       type: object
-      title: io.ad.catalog.api.model.AssetUDFVariableRequest
+      title: io.ad.catalog.api.model.AssetUDFVariableChild
       required:
+      - id
       - key
       - value
       properties:
-        assetId:
+        id:
           type: integer
         key:
           type: string
-        uid:
-          type:
-          - string
-          - 'null'
         value:
           type: string
-    AssetUDFVariableResponse:
-      type: object
-      title: io.ad.catalog.api.model.AssetUDFVariableResponse
-      required:
-      - assetId
-      - variables
-      properties:
-        assetId:
-          type: integer
-        variables:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetUDFVariableChild'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
     AssetUDFVariable:
       type: object
       title: io.ad.catalog.api.model.AssetUDFVariable
@@ -371,17 +352,36 @@ components:
           $ref: '#/components/schemas/DateTime'
         value:
           type: string
-    AssetUDFVariableChild:
+    AssetUDFVariableResponse:
       type: object
-      title: io.ad.catalog.api.model.AssetUDFVariableChild
+      title: io.ad.catalog.api.model.AssetUDFVariableResponse
       required:
-      - id
+      - assetId
+      - variables
+      properties:
+        assetId:
+          type: integer
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetUDFVariableChild'
+    AssetUDFVariableRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetUDFVariableRequest
+      required:
       - key
       - value
       properties:
-        id:
+        assetId:
           type: integer
         key:
           type: string
+        uid:
+          type:
+          - string
+          - 'null'
         value:
           type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime

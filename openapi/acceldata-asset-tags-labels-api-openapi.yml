@@ -329,80 +329,6 @@ paths:
                   $ref: '#/components/schemas/Label'
 components:
   schemas:
-    Label:
-      type: object
-      title: io.ad.catalog.api.model.Label
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        labelType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
-        value:
-          type: string
-    TagDomain:
-      type: object
-      title: io.ad.catalog.api.model.tags.TagDomain
-      required:
-      - createdAt
-      - name
-      properties:
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        createdBy:
-          type:
-          - string
-          - 'null'
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        lastUpdatedBy:
-          type:
-          - string
-          - 'null'
-        name:
-          type: string
-        updatedAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    AssetTagRequest:
-      type: object
-      title: io.ad.catalog.api.model.AssetTagRequest
-      properties:
-        id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-    AssetLabelRequest:
-      type: object
-      title: io.ad.catalog.api.model.AssetLabelRequest
-      required:
-      - labels
-      properties:
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
     AssetTag:
       type: object
       title: io.ad.catalog.api.model.AssetTag
@@ -453,3 +379,77 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AssetTag'
+    Label:
+      type: object
+      title: io.ad.catalog.api.model.Label
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        labelType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
+          type: string
+    AssetTagRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagRequest
+      properties:
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
+    AssetLabelRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetLabelRequest
+      required:
+      - labels
+      properties:
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    TagDomain:
+      type: object
+      title: io.ad.catalog.api.model.tags.TagDomain
+      required:
+      - createdAt
+      - name
+      properties:
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        lastUpdatedBy:
+          type:
+          - string
+          - 'null'
+        name:
+          type: string
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'

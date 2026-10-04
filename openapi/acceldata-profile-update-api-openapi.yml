@@ -35,17 +35,6 @@ paths:
                 $ref: '#/components/schemas/Status'
 components:
   schemas:
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
     ForgotPasswordRequest:
       type: object
       title: ForgotPasswordRequest
@@ -57,3 +46,14 @@ components:
           type: string
         realm:
           type: string
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean

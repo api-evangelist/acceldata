@@ -547,56 +547,53 @@ paths:
           description: '"Could not fetch udf template"'
 components:
   schemas:
-    PolicyTransformUDF:
+    Any:
       type: object
-      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      title: kotlin.Any
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
       required:
-      - assetId
-      - name
-      - parameters
-      - udfId
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
       properties:
-        assetId:
-          type: integer
-        columnNames:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        id:
-          type: integer
-        name:
+        referenceAssetAlias:
           type: string
-        parameters:
+        referenceAssetColumns:
           type: array
           items:
-            $ref: '#/components/schemas/UdfVariable'
-        ruleId:
-          type: integer
-        udfId:
-          type: integer
-    Label:
-      type: object
-      title: io.ad.catalog.api.model.Label
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        labelType:
+            type: string
+        referenceAssetSqlFilter:
           type:
           - string
           - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
+        referenceAssetUid:
+          type: string
+    UdfVariable:
+      type: object
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
         value:
+          type:
+          - string
+          - 'null'
+    RulesWithUDF:
+      type: object
+      title: io.ad.catalog.api.model.quality.RulesWithUDF
+      required:
+      - ruleId
+      - ruleName
+      properties:
+        ruleId:
+          type: integer
+        ruleName:
           type: string
     PackageUdfDetail:
       type: object
@@ -659,43 +656,111 @@ components:
           $ref: '#/components/schemas/DateTime'
         version:
           type: string
-    DateTime:
+    Label:
       type: object
-      title: org.joda.time.DateTime
-    Any:
-      type: object
-      title: kotlin.Any
-    ReferenceAssetUDFRequest:
-      type: object
-      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
+      title: io.ad.catalog.api.model.Label
       required:
-      - referenceAssetAlias
-      - referenceAssetColumns
-      - referenceAssetUid
+      - key
+      - value
       properties:
-        referenceAssetAlias:
+        key:
           type: string
-        referenceAssetColumns:
-          type: array
-          items:
-            type: string
-        referenceAssetSqlFilter:
+        labelType:
           type:
           - string
           - 'null'
-        referenceAssetUid:
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
           type: string
-    RulesWithUDF:
+    UdfTemplateRequestWithValidation:
       type: object
-      title: io.ad.catalog.api.model.quality.RulesWithUDF
+      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
       required:
-      - ruleId
-      - ruleName
+      - code
+      - description
+      - isLookup
+      - isMetadata
+      - isPackage
+      - isTemplate
+      - language
+      - name
+      - override
+      - udfDataType
+      - udfType
+      - useTestData
+      - variables
       properties:
-        ruleId:
+        analyticsPipelineId:
           type: integer
-        ruleName:
+        assetId:
+          type: integer
+        className:
+          type:
+          - string
+          - 'null'
+        code:
           type: string
+        description:
+          type: string
+        enableValidation:
+          type: boolean
+        isLookup:
+          type: boolean
+        isMetadata:
+          type: boolean
+        isPackage:
+          type: boolean
+        isTemplate:
+          type: boolean
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Label'
+        language:
+          type: string
+        name:
+          type: string
+        override:
+          type: boolean
+        packageId:
+          type: integer
+        referenceAssets:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
+        testData:
+          type:
+          - string
+          - 'null'
+        transformUDFs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
+        udfDataType:
+          type: string
+        udfType:
+          type: string
+        useTestData:
+          type: boolean
+        variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/UdfVariable'
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
     UDFTemplate:
       type: object
       title: io.ad.catalog.api.model.quality.UDFTemplate
@@ -801,97 +866,32 @@ components:
           type: array
           items:
             type: string
-    UdfTemplateRequestWithValidation:
+    PolicyTransformUDF:
       type: object
-      title: io.ad.catalog.api.model.quality.UdfTemplateRequestWithValidation
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
       required:
-      - code
-      - description
-      - isLookup
-      - isMetadata
-      - isPackage
-      - isTemplate
-      - language
+      - assetId
       - name
-      - override
-      - udfDataType
-      - udfType
-      - useTestData
-      - variables
+      - parameters
+      - udfId
       properties:
-        analyticsPipelineId:
-          type: integer
         assetId:
           type: integer
-        className:
-          type:
-          - string
-          - 'null'
-        code:
-          type: string
-        description:
-          type: string
-        enableValidation:
-          type: boolean
-        isLookup:
-          type: boolean
-        isMetadata:
-          type: boolean
-        isPackage:
-          type: boolean
-        isTemplate:
-          type: boolean
-        labels:
+        columnNames:
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Label'
-        language:
-          type: string
+            type: string
+        id:
+          type: integer
         name:
           type: string
-        override:
-          type: boolean
-        packageId:
-          type: integer
-        referenceAssets:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceAssetUDFRequest'
-        testData:
-          type:
-          - string
-          - 'null'
-        transformUDFs:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
-        udfDataType:
-          type: string
-        udfType:
-          type: string
-        useTestData:
-          type: boolean
-        variables:
+        parameters:
           type: array
           items:
             $ref: '#/components/schemas/UdfVariable'
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
+        ruleId:
+          type: integer
+        udfId:
+          type: integer

@@ -190,6 +190,14 @@ paths:
           description: Resource not found
 components:
   schemas:
+    Response:
+      type: object
+      title: io.ad.catalog.api.model.Response
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssetWatcher'
     DateTime:
       type: object
       title: org.joda.time.DateTime
@@ -212,11 +220,3 @@ components:
           $ref: '#/components/schemas/DateTime'
         userId:
           type: string
-    Response:
-      type: object
-      title: io.ad.catalog.api.model.Response
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/AssetWatcher'

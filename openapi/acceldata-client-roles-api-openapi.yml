@@ -88,6 +88,27 @@ components:
           enum:
           - FEATURE_ROLE
           - RESOURCE_ROLE
+    AssignClientRoleRequest:
+      type: object
+      title: AssignClientRoleRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignClientRole'
+    ServiceUserDomainRoleMappingChunk:
+      type: object
+      title: ServiceUserDomainRoleMappingChunk
+      required:
+      - domainId
+      - roleIds
+      properties:
+        domainId:
+          type: integer
+        roleIds:
+          type: array
+          items:
+            type: integer
     AssignClientRole:
       type: object
       title: AssignClientRole
@@ -114,27 +135,6 @@ components:
             $ref: '#/components/schemas/ServiceUserDomainRoleMappingChunk'
         userId:
           type: string
-    AssignClientRoleRequest:
-      type: object
-      title: AssignClientRoleRequest
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/AssignClientRole'
-    ServiceUserDomainRoleMappingChunk:
-      type: object
-      title: ServiceUserDomainRoleMappingChunk
-      required:
-      - domainId
-      - roleIds
-      properties:
-        domainId:
-          type: integer
-        roleIds:
-          type: array
-          items:
-            type: integer
     Status:
       type: object
       title: Status

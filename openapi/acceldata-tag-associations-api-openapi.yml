@@ -171,37 +171,6 @@ paths:
                   $ref: '#/components/schemas/TagDetail'
 components:
   schemas:
-    AssociateTagsRequest:
-      type: object
-      title: AssociateTagsRequest
-      required:
-      - entityId
-      - entityType
-      - keyValueIds
-      properties:
-        entityId:
-          type: integer
-        entityType:
-          type: string
-        keyValueIds:
-          type: array
-          items:
-            type: integer
-    AssociateTagsResponse:
-      type: object
-      title: AssociateTagsResponse
-      required:
-      - created
-      - errors
-      properties:
-        created:
-          type: array
-          items:
-            $ref: '#/components/schemas/TagDetail'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/InvalidTagError'
     TagDetail:
       type: object
       title: TagDetail
@@ -228,6 +197,37 @@ components:
           type:
           - string
           - 'null'
+    AssociateTagsResponse:
+      type: object
+      title: AssociateTagsResponse
+      required:
+      - created
+      - errors
+      properties:
+        created:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagDetail'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidTagError'
+    AssociateTagsRequest:
+      type: object
+      title: AssociateTagsRequest
+      required:
+      - entityId
+      - entityType
+      - keyValueIds
+      properties:
+        entityId:
+          type: integer
+        entityType:
+          type: string
+        keyValueIds:
+          type: array
+          items:
+            type: integer
     InvalidTagError:
       type: object
       title: InvalidTagError

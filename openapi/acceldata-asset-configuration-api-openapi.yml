@@ -56,6 +56,17 @@ paths:
                 $ref: '#/components/schemas/IncrementalStrategiesResponse'
 components:
   schemas:
+    IncrementalStrategiesResponse:
+      type: object
+      title: io.ad.catalog.api.model.IncrementalStrategiesResponse
+      required:
+      - incremental
+      - selective
+      properties:
+        incremental:
+          $ref: '#/components/schemas/Strategies'
+        selective:
+          $ref: '#/components/schemas/Strategies'
     Strategies:
       type: object
       title: io.ad.catalog.api.model.Strategies
@@ -80,14 +91,3 @@ components:
           type: string
         type:
           type: string
-    IncrementalStrategiesResponse:
-      type: object
-      title: io.ad.catalog.api.model.IncrementalStrategiesResponse
-      required:
-      - incremental
-      - selective
-      properties:
-        incremental:
-          $ref: '#/components/schemas/Strategies'
-        selective:
-          $ref: '#/components/schemas/Strategies'

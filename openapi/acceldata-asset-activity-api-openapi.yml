@@ -108,6 +108,27 @@ paths:
           description: Either the asset is not present, or the user doesn't have permissions to perform the operation.
 components:
   schemas:
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    AssetActivityInfo:
+      type: object
+      title: io.ad.catalog.api.model.AssetActivityInfo
+      required:
+      - commentCount
+      - downVoteCount
+      - upVoteCount
+      properties:
+        commentCount:
+          type: integer
+        downVoteCount:
+          type: integer
+        downvoted:
+          type: boolean
+        upVoteCount:
+          type: integer
+        upvoted:
+          type: boolean
     AssetCommentResponse:
       type: object
       title: io.ad.catalog.api.model.AssetCommentResponse
@@ -118,9 +139,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AssetComment'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
     AssetComment:
       type: object
       title: io.ad.catalog.api.model.AssetComment
@@ -141,21 +159,3 @@ components:
           type:
           - string
           - 'null'
-    AssetActivityInfo:
-      type: object
-      title: io.ad.catalog.api.model.AssetActivityInfo
-      required:
-      - commentCount
-      - downVoteCount
-      - upVoteCount
-      properties:
-        commentCount:
-          type: integer
-        downVoteCount:
-          type: integer
-        downvoted:
-          type: boolean
-        upVoteCount:
-          type: integer
-        upvoted:
-          type: boolean

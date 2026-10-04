@@ -88,23 +88,6 @@ components:
           type: integer
           description: HTTP-style error code
           example: 401
-    UserList:
-      type: object
-      description: Paginated list of users
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        total:
-          type: integer
-          example: 50
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
     User:
       type: object
       description: A user in the Acceldata platform
@@ -139,6 +122,23 @@ components:
           format: date-time
           description: Account creation timestamp
           example: '2026-01-05T10:00:00Z'
+    UserList:
+      type: object
+      description: Paginated list of users
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        total:
+          type: integer
+          example: 50
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
   securitySchemes:
     apiKey:
       type: apiKey

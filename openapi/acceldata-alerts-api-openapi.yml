@@ -237,14 +237,6 @@ components:
           format: date-time
           description: When the alert was triggered
           example: '2026-04-19T08:30:00Z'
-    AcknowledgeAlertRequest:
-      type: object
-      description: Request body for acknowledging an alert
-      properties:
-        comment:
-          type: string
-          description: Optional comment explaining the acknowledgement
-          example: Investigating root cause — data pipeline delayed
     AlertList:
       type: object
       description: Paginated list of alerts
@@ -263,6 +255,14 @@ components:
         limit:
           type: integer
           example: 25
+    AcknowledgeAlertRequest:
+      type: object
+      description: Request body for acknowledging an alert
+      properties:
+        comment:
+          type: string
+          description: Optional comment explaining the acknowledgement
+          example: Investigating root cause — data pipeline delayed
   securitySchemes:
     apiKey:
       type: apiKey

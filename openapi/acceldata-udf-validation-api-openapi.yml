@@ -137,35 +137,82 @@ paths:
           description: '"Invalid Asset Id ''{assetId}"'
 components:
   schemas:
-    PolicyTransformUDF:
+    Any:
       type: object
-      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
+      title: kotlin.Any
+    ReferenceAssetUDFRequest:
+      type: object
+      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
       required:
-      - assetId
-      - name
-      - parameters
-      - udfId
+      - referenceAssetAlias
+      - referenceAssetColumns
+      - referenceAssetUid
       properties:
-        assetId:
-          type: integer
-        columnNames:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        id:
-          type: integer
-        name:
+        referenceAssetAlias:
           type: string
-        parameters:
+        referenceAssetColumns:
           type: array
           items:
-            $ref: '#/components/schemas/UdfVariable'
-        ruleId:
+            type: string
+        referenceAssetSqlFilter:
+          type:
+          - string
+          - 'null'
+        referenceAssetUid:
+          type: string
+    CustomSqlConfig:
+      type: object
+      title: io.ad.catalog.api.model.quality.CustomSqlConfig
+      required:
+      - columnMetadataList
+      - columnVariables
+      - queryType
+      - ruleVersion
+      - sanitizedQuery
+      - sqlExpression
+      properties:
+        columnMetadataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnMetadata'
+        columnVariables:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnVariable'
+        queryType:
+          type: string
+        ruleVersion:
           type: integer
-        udfId:
-          type: integer
+        sanitizedQuery:
+          type: string
+        sqlExpression:
+          type: string
+        tableAlias:
+          type:
+          - string
+          - 'null'
+    ColumnVariable:
+      type: object
+      title: io.ad.catalog.api.model.quality.ColumnVariable
+      required:
+      - getOnlyWithVariableName
+      - isNumber
+      - name
+      properties:
+        format:
+          type:
+          - string
+          - 'null'
+        getOnlyWithVariableName:
+          $ref: '#/components/schemas/ColumnVariable'
+        isNumber:
+          type: boolean
+        name:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
     ColumnMetadata:
       type: object
       title: io.ad.catalog.api.model.quality.ColumnMetadata
@@ -177,9 +224,20 @@ components:
           type: string
         type:
           type: string
-    Any:
+    UdfVariable:
       type: object
-      title: kotlin.Any
+      title: io.ad.catalog.api.model.UdfVariable
+      required:
+      - key
+      properties:
+        isColumnVariable:
+          type: boolean
+        key:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
     UdfTemplateValidationRequest:
       type: object
       title: io.ad.catalog.api.model.quality.UdfTemplateValidationRequest
@@ -224,26 +282,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UdfVariable'
-    ReferenceAssetUDFRequest:
-      type: object
-      title: io.ad.dataplane.model.spec.processor.reference.ReferenceAssetUDFRequest
-      required:
-      - referenceAssetAlias
-      - referenceAssetColumns
-      - referenceAssetUid
-      properties:
-        referenceAssetAlias:
-          type: string
-        referenceAssetColumns:
-          type: array
-          items:
-            type: string
-        referenceAssetSqlFilter:
-          type:
-          - string
-          - 'null'
-        referenceAssetUid:
-          type: string
     UdfValidationResult:
       type: object
       title: io.ad.catalog.api.model.quality.UdfValidationResult
@@ -275,70 +313,32 @@ components:
           oneOf:
           - $ref: '#/components/schemas/Any'
           - type: 'null'
-    ColumnVariable:
+    PolicyTransformUDF:
       type: object
-      title: io.ad.catalog.api.model.quality.ColumnVariable
+      title: io.ad.catalog.api.model.quality.PolicyTransformUDF
       required:
-      - getOnlyWithVariableName
-      - isNumber
+      - assetId
       - name
+      - parameters
+      - udfId
       properties:
-        format:
+        assetId:
+          type: integer
+        columnNames:
           type:
-          - string
+          - array
           - 'null'
-        getOnlyWithVariableName:
-          $ref: '#/components/schemas/ColumnVariable'
-        isNumber:
-          type: boolean
+          items:
+            type: string
+        id:
+          type: integer
         name:
           type: string
-        value:
-          type:
-          - string
-          - 'null'
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
-      required:
-      - key
-      properties:
-        isColumnVariable:
-          type: boolean
-        key:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-    CustomSqlConfig:
-      type: object
-      title: io.ad.catalog.api.model.quality.CustomSqlConfig
-      required:
-      - columnMetadataList
-      - columnVariables
-      - queryType
-      - ruleVersion
-      - sanitizedQuery
-      - sqlExpression
-      properties:
-        columnMetadataList:
+        parameters:
           type: array
           items:
-            $ref: '#/components/schemas/ColumnMetadata'
-        columnVariables:
-          type: array
-          items:
-            $ref: '#/components/schemas/ColumnVariable'
-        queryType:
-          type: string
-        ruleVersion:
+            $ref: '#/components/schemas/UdfVariable'
+        ruleId:
           type: integer
-        sanitizedQuery:
-          type: string
-        sqlExpression:
-          type: string
-        tableAlias:
-          type:
-          - string
-          - 'null'
+        udfId:
+          type: integer

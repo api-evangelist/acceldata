@@ -206,30 +206,25 @@ paths:
           description: '"Asset with id:{id} does not exist" / "No Custom Asset found for assetId:{id}"'
 components:
   schemas:
-    CustomAssetResponse:
+    SourceType:
       type: object
-      title: io.ad.catalog.api.model.CustomAssetResponse
+      title: io.ad.catalog.api.model.SourceType
       required:
-      - customAsset
+      - miniProfiling
+      - name
       properties:
-        customAsset:
-          $ref: '#/components/schemas/SqlView'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
-    ConfigProperty:
-      type: object
-      title: io.ad.catalog.api.model.ConfigProperty
-      required:
-      - key
-      - value
-      properties:
+        connectionTypeId:
+          type: integer
         id:
           type: integer
-        key:
+        miniProfiling:
+          type: boolean
+        name:
           type: string
-        value:
-          type: string
+        sourceModel:
+          oneOf:
+          - $ref: '#/components/schemas/SourceModel'
+          - type: 'null'
     SecretManagerConfigurationWithOption:
       type: object
       title: io.ad.catalog.api.model.SecretManagerConfigurationWithOption
@@ -243,37 +238,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SecretManagerConfiguration'
-    DataplaneHealthMetrics:
+    Crawler:
       type: object
-      title: io.ad.catalog.api.model.DataplaneHealthMetrics
-      required:
-      - process
-      - reportingTime
-      properties:
-        kubernetes:
-          oneOf:
-          - $ref: '#/components/schemas/KubernetesMetrics'
-          - type: 'null'
-        process:
-          $ref: '#/components/schemas/ProcessMetrics'
-        reportingTime:
-          $ref: '#/components/schemas/DateTime'
-    UpdateSqlViewRequest:
-      type: object
-      title: io.ad.catalog.api.model.UpdateSqlViewRequest
-      required:
-      - data
-      properties:
-        data:
-          $ref: '#/components/schemas/UpdateSqlView'
-    SourceModel:
-      type: object
-      title: io.ad.catalog.api.model.SourceModel
+      title: io.ad.catalog.api.model.Crawler
       required:
       - name
       properties:
-        id:
-          type: integer
         name:
           type: string
     HostedDPDeploymentResponse:
@@ -299,89 +269,17 @@ components:
           type: string
         uid:
           type: string
-    ConnectionType:
+    ProcessMetrics:
       type: object
-      title: io.ad.catalog.api.model.ConnectionType
+      title: io.ad.catalog.api.model.ProcessMetrics
       required:
-      - id
-      - type
+      - reportingTime
+      - status
       properties:
-        id:
-          type: integer
-        type:
-          type: string
-    Asset:
-      type: object
-      title: io.ad.catalog.api.model.Asset
-      required:
-      - assembly
-      - assetType
-      - createdAt
-      - description
-      - isActive
-      - isCustom
-      - isDeleted
-      - isSegmented
-      - name
-      - sourceType
-      - uid
-      - updatedAt
-      properties:
-        alias:
-          type:
-          - string
-          - 'null'
-        assembly:
-          $ref: '#/components/schemas/Assembly'
-        assetType:
-          $ref: '#/components/schemas/AssetType'
-        createdAt:
+        reportingTime:
           $ref: '#/components/schemas/DateTime'
-        currentSnapshot:
-          type:
-          - string
-          - 'null'
-        customAssetType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - SQL_VIEW
-          - SQL_VIEW_COLUMN
-          - VISUAL_VIEW
-          - VISUAL_VIEW_COLUMN
-        description:
+        status:
           type: string
-        id:
-          type: integer
-        imprint:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        isCustom:
-          type: boolean
-        isDeleted:
-          type: boolean
-        isSegmented:
-          type: boolean
-        name:
-          type: string
-        parentId:
-          type: integer
-        snapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        sourceType:
-          $ref: '#/components/schemas/SourceType'
-        uid:
-          type: string
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
     SqlViewDetails:
       type: object
       title: io.ad.catalog.api.model.SqlViewDetails
@@ -404,516 +302,6 @@ components:
           type:
           - string
           - 'null'
-    SqlView:
-      type: object
-      title: io.ad.catalog.api.model.SqlView
-      required:
-      - asset
-      - createdAt
-      - query
-      - queryType
-      - updatedAt
-      properties:
-        asset:
-          $ref: '#/components/schemas/Asset'
-        backingAssetId:
-          type: integer
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        query:
-          type: string
-        queryType:
-          type: string
-          enum:
-          - SQL_QUERY
-          - FILTER
-          - AGGREGATION_PIPELINE
-        tableAlias:
-          type:
-          - string
-          - 'null'
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
-    AnalyticsPipelineEndpoint:
-      type: object
-      title: io.ad.catalog.api.model.AnalyticsPipelineEndpoint
-      required:
-      - type
-      - useCertificate
-      properties:
-        analyticsPipelineId:
-          type: integer
-        caRoot:
-          type:
-          - string
-          - 'null'
-        certificate:
-          type:
-          - string
-          - 'null'
-        createdAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        expiresAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        id:
-          type: integer
-        key:
-          type:
-          - string
-          - 'null'
-        tenantId:
-          type:
-          - string
-          - 'null'
-        type:
-          type: string
-          enum:
-          - EXTERNAL
-          - TUNNEL_V1
-          - TUNNEL_V2
-        updatedAt:
-          oneOf:
-          - $ref: '#/components/schemas/DateTime'
-          - type: 'null'
-        url:
-          type:
-          - string
-          - 'null'
-        useCertificate:
-          type: boolean
-    UpdateSqlView:
-      type: object
-      title: io.ad.catalog.api.model.UpdateSqlView
-      required:
-      - details
-      - schema
-      properties:
-        details:
-          $ref: '#/components/schemas/SqlViewDetails'
-        name:
-          type:
-          - string
-          - 'null'
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/SqlViewColumn'
-    DatabricksComputeConfig:
-      type: object
-      title: io.ad.catalog.api.model.DatabricksComputeConfig
-      properties:
-        clusterDriverType:
-          type:
-          - string
-          - 'null'
-        clusterWorkerType:
-          type:
-          - string
-          - 'null'
-        isEnabled:
-          type: boolean
-        jobClusterType:
-          type:
-          - string
-          - 'null'
-        maxWorkers:
-          type: integer
-        minWorkers:
-          type: integer
-    KubernetesMetrics:
-      type: object
-      title: io.ad.catalog.api.model.KubernetesMetrics
-      required:
-      - reportingTime
-      - status
-      properties:
-        reportingTime:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type: string
-    SourceType:
-      type: object
-      title: io.ad.catalog.api.model.SourceType
-      required:
-      - miniProfiling
-      - name
-      properties:
-        connectionTypeId:
-          type: integer
-        id:
-          type: integer
-        miniProfiling:
-          type: boolean
-        name:
-          type: string
-        sourceModel:
-          oneOf:
-          - $ref: '#/components/schemas/SourceModel'
-          - type: 'null'
-    LivyComputeConfig:
-      type: object
-      title: io.ad.catalog.api.model.LivyComputeConfig
-      required:
-      - driverCores
-      - driverMemory
-      properties:
-        driverCores:
-          type: integer
-        driverMemory:
-          type: string
-        executorCores:
-          type: integer
-        executorMemory:
-          type:
-          - string
-          - 'null'
-        isEnabled:
-          type: boolean
-        numExecutors:
-          type: integer
-    YunikornComputeConfig:
-      type: object
-      title: io.ad.catalog.api.model.YunikornComputeConfig
-      required:
-      - driverCores
-      - driverMemory
-      properties:
-        driverCoreLimit:
-          type:
-          - string
-          - 'null'
-        driverCoreRequest:
-          type:
-          - string
-          - 'null'
-        driverCores:
-          type: integer
-        driverMemory:
-          type: string
-        executorCoreLimit:
-          type:
-          - string
-          - 'null'
-        executorCoreRequest:
-          type:
-          - string
-          - 'null'
-        executorCores:
-          type: integer
-        executorMemory:
-          type:
-          - string
-          - 'null'
-        isEnabled:
-          type: boolean
-        maxExecutors:
-          type: integer
-        minExecutors:
-          type: integer
-    Connection:
-      type: object
-      title: io.ad.catalog.api.model.Connection
-      required:
-      - analyticsPipeline
-      - assembliesCount
-      - connectionType
-      - createdAt
-      - name
-      - properties
-      - updatedAt
-      properties:
-        analyticsPipeline:
-          $ref: '#/components/schemas/AnalyticsPipeline'
-        assembliesCount:
-          type: integer
-        configuration:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: string
-        connectionType:
-          $ref: '#/components/schemas/ConnectionType'
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        name:
-          type: string
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/ConfigProperty'
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
-    PipelineComputeConfig:
-      type: object
-      title: io.ad.catalog.api.model.PipelineComputeConfig
-      properties:
-        databricks:
-          oneOf:
-          - $ref: '#/components/schemas/DatabricksComputeConfig'
-          - type: 'null'
-        dataproc:
-          oneOf:
-          - $ref: '#/components/schemas/DataprocComputeConfig'
-          - type: 'null'
-        livy:
-          oneOf:
-          - $ref: '#/components/schemas/LivyComputeConfig'
-          - type: 'null'
-        yunikorn:
-          oneOf:
-          - $ref: '#/components/schemas/YunikornComputeConfig'
-          - type: 'null'
-    SqlViewColumn:
-      type: object
-      title: io.ad.catalog.api.model.SqlViewColumn
-      required:
-      - name
-      - nullable
-      - type
-      properties:
-        name:
-          type: string
-        nullable:
-          type: boolean
-        type:
-          type: string
-    AssetType:
-      type: object
-      title: io.ad.catalog.api.model.AssetType
-      required:
-      - canMonitor
-      - canProfile
-      - canSample
-      - name
-      properties:
-        canMonitor:
-          type: boolean
-        canProfile:
-          type: boolean
-        canSample:
-          type: boolean
-        id:
-          type: integer
-        name:
-          type: string
-    Any:
-      type: object
-      title: kotlin.Any
-    GlobalStorageConfigDTO:
-      type: object
-      title: io.ad.catalog.api.model.GlobalStorageConfigDTO
-      required:
-      - measureResultFsType
-      properties:
-        adlsGeneration:
-          type:
-          - string
-          - 'null'
-        adlsStorageAccountName:
-          type:
-          - string
-          - 'null'
-        adlsStorageContainerName:
-          type:
-          - string
-          - 'null'
-        gcsBucketName:
-          type:
-          - string
-          - 'null'
-        gcsProjectId:
-          type:
-          - string
-          - 'null'
-        hdfsDirectory:
-          type:
-          - string
-          - 'null'
-        measureResultADLSAccessMode:
-          type:
-          - string
-          - 'null'
-        measureResultFsType:
-          type: string
-        measureResultGCSAccessMode:
-          type:
-          - string
-          - 'null'
-        measureResultS3AAccessInstanceProfileARN:
-          type:
-          - string
-          - 'null'
-        measureResultS3AAccessMode:
-          type:
-          - string
-          - 'null'
-        s3BucketName:
-          type:
-          - string
-          - 'null'
-        s3Region:
-          type:
-          - string
-          - 'null'
-    SecurityConfig:
-      type: object
-      title: io.ad.catalog.api.model.SecurityConfig
-      required:
-      - config
-      - type
-      properties:
-        config:
-          type: object
-          additionalProperties:
-            type: string
-        type:
-          type: string
-    DataprocComputeConfig:
-      type: object
-      title: io.ad.catalog.api.model.DataprocComputeConfig
-      properties:
-        clusterMasterType:
-          type:
-          - string
-          - 'null'
-        clusterWorkerType:
-          type:
-          - string
-          - 'null'
-        isEnabled:
-          type: boolean
-        numMasterNodes:
-          type: integer
-        numWorkerNodes:
-          type: integer
-    Assembly:
-      type: object
-      title: io.ad.catalog.api.model.Assembly
-      required:
-      - autoProfile
-      - crawler
-      - createdAt
-      - description
-      - isSecured
-      - isVirtual
-      - name
-      - sourceType
-      - status
-      - tenantId
-      - timeZone
-      - updatedAt
-      properties:
-        analyticsPipelineId:
-          type: integer
-        assemblyProperties:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        autoProfile:
-          type: boolean
-        configuration:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            oneOf:
-            - $ref: '#/components/schemas/Any'
-            - type: 'null'
-        conn:
-          oneOf:
-          - $ref: '#/components/schemas/Connection'
-          - type: 'null'
-        connectionId:
-          type: integer
-        crawler:
-          $ref: '#/components/schemas/Crawler'
-        createdAt:
-          $ref: '#/components/schemas/DateTime'
-        createdBy:
-          type:
-          - string
-          - 'null'
-        currentSnapshot:
-          type:
-          - string
-          - 'null'
-        description:
-          type: string
-        id:
-          type: integer
-        integrationId:
-          type:
-          - string
-          - 'null'
-        isProtectedResource:
-          type: boolean
-        isSecured:
-          type: boolean
-        isVirtual:
-          type: boolean
-        name:
-          type: string
-        schedule:
-          type:
-          - string
-          - 'null'
-        securityConfig:
-          oneOf:
-          - $ref: '#/components/schemas/SecurityConfig'
-          - type: 'null'
-        sourceType:
-          $ref: '#/components/schemas/SourceType'
-        status:
-          type: string
-          enum:
-          - ACTIVE
-          - MARKED_FOR_DELETED
-        tenantId:
-          type: string
-        timeZone:
-          type: string
-        updatedAt:
-          $ref: '#/components/schemas/DateTime'
-    ProcessMetrics:
-      type: object
-      title: io.ad.catalog.api.model.ProcessMetrics
-      required:
-      - reportingTime
-      - status
-      properties:
-        reportingTime:
-          $ref: '#/components/schemas/DateTime'
-        status:
-          type: string
-    Crawler:
-      type: object
-      title: io.ad.catalog.api.model.Crawler
-      required:
-      - name
-      properties:
-        name:
-          type: string
     AnalyticsPipeline:
       type: object
       title: io.ad.catalog.api.model.AnalyticsPipeline
@@ -1148,6 +536,152 @@ components:
           - 'null'
         version:
           type: string
+    PipelineComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.PipelineComputeConfig
+      properties:
+        databricks:
+          oneOf:
+          - $ref: '#/components/schemas/DatabricksComputeConfig'
+          - type: 'null'
+        dataproc:
+          oneOf:
+          - $ref: '#/components/schemas/DataprocComputeConfig'
+          - type: 'null'
+        livy:
+          oneOf:
+          - $ref: '#/components/schemas/LivyComputeConfig'
+          - type: 'null'
+        yunikorn:
+          oneOf:
+          - $ref: '#/components/schemas/YunikornComputeConfig'
+          - type: 'null'
+    AnalyticsPipelineEndpoint:
+      type: object
+      title: io.ad.catalog.api.model.AnalyticsPipelineEndpoint
+      required:
+      - type
+      - useCertificate
+      properties:
+        analyticsPipelineId:
+          type: integer
+        caRoot:
+          type:
+          - string
+          - 'null'
+        certificate:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        expiresAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        id:
+          type: integer
+        key:
+          type:
+          - string
+          - 'null'
+        tenantId:
+          type:
+          - string
+          - 'null'
+        type:
+          type: string
+          enum:
+          - EXTERNAL
+          - TUNNEL_V1
+          - TUNNEL_V2
+        updatedAt:
+          oneOf:
+          - $ref: '#/components/schemas/DateTime'
+          - type: 'null'
+        url:
+          type:
+          - string
+          - 'null'
+        useCertificate:
+          type: boolean
+    DataprocComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.DataprocComputeConfig
+      properties:
+        clusterMasterType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        numMasterNodes:
+          type: integer
+        numWorkerNodes:
+          type: integer
+    SqlView:
+      type: object
+      title: io.ad.catalog.api.model.SqlView
+      required:
+      - asset
+      - createdAt
+      - query
+      - queryType
+      - updatedAt
+      properties:
+        asset:
+          $ref: '#/components/schemas/Asset'
+        backingAssetId:
+          type: integer
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        query:
+          type: string
+        queryType:
+          type: string
+          enum:
+          - SQL_QUERY
+          - FILTER
+          - AGGREGATION_PIPELINE
+        tableAlias:
+          type:
+          - string
+          - 'null'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    LivyComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.LivyComputeConfig
+      required:
+      - driverCores
+      - driverMemory
+      properties:
+        driverCores:
+          type: integer
+        driverMemory:
+          type: string
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        numExecutors:
+          type: integer
     SecretManagerConfiguration:
       type: object
       title: io.ad.catalog.api.model.SecretManagerConfiguration
@@ -1158,4 +692,470 @@ components:
         name:
           type: string
         type:
+          type: string
+    SqlViewColumn:
+      type: object
+      title: io.ad.catalog.api.model.SqlViewColumn
+      required:
+      - name
+      - nullable
+      - type
+      properties:
+        name:
+          type: string
+        nullable:
+          type: boolean
+        type:
+          type: string
+    Assembly:
+      type: object
+      title: io.ad.catalog.api.model.Assembly
+      required:
+      - autoProfile
+      - crawler
+      - createdAt
+      - description
+      - isSecured
+      - isVirtual
+      - name
+      - sourceType
+      - status
+      - tenantId
+      - timeZone
+      - updatedAt
+      properties:
+        analyticsPipelineId:
+          type: integer
+        assemblyProperties:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        autoProfile:
+          type: boolean
+        configuration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            oneOf:
+            - $ref: '#/components/schemas/Any'
+            - type: 'null'
+        conn:
+          oneOf:
+          - $ref: '#/components/schemas/Connection'
+          - type: 'null'
+        connectionId:
+          type: integer
+        crawler:
+          $ref: '#/components/schemas/Crawler'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        createdBy:
+          type:
+          - string
+          - 'null'
+        currentSnapshot:
+          type:
+          - string
+          - 'null'
+        description:
+          type: string
+        id:
+          type: integer
+        integrationId:
+          type:
+          - string
+          - 'null'
+        isProtectedResource:
+          type: boolean
+        isSecured:
+          type: boolean
+        isVirtual:
+          type: boolean
+        name:
+          type: string
+        schedule:
+          type:
+          - string
+          - 'null'
+        securityConfig:
+          oneOf:
+          - $ref: '#/components/schemas/SecurityConfig'
+          - type: 'null'
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - MARKED_FOR_DELETED
+        tenantId:
+          type: string
+        timeZone:
+          type: string
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    ConnectionType:
+      type: object
+      title: io.ad.catalog.api.model.ConnectionType
+      required:
+      - id
+      - type
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+    SourceModel:
+      type: object
+      title: io.ad.catalog.api.model.SourceModel
+      required:
+      - name
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    UpdateSqlViewRequest:
+      type: object
+      title: io.ad.catalog.api.model.UpdateSqlViewRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/UpdateSqlView'
+    SecurityConfig:
+      type: object
+      title: io.ad.catalog.api.model.SecurityConfig
+      required:
+      - config
+      - type
+      properties:
+        config:
+          type: object
+          additionalProperties:
+            type: string
+        type:
+          type: string
+    Any:
+      type: object
+      title: kotlin.Any
+    Connection:
+      type: object
+      title: io.ad.catalog.api.model.Connection
+      required:
+      - analyticsPipeline
+      - assembliesCount
+      - connectionType
+      - createdAt
+      - name
+      - properties
+      - updatedAt
+      properties:
+        analyticsPipeline:
+          $ref: '#/components/schemas/AnalyticsPipeline'
+        assembliesCount:
+          type: integer
+        configuration:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        connectionType:
+          $ref: '#/components/schemas/ConnectionType'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        description:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        name:
+          type: string
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfigProperty'
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    CustomAssetResponse:
+      type: object
+      title: io.ad.catalog.api.model.CustomAssetResponse
+      required:
+      - customAsset
+      properties:
+        customAsset:
+          $ref: '#/components/schemas/SqlView'
+    Asset:
+      type: object
+      title: io.ad.catalog.api.model.Asset
+      required:
+      - assembly
+      - assetType
+      - createdAt
+      - description
+      - isActive
+      - isCustom
+      - isDeleted
+      - isSegmented
+      - name
+      - sourceType
+      - uid
+      - updatedAt
+      properties:
+        alias:
+          type:
+          - string
+          - 'null'
+        assembly:
+          $ref: '#/components/schemas/Assembly'
+        assetType:
+          $ref: '#/components/schemas/AssetType'
+        createdAt:
+          $ref: '#/components/schemas/DateTime'
+        currentSnapshot:
+          type:
+          - string
+          - 'null'
+        customAssetType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - SQL_VIEW
+          - SQL_VIEW_COLUMN
+          - VISUAL_VIEW
+          - VISUAL_VIEW_COLUMN
+        description:
+          type: string
+        id:
+          type: integer
+        imprint:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        isCustom:
+          type: boolean
+        isDeleted:
+          type: boolean
+        isSegmented:
+          type: boolean
+        name:
+          type: string
+        parentId:
+          type: integer
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        sourceType:
+          $ref: '#/components/schemas/SourceType'
+        uid:
+          type: string
+        updatedAt:
+          $ref: '#/components/schemas/DateTime'
+    DataplaneHealthMetrics:
+      type: object
+      title: io.ad.catalog.api.model.DataplaneHealthMetrics
+      required:
+      - process
+      - reportingTime
+      properties:
+        kubernetes:
+          oneOf:
+          - $ref: '#/components/schemas/KubernetesMetrics'
+          - type: 'null'
+        process:
+          $ref: '#/components/schemas/ProcessMetrics'
+        reportingTime:
+          $ref: '#/components/schemas/DateTime'
+    GlobalStorageConfigDTO:
+      type: object
+      title: io.ad.catalog.api.model.GlobalStorageConfigDTO
+      required:
+      - measureResultFsType
+      properties:
+        adlsGeneration:
+          type:
+          - string
+          - 'null'
+        adlsStorageAccountName:
+          type:
+          - string
+          - 'null'
+        adlsStorageContainerName:
+          type:
+          - string
+          - 'null'
+        gcsBucketName:
+          type:
+          - string
+          - 'null'
+        gcsProjectId:
+          type:
+          - string
+          - 'null'
+        hdfsDirectory:
+          type:
+          - string
+          - 'null'
+        measureResultADLSAccessMode:
+          type:
+          - string
+          - 'null'
+        measureResultFsType:
+          type: string
+        measureResultGCSAccessMode:
+          type:
+          - string
+          - 'null'
+        measureResultS3AAccessInstanceProfileARN:
+          type:
+          - string
+          - 'null'
+        measureResultS3AAccessMode:
+          type:
+          - string
+          - 'null'
+        s3BucketName:
+          type:
+          - string
+          - 'null'
+        s3Region:
+          type:
+          - string
+          - 'null'
+    AssetType:
+      type: object
+      title: io.ad.catalog.api.model.AssetType
+      required:
+      - canMonitor
+      - canProfile
+      - canSample
+      - name
+      properties:
+        canMonitor:
+          type: boolean
+        canProfile:
+          type: boolean
+        canSample:
+          type: boolean
+        id:
+          type: integer
+        name:
+          type: string
+    DatabricksComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.DatabricksComputeConfig
+      properties:
+        clusterDriverType:
+          type:
+          - string
+          - 'null'
+        clusterWorkerType:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        jobClusterType:
+          type:
+          - string
+          - 'null'
+        maxWorkers:
+          type: integer
+        minWorkers:
+          type: integer
+    KubernetesMetrics:
+      type: object
+      title: io.ad.catalog.api.model.KubernetesMetrics
+      required:
+      - reportingTime
+      - status
+      properties:
+        reportingTime:
+          $ref: '#/components/schemas/DateTime'
+        status:
+          type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    UpdateSqlView:
+      type: object
+      title: io.ad.catalog.api.model.UpdateSqlView
+      required:
+      - details
+      - schema
+      properties:
+        details:
+          $ref: '#/components/schemas/SqlViewDetails'
+        name:
+          type:
+          - string
+          - 'null'
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/SqlViewColumn'
+    YunikornComputeConfig:
+      type: object
+      title: io.ad.catalog.api.model.YunikornComputeConfig
+      required:
+      - driverCores
+      - driverMemory
+      properties:
+        driverCoreLimit:
+          type:
+          - string
+          - 'null'
+        driverCoreRequest:
+          type:
+          - string
+          - 'null'
+        driverCores:
+          type: integer
+        driverMemory:
+          type: string
+        executorCoreLimit:
+          type:
+          - string
+          - 'null'
+        executorCoreRequest:
+          type:
+          - string
+          - 'null'
+        executorCores:
+          type: integer
+        executorMemory:
+          type:
+          - string
+          - 'null'
+        isEnabled:
+          type: boolean
+        maxExecutors:
+          type: integer
+        minExecutors:
+          type: integer
+    ConfigProperty:
+      type: object
+      title: io.ad.catalog.api.model.ConfigProperty
+      required:
+      - key
+      - value
+      properties:
+        id:
+          type: integer
+        key:
+          type: string
+        value:
           type: string
