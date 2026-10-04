@@ -38,7 +38,6 @@ tags:
   - Data Observability
   - Data Pipeline
   - Data Quality
-  - Intelligence
   - Observability
 description: >-
   Acceldata is an agentic data management platform that helps enterprises
@@ -1865,3 +1864,5 @@ x-enrichment:
   status: enriched
   artifacts_added: 26
   pass: local-v1
+x-tags-removed:
+- Intelligence
