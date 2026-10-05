@@ -1,0 +1,12 @@
+{
+ "url": "https://documentation.acceldata.io/docs/acceldata/specs/catalog/openapi.json",
+ "requested_url": "https://documentation.acceldata.io/docs/acceldata/specs/catalog/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 342998,
+ "sha256": "1e5398178fe0c9964cd826ca1c6c7f76ab4a8b89a12591fc6434e05133dda5c6",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.937), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
