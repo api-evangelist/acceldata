@@ -71,7 +71,7 @@ workflows:
     description: >-
       List the data quality rules applied to the resolved dataset to capture how
       it is being monitored.
-    operationId: listDataQualityRules
+    operationId: getDataQualityRules
     parameters:
     - name: X-API-Key
       in: header

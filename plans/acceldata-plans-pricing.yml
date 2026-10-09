@@ -135,3 +135,34 @@ other_entry_points:
     url: https://www.acceldata.io/roi-calculator
   - name: Contact Us
     url: https://www.acceldata.io/contact-us
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: PRO
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: ENTERPRISE
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: PRO
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: ENTERPRISE
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []

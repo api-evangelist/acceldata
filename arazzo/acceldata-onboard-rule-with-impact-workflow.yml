@@ -82,7 +82,7 @@ workflows:
     description: >-
       List the rules already monitoring the dataset so the new rule does not
       duplicate existing coverage.
-    operationId: listDataQualityRules
+    operationId: getDataQualityRules
     parameters:
     - name: X-API-Key
       in: header
@@ -98,7 +98,7 @@ workflows:
     description: >-
       Create the new data quality rule on the dataset's column using the
       supplied definition.
-    operationId: createDataQualityRule
+    operationId: postDataQualityRules
     parameters:
     - name: X-API-Key
       in: header
