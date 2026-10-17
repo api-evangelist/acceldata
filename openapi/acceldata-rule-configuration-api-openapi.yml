@@ -96,14 +96,33 @@ paths:
           description: 'Rule with the given name: {name} not found'
 components:
   schemas:
-    CustomPolicyPersistencePathConfig:
+    SingleCategoryPersistenceConfig:
       type: object
-      title: io.ad.catalog.api.model.CustomPolicyPersistencePathConfig
+      title: io.ad.catalog.api.model.SingleCategoryPersistenceConfig
       required:
-      - categoriesConfig
+      - format
+      - suffixTemplate
       properties:
-        categoriesConfig:
-          $ref: '#/components/schemas/CategoriesPersistenceConfig'
+        format:
+          type: string
+          enum:
+          - PARQUET
+          - ORC
+          - CSV
+          - JSON
+        suffixTemplate:
+          type: string
+    DefaultPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig
+    SavedPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.SavedPolicyPersistencePathConfig
+      required:
+      - configId
+      properties:
+        configId:
+          type: integer
     CategoriesResultHandlingConfig:
       type: object
       title: io.ad.catalog.api.model.CategoriesResultHandlingConfig
@@ -115,17 +134,6 @@ components:
           $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
         good:
           $ref: '#/components/schemas/SingleCategoryResultHandlingConfig'
-    SingleCategoryResultHandlingConfig:
-      type: object
-      title: io.ad.catalog.api.model.SingleCategoryResultHandlingConfig
-      required:
-      - sampleOnly
-      - storeResult
-      properties:
-        sampleOnly:
-          type: boolean
-        storeResult:
-          type: boolean
     RuleConfig:
       type: object
       title: io.ad.catalog.api.model.quality.RuleConfig
@@ -146,45 +154,17 @@ components:
           - 'null'
         ruleId:
           type: integer
-    SingleCategoryPersistenceConfig:
+    SingleCategoryResultHandlingConfig:
       type: object
-      title: io.ad.catalog.api.model.SingleCategoryPersistenceConfig
+      title: io.ad.catalog.api.model.SingleCategoryResultHandlingConfig
       required:
-      - format
-      - suffixTemplate
+      - sampleOnly
+      - storeResult
       properties:
-        format:
-          type: string
-          enum:
-          - PARQUET
-          - ORC
-          - CSV
-          - JSON
-        suffixTemplate:
-          type: string
-    SavedPolicyPersistencePathConfig:
-      type: object
-      title: io.ad.catalog.api.model.SavedPolicyPersistencePathConfig
-      required:
-      - configId
-      properties:
-        configId:
-          type: integer
-    PolicyPersistencePathConfig:
-      type:
-      - object
-      - 'null'
-      title: io.ad.catalog.api.model.PolicyPersistencePathConfig
-      oneOf:
-      - $ref: '#/components/schemas/CustomPolicyPersistencePathConfig'
-      - $ref: '#/components/schemas/DefaultPolicyPersistencePathConfig'
-      - $ref: '#/components/schemas/SavedPolicyPersistencePathConfig'
-      discriminator:
-        propertyName: type
-        mapping:
-          io.ad.catalog.api.model.CustomPolicyPersistencePathConfig: '#/components/schemas/CustomPolicyPersistencePathConfig'
-          io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig: '#/components/schemas/DefaultPolicyPersistencePathConfig'
-          io.ad.catalog.api.model.SavedPolicyPersistencePathConfig: '#/components/schemas/SavedPolicyPersistencePathConfig'
+        sampleOnly:
+          type: boolean
+        storeResult:
+          type: boolean
     CategoriesPersistenceConfig:
       type: object
       title: io.ad.catalog.api.model.CategoriesPersistenceConfig
@@ -200,9 +180,21 @@ components:
           oneOf:
           - $ref: '#/components/schemas/MetadataPersistenceConfig'
           - type: 'null'
-    DefaultPolicyPersistencePathConfig:
-      type: object
-      title: io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig
+    PolicyPersistencePathConfig:
+      type:
+      - object
+      - 'null'
+      title: io.ad.catalog.api.model.PolicyPersistencePathConfig
+      oneOf:
+      - $ref: '#/components/schemas/CustomPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+      - $ref: '#/components/schemas/SavedPolicyPersistencePathConfig'
+      discriminator:
+        propertyName: type
+        mapping:
+          io.ad.catalog.api.model.CustomPolicyPersistencePathConfig: '#/components/schemas/CustomPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.DefaultPolicyPersistencePathConfig: '#/components/schemas/DefaultPolicyPersistencePathConfig'
+          io.ad.catalog.api.model.SavedPolicyPersistencePathConfig: '#/components/schemas/SavedPolicyPersistencePathConfig'
     MetadataPersistenceConfig:
       type: object
       title: io.ad.catalog.api.model.MetadataPersistenceConfig
@@ -211,3 +203,11 @@ components:
       properties:
         suffixTemplate:
           type: string
+    CustomPolicyPersistencePathConfig:
+      type: object
+      title: io.ad.catalog.api.model.CustomPolicyPersistencePathConfig
+      required:
+      - categoriesConfig
+      properties:
+        categoriesConfig:
+          $ref: '#/components/schemas/CategoriesPersistenceConfig'

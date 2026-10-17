@@ -329,6 +329,51 @@ paths:
                   $ref: '#/components/schemas/Label'
 components:
   schemas:
+    Label:
+      type: object
+      title: io.ad.catalog.api.model.Label
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        labelType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - ASSET
+          - RULE
+          - DQ_RULE_ITEM
+          - RECONCILIATION_COLUMN_MAPPING
+          - POLICY_TEMPLATE_MEASURE
+          - USER_DEFINED_FUNCTION
+        value:
+          type: string
+    DateTime:
+      type: object
+      title: org.joda.time.DateTime
+    AssetTagResponse:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagResponse
+      required:
+      - assetTags
+      properties:
+        assetTags:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssetTag'
+    AssetTagRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetTagRequest
+      properties:
+        id:
+          type: integer
+        name:
+          type:
+          - string
+          - 'null'
     AssetTag:
       type: object
       title: io.ad.catalog.api.model.AssetTag
@@ -369,61 +414,6 @@ components:
           type:
           - string
           - 'null'
-    AssetTagResponse:
-      type: object
-      title: io.ad.catalog.api.model.AssetTagResponse
-      required:
-      - assetTags
-      properties:
-        assetTags:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetTag'
-    Label:
-      type: object
-      title: io.ad.catalog.api.model.Label
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        labelType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - ASSET
-          - RULE
-          - DQ_RULE_ITEM
-          - RECONCILIATION_COLUMN_MAPPING
-          - POLICY_TEMPLATE_MEASURE
-          - USER_DEFINED_FUNCTION
-        value:
-          type: string
-    AssetTagRequest:
-      type: object
-      title: io.ad.catalog.api.model.AssetTagRequest
-      properties:
-        id:
-          type: integer
-        name:
-          type:
-          - string
-          - 'null'
-    AssetLabelRequest:
-      type: object
-      title: io.ad.catalog.api.model.AssetLabelRequest
-      required:
-      - labels
-      properties:
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
-    DateTime:
-      type: object
-      title: org.joda.time.DateTime
     TagDomain:
       type: object
       title: io.ad.catalog.api.model.tags.TagDomain
@@ -453,3 +443,13 @@ components:
           oneOf:
           - $ref: '#/components/schemas/DateTime'
           - type: 'null'
+    AssetLabelRequest:
+      type: object
+      title: io.ad.catalog.api.model.AssetLabelRequest
+      required:
+      - labels
+      properties:
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'

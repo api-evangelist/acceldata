@@ -97,19 +97,20 @@ paths:
           description: User does not have permission to delete this API key
 components:
   schemas:
-    ApiKeysResponseObject:
+    Meta:
       type: object
-      title: ApiKeysResponseObject
+      title: Meta
       required:
-      - data
-      - meta
+      - page
+      - size
+      - total
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKeyDetails'
-        meta:
-          $ref: '#/components/schemas/Meta'
+        page:
+          type: integer
+        size:
+          type: integer
+        total:
+          type: integer
     ApiKeyDetails:
       type: object
       title: ApiKeyDetails
@@ -137,17 +138,16 @@ components:
           - 'null'
         validTill:
           type: integer
-    Meta:
+    ApiKeysResponseObject:
       type: object
-      title: Meta
+      title: ApiKeysResponseObject
       required:
-      - page
-      - size
-      - total
+      - data
+      - meta
       properties:
-        page:
-          type: integer
-        size:
-          type: integer
-        total:
-          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKeyDetails'
+        meta:
+          $ref: '#/components/schemas/Meta'

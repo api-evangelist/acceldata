@@ -232,19 +232,6 @@ paths:
           description: Service user not found
 components:
   schemas:
-    ServiceUserDomainRoleMappingRequest:
-      type: object
-      title: ServiceUserDomainRoleMappingRequest
-      required:
-      - domainId
-      - roleId
-      properties:
-        domainId:
-          type: integer
-        roleId:
-          type: array
-          items:
-            type: integer
     ApiKeyResponse:
       type: object
       title: ApiKeyResponse
@@ -318,34 +305,117 @@ components:
           type: integer
         username:
           type: string
-    Role:
+    CreateServiceUserRequest:
       type: object
-      title: Role
+      title: CreateServiceUserRequest
       required:
-      - id
-      - name
+      - username
       properties:
-        default:
-          type: boolean
         description:
           type:
           - string
           - 'null'
-        id:
-          type: integer
-        metadata:
-          oneOf:
-          - $ref: '#/components/schemas/Metadata'
-          - type: 'null'
-        name:
+        username:
           type: string
-        type:
+    ServiceUserUpdateRequest:
+      type: object
+      title: ServiceUserUpdateRequest
+      required:
+      - enabled
+      properties:
+        description:
           type:
           - string
           - 'null'
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
+        enabled:
+          type: boolean
+    ServiceUserApiKeyRequest:
+      type: object
+      title: ServiceUserApiKeyRequest
+      required:
+      - displayName
+      - validTill
+      properties:
+        displayName:
+          type: string
+        namespace:
+          type:
+          - string
+          - 'null'
+        nid:
+          type: integer
+        niid:
+          type: integer
+        realm:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    ApiKeyDetails:
+      type: object
+      title: ApiKeyDetails
+      required:
+      - accessKey
+      - createdAt
+      - displayName
+      - email
+      - secretKey
+      - validTill
+      properties:
+        accessKey:
+          type: string
+        createdAt:
+          type: integer
+        displayName:
+          type: string
+        email:
+          type: string
+        secretKey:
+          type: string
+        userName:
+          type:
+          - string
+          - 'null'
+        validTill:
+          type: integer
+    ServiceUserListResponse:
+      type: object
+      title: ServiceUserListResponse
+      required:
+      - meta
+      - serviceUsers
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        serviceUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceUser'
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
+    ServiceUserDomainRoleMappingRequest:
+      type: object
+      title: ServiceUserDomainRoleMappingRequest
+      required:
+      - domainId
+      - roleId
+      properties:
+        domainId:
+          type: integer
+        roleId:
+          type: array
+          items:
+            type: integer
     EntityDomainRoleMapping:
       type: object
       title: EntityDomainRoleMapping
@@ -375,33 +445,25 @@ components:
           enum:
           - FEATURE_ROLE
           - RESOURCE_ROLE
-    ApiKeyDetails:
+    ServiceUserRolesRequest:
       type: object
-      title: ApiKeyDetails
+      title: ServiceUserRolesRequest
       required:
-      - accessKey
-      - createdAt
-      - displayName
-      - email
-      - secretKey
-      - validTill
+      - clientId
+      - roles
       properties:
-        accessKey:
+        clientId:
           type: string
-        createdAt:
-          type: integer
-        displayName:
-          type: string
-        email:
-          type: string
-        secretKey:
-          type: string
-        userName:
+        domainRoleMappings:
           type:
-          - string
+          - array
           - 'null'
-        validTill:
-          type: integer
+          items:
+            $ref: '#/components/schemas/ServiceUserDomainRoleMappingRequest'
+        roles:
+          type: array
+          items:
+            type: integer
     Metadata:
       type: object
       title: Metadata
@@ -442,93 +504,31 @@ components:
           type: integer
         total:
           type: integer
-    ServiceUserApiKeyRequest:
+    Role:
       type: object
-      title: ServiceUserApiKeyRequest
+      title: Role
       required:
-      - displayName
-      - validTill
+      - id
+      - name
       properties:
-        displayName:
-          type: string
-        namespace:
-          type:
-          - string
-          - 'null'
-        nid:
-          type: integer
-        niid:
-          type: integer
-        realm:
-          type:
-          - string
-          - 'null'
-        validTill:
-          type: integer
-    ServiceUserUpdateRequest:
-      type: object
-      title: ServiceUserUpdateRequest
-      required:
-      - enabled
-      properties:
+        default:
+          type: boolean
         description:
           type:
           - string
           - 'null'
-        enabled:
-          type: boolean
-    CreateServiceUserRequest:
-      type: object
-      title: CreateServiceUserRequest
-      required:
-      - username
-      properties:
-        description:
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
           type:
           - string
           - 'null'
-        username:
-          type: string
-    Status:
-      type: object
-      title: Status
-      required:
-      - message
-      - status
-      properties:
-        message:
-          type: string
-        status:
-          type: boolean
-    ServiceUserListResponse:
-      type: object
-      title: ServiceUserListResponse
-      required:
-      - meta
-      - serviceUsers
-      properties:
-        meta:
-          $ref: '#/components/schemas/Meta'
-        serviceUsers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceUser'
-    ServiceUserRolesRequest:
-      type: object
-      title: ServiceUserRolesRequest
-      required:
-      - clientId
-      - roles
-      properties:
-        clientId:
-          type: string
-        domainRoleMappings:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ServiceUserDomainRoleMappingRequest'
-        roles:
-          type: array
-          items:
-            type: integer
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE

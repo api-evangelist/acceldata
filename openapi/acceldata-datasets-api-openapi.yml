@@ -82,6 +82,39 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: Error response
+      properties:
+        message:
+          type: string
+          description: Human-readable error message
+          example: Unauthorized - invalid or missing API key
+        error:
+          type: string
+          description: Error code
+          example: unauthorized
+        code:
+          type: integer
+          description: HTTP-style error code
+          example: 401
+    DatasetList:
+      type: object
+      description: Paginated list of datasets
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+        total:
+          type: integer
+          example: 120
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 25
     Dataset:
       type: object
       description: A registered dataset in Acceldata
@@ -133,39 +166,6 @@ components:
           type: integer
           description: Number of columns in the dataset
           example: 24
-    ErrorResponse:
-      type: object
-      description: Error response
-      properties:
-        message:
-          type: string
-          description: Human-readable error message
-          example: Unauthorized - invalid or missing API key
-        error:
-          type: string
-          description: Error code
-          example: unauthorized
-        code:
-          type: integer
-          description: HTTP-style error code
-          example: 401
-    DatasetList:
-      type: object
-      description: Paginated list of datasets
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Dataset'
-        total:
-          type: integer
-          example: 120
-        page:
-          type: integer
-          example: 1
-        limit:
-          type: integer
-          example: 25
   securitySchemes:
     apiKey:
       type: apiKey

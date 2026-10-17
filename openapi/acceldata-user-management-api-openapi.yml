@@ -260,34 +260,26 @@ paths:
           description: Cannot view groups of another user
 components:
   schemas:
-    Role:
+    AllRealmUsersListResponse:
       type: object
-      title: Role
+      title: AllRealmUsersListResponse
       required:
-      - id
-      - name
+      - message
+      - meta
+      - status
       properties:
-        default:
-          type: boolean
-        description:
-          type:
-          - string
-          - 'null'
-        id:
-          type: integer
-        metadata:
-          oneOf:
-          - $ref: '#/components/schemas/Metadata'
-          - type: 'null'
-        name:
+        message:
           type: string
-        type:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        status:
+          type: boolean
+        users:
           type:
-          - string
+          - array
           - 'null'
-          enum:
-          - FEATURE_ROLE
-          - RESOURCE_ROLE
+          items:
+            $ref: '#/components/schemas/User'
     User:
       type: object
       title: User
@@ -378,14 +370,16 @@ components:
           type:
           - string
           - 'null'
-    AssignUserGroupRequest:
+    AssignUserGroup:
       type: object
-      title: AssignUserGroupRequest
+      title: AssignUserGroup
       required:
-      - data
+      - groups
       properties:
-        data:
-          $ref: '#/components/schemas/AssignUserGroup'
+        groups:
+          type: array
+          items:
+            type: string
     Metadata:
       type: object
       title: Metadata
@@ -412,6 +406,25 @@ components:
           type:
           - string
           - 'null'
+    AssignUserGroupRequest:
+      type: object
+      title: AssignUserGroupRequest
+      required:
+      - data
+      properties:
+        data:
+          $ref: '#/components/schemas/AssignUserGroup'
+    Status:
+      type: object
+      title: Status
+      required:
+      - message
+      - status
+      properties:
+        message:
+          type: string
+        status:
+          type: boolean
     Meta:
       type: object
       title: Meta
@@ -426,16 +439,6 @@ components:
           type: integer
         total:
           type: integer
-    AssignUserGroup:
-      type: object
-      title: AssignUserGroup
-      required:
-      - groups
-      properties:
-        groups:
-          type: array
-          items:
-            type: string
     GroupRepresentation:
       type: object
       title: GroupRepresentation
@@ -488,34 +491,31 @@ components:
           type: object
           additionalProperties:
             type: boolean
-    Status:
+    Role:
       type: object
-      title: Status
+      title: Role
       required:
-      - message
-      - status
+      - id
+      - name
       properties:
-        message:
-          type: string
-        status:
+        default:
           type: boolean
-    AllRealmUsersListResponse:
-      type: object
-      title: AllRealmUsersListResponse
-      required:
-      - message
-      - meta
-      - status
-      properties:
-        message:
-          type: string
-        meta:
-          $ref: '#/components/schemas/Meta'
-        status:
-          type: boolean
-        users:
+        description:
           type:
-          - array
+          - string
           - 'null'
-          items:
-            $ref: '#/components/schemas/User'
+        id:
+          type: integer
+        metadata:
+          oneOf:
+          - $ref: '#/components/schemas/Metadata'
+          - type: 'null'
+        name:
+          type: string
+        type:
+          type:
+          - string
+          - 'null'
+          enum:
+          - FEATURE_ROLE
+          - RESOURCE_ROLE

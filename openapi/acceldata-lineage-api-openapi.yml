@@ -99,6 +99,22 @@ components:
           type: integer
           description: HTTP-style error code
           example: 401
+    LineageNode:
+      type: object
+      description: A node in the data lineage graph
+      properties:
+        id:
+          type: string
+          description: Dataset or table identifier
+          example: dataset-source-001
+        name:
+          type: string
+          description: Dataset or table name
+          example: raw_orders
+        source:
+          type: string
+          description: Source platform
+          example: s3
     LineageGraph:
       type: object
       description: Data lineage graph for a dataset
@@ -121,22 +137,6 @@ components:
           description: Downstream data consumers
           items:
             $ref: '#/components/schemas/LineageNode'
-    LineageNode:
-      type: object
-      description: A node in the data lineage graph
-      properties:
-        id:
-          type: string
-          description: Dataset or table identifier
-          example: dataset-source-001
-        name:
-          type: string
-          description: Dataset or table name
-          example: raw_orders
-        source:
-          type: string
-          description: Source platform
-          example: s3
   securitySchemes:
     apiKey:
       type: apiKey

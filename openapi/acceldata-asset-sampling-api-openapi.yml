@@ -139,23 +139,29 @@ paths:
           description: 'Dataplane job not found for requestId: {requestId}'
 components:
   schemas:
-    Any:
+    SampleDataWithTransformUDFsRequest:
       type: object
-      title: kotlin.Any
-    UdfVariable:
-      type: object
-      title: io.ad.catalog.api.model.UdfVariable
+      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
       required:
-      - key
+      - enableSyncForPushdown
+      - filterAssetSelections
+      - invalidateCache
+      - transformUDFs
       properties:
-        isColumnVariable:
+        enableSyncForPushdown:
           type: boolean
-        key:
-          type: string
-        value:
+        filter:
           type:
           - string
           - 'null'
+        filterAssetSelections:
+          type: boolean
+        invalidateCache:
+          type: boolean
+        transformUDFs:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyTransformUDF'
     File:
       type: object
       title: java.io.File
@@ -220,29 +226,20 @@ components:
           - 'null'
           additionalProperties:
             $ref: '#/components/schemas/Any'
-    SampleDataWithTransformUDFsRequest:
+    UdfVariable:
       type: object
-      title: io.ad.catalog.api.model.quality.SampleDataWithTransformUDFsRequest
+      title: io.ad.catalog.api.model.UdfVariable
       required:
-      - enableSyncForPushdown
-      - filterAssetSelections
-      - invalidateCache
-      - transformUDFs
+      - key
       properties:
-        enableSyncForPushdown:
+        isColumnVariable:
           type: boolean
-        filter:
+        key:
+          type: string
+        value:
           type:
           - string
           - 'null'
-        filterAssetSelections:
-          type: boolean
-        invalidateCache:
-          type: boolean
-        transformUDFs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyTransformUDF'
     PolicyTransformUDF:
       type: object
       title: io.ad.catalog.api.model.quality.PolicyTransformUDF
@@ -272,3 +269,6 @@ components:
           type: integer
         udfId:
           type: integer
+    Any:
+      type: object
+      title: kotlin.Any
