@@ -1,4 +1,4 @@
-# Acceldata (acceldata)
+# Acceldata
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,199 +66,285 @@
 
 Acceldata is an agentic data management platform that helps enterprises monitor, govern, and optimize data across cloud, lakehouse, and hybrid environments. The platform combines AI-powered agents with data observability to proactively detect issues, trace root causes, and automate remediation workflows. Key products include ADM (Agentic Data Management), ADOC (Acceldata Data Observability Cloud), Pulse for Hadoop environments, and Agent Studio for building custom AI agents. It supports integrations with Snowflake, Databricks, AWS, GCP, Azure, and Hadoop.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/acceldata/refs/heads/main/apis.yml)
+**Areas:** AI Agents · Data Management · Data Observability · Data Pipeline · Data Quality · Observability
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Acceldata on APIs.io
 
-## Tags:
+Everything profiled for Acceldata is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/acceldata/](https://apis.io/providers/acceldata/)** — or go straight to one of the APIs or properties below.
 
- - AI Agents, Data Management, Data Observability, Data Pipeline, Data Quality, Intelligence, Observability
+### APIs (36)
 
-## Timestamps
+- [Acceldata Alerts API](https://apis.io/apis/acceldata/acceldata-alerts-api/) — Monitor and manage data quality and pipeline alerts
+- [Acceldata Data Quality Rules API](https://apis.io/apis/acceldata/acceldata-data-quality-rules-api/) — Manage data quality rules and monitoring policies
+- [Acceldata Datasets API](https://apis.io/apis/acceldata/acceldata-datasets-api/) — Manage and query dataset metadata and quality metrics
+- [Acceldata Lineage API](https://apis.io/apis/acceldata/acceldata-lineage-api/) — Query data lineage and impact analysis
+- [Acceldata Pipeline Jobs API](https://apis.io/apis/acceldata/acceldata-pipeline-jobs-api/) — Monitor data pipeline job execution and health
+- [Acceldata Roles API](https://apis.io/apis/acceldata/acceldata-roles-api/) — Manage roles and permissions
+- [Acceldata Users API](https://apis.io/apis/acceldata/acceldata-users-api/) — Manage users and user invitations
+- [Acceldata API Keys API](https://apis.io/apis/acceldata/acceldata-api-keys-api/) — List and revoke API keys belonging to individual users or across the realm. API keys authenticate programmatic requests made on behalf of a user.
+- [Acceldata Asset Activity API](https://apis.io/apis/acceldata/acceldata-asset-activity-api/) — The Asset Activity API from Acceldata — 2 operation(s) for asset activity.
+- [Acceldata Asset Configuration API](https://apis.io/apis/acceldata/acceldata-asset-configuration-api/) — The Asset Configuration API from Acceldata — 1 operation(s) for asset configuration.
+- [Acceldata Asset Metadata API](https://apis.io/apis/acceldata/acceldata-asset-metadata-api/) — The Asset Metadata API from Acceldata — 1 operation(s) for asset metadata.
+- [Acceldata Asset Sampling API](https://apis.io/apis/acceldata/acceldata-asset-sampling-api/) — The Asset Sampling API from Acceldata — 2 operation(s) for asset sampling.
+- [Acceldata Asset Tags & Labels API](https://apis.io/apis/acceldata/acceldata-asset-tags-labels-api/) — The Asset Tags & Labels API from Acceldata — 4 operation(s) for asset tags & labels.
+- [Acceldata Asset Types API](https://apis.io/apis/acceldata/acceldata-asset-types-api/) — The Asset Types API from Acceldata — 1 operation(s) for asset types.
+- [Acceldata Asset UDF Variables API](https://apis.io/apis/acceldata/acceldata-asset-udf-variables-api/) — The Asset UDF Variables API from Acceldata — 2 operation(s) for asset udf variables.
+- [Acceldata Asset Watch API](https://apis.io/apis/acceldata/acceldata-asset-watch-api/) — The Asset Watch API from Acceldata — 2 operation(s) for asset watch.
+- [Acceldata Client Roles API](https://apis.io/apis/acceldata/acceldata-client-roles-api/) — Assign and remove client (platform) roles for a user. Client roles determine which platform-wide actions a user can perform, independent of any…
+- [Acceldata Custom Assets API](https://apis.io/apis/acceldata/acceldata-custom-assets-api/) — The Custom Assets API from Acceldata — 1 operation(s) for custom assets.
+- [Acceldata Data Cadence Rules API](https://apis.io/apis/acceldata/acceldata-data-cadence-rules-api/) — The Data Cadence Rules API from Acceldata — 3 operation(s) for data cadence rules.
+- [Acceldata Data Drift Rules API](https://apis.io/apis/acceldata/acceldata-data-drift-rules-api/) — The Data Drift Rules API from Acceldata — 8 operation(s) for data drift rules.
+- [Acceldata Group Management API](https://apis.io/apis/acceldata/acceldata-group-management-api/) — Create, retrieve, update, and delete user groups, and view the roles available to a group. Groups let administrators assign roles and permissions to…
+- [Acceldata Profile Anomaly Rules API](https://apis.io/apis/acceldata/acceldata-profile-anomaly-rules-api/) — The Profile Anomaly Rules API from Acceldata — 5 operation(s) for profile anomaly rules.
+- [Acceldata Profile Update API](https://apis.io/apis/acceldata/acceldata-profile-update-api/) — Self-service account operations, such as triggering a forgot-password email for a user.
+- [Acceldata Reconciliation Rules API](https://apis.io/apis/acceldata/acceldata-reconciliation-rules-api/) — The Reconciliation Rules API from Acceldata — 12 operation(s) for reconciliation rules.
+- [Acceldata Reference Assets API](https://apis.io/apis/acceldata/acceldata-reference-assets-api/) — The Reference Assets API from Acceldata — 1 operation(s) for reference assets.
+- [Acceldata Role Mapping API](https://apis.io/apis/acceldata/acceldata-role-mapping-api/) — Retrieve the client roles currently assigned to a user.
+- [Acceldata Rule Configuration API](https://apis.io/apis/acceldata/acceldata-rule-configuration-api/) — The Rule Configuration API from Acceldata — 2 operation(s) for rule configuration.
+- [Acceldata Rule Tags API](https://apis.io/apis/acceldata/acceldata-rule-tags-api/) — The Rule Tags API from Acceldata — 1 operation(s) for rule tags.
+- [Acceldata Rules API](https://apis.io/apis/acceldata/acceldata-rules-api/) — The Rules API from Acceldata — 2 operation(s) for rules.
+- [Acceldata Schema Drift Rules API](https://apis.io/apis/acceldata/acceldata-schema-drift-rules-api/) — The Schema Drift Rules API from Acceldata — 6 operation(s) for schema drift rules.
+- [Acceldata Service Users API](https://apis.io/apis/acceldata/acceldata-service-users-api/) — Create, retrieve, update, and manage service users — non-human identities used for automated access and system-to-system integrations in place of personal…
+- [Acceldata Tag Associations API](https://apis.io/apis/acceldata/acceldata-tag-associations-api/) — Unified tag association endpoints (associate tags with, and read tags for, catalog entities)
+- [Acceldata Tags API](https://apis.io/apis/acceldata/acceldata-tags-api/) — Create tag keys, add values to a key, and search across tag key/value pairs.
+- [Acceldata UDF Templates API](https://apis.io/apis/acceldata/acceldata-udf-templates-api/) — The UDF Templates API from Acceldata — 2 operation(s) for udf templates.
+- [Acceldata UDF Validation API](https://apis.io/apis/acceldata/acceldata-udf-validation-api/) — The UDF Validation API from Acceldata — 2 operation(s) for udf validation.
+- [Acceldata User Management API](https://apis.io/apis/acceldata/acceldata-user-management-api/) — Create, retrieve, update, and remove users, and manage their group memberships. Users provisioned through SCIM are synced from the identity provider and…
 
-- **Created:** 2025-02-24
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Acceldata Data Observability Cloud API
-The ADOC API provides programmatic access to data observability features including alerts, data quality rules, pipeline monitoring, data lineage, users, groups, roles, and permissions within the Acceldata Data Observability Cloud platform.
+#### Arazzo workflows (7)
 
-**Human URL:** [https://docs.acceldata.io/api/introduction](https://docs.acceldata.io/api/introduction)
+Multi-step workflows that chain operations into a business task.
 
-#### Tags:
+- [Acceldata Access Review](https://apis.io/arazzos/acceldata/acceldata-access-review-workflow/)
+- [Acceldata Create and Verify Data Quality Rule](https://apis.io/arazzos/acceldata/acceldata-create-and-verify-rule-workflow/)
+- [Acceldata Critical Alert Sweep](https://apis.io/arazzos/acceldata/acceldata-critical-alert-sweep-workflow/)
+- [Acceldata Dataset Quality Audit](https://apis.io/arazzos/acceldata/acceldata-dataset-quality-audit-workflow/)
+- [Acceldata Onboard Rule With Impact](https://apis.io/arazzos/acceldata/acceldata-onboard-rule-with-impact-workflow/)
+- [Acceldata Pipeline Failure Investigation](https://apis.io/arazzos/acceldata/acceldata-pipeline-failure-investigation-workflow/)
+- [Acceldata Triage Dataset Alerts](https://apis.io/arazzos/acceldata/acceldata-triage-dataset-alerts-workflow/)
 
- - Data Observability, Data Quality, Alerts, Data Pipeline
+#### MCP servers (1)
 
-#### Properties
+Model Context Protocol servers that expose the API to agents.
 
-- [Documentation](https://docs.acceldata.io/api/introduction)
-- [Authentication](https://docs.acceldata.io/api/authentication)
-- [OpenAPI](openapi/acceldata-adoc-api.yaml)
-- [JSONSchema](json-schema/adoc-api-alert-schema.json)
-- [JSONSchema](json-schema/adoc-api-alert-list-schema.json)
-- [JSONSchema](json-schema/adoc-api-data-quality-rule-schema.json)
-- [JSONSchema](json-schema/adoc-api-data-quality-rule-list-schema.json)
-- [JSONSchema](json-schema/adoc-api-dataset-schema.json)
-- [JSONSchema](json-schema/adoc-api-dataset-list-schema.json)
-- [JSONSchema](json-schema/adoc-api-lineage-node-schema.json)
-- [JSONSchema](json-schema/adoc-api-lineage-graph-schema.json)
-- [JSONSchema](json-schema/adoc-api-pipeline-job-schema.json)
-- [JSONSchema](json-schema/adoc-api-pipeline-job-list-schema.json)
-- [JSONSchema](json-schema/adoc-api-user-schema.json)
-- [JSONSchema](json-schema/adoc-api-user-list-schema.json)
-- [JSONSchema](json-schema/adoc-api-role-schema.json)
-- [JSONSchema](json-schema/adoc-api-role-list-schema.json)
-- [JSONStructure](json-structure/adoc-api-alert-structure.json)
-- [JSONStructure](json-structure/adoc-api-alert-list-structure.json)
-- [JSONStructure](json-structure/adoc-api-data-quality-rule-structure.json)
-- [JSONStructure](json-structure/adoc-api-data-quality-rule-list-structure.json)
-- [JSONStructure](json-structure/adoc-api-dataset-structure.json)
-- [JSONStructure](json-structure/adoc-api-dataset-list-structure.json)
-- [JSONStructure](json-structure/adoc-api-lineage-node-structure.json)
-- [JSONStructure](json-structure/adoc-api-lineage-graph-structure.json)
-- [JSONStructure](json-structure/adoc-api-pipeline-job-structure.json)
-- [JSONStructure](json-structure/adoc-api-pipeline-job-list-structure.json)
-- [JSONStructure](json-structure/adoc-api-user-structure.json)
-- [JSONStructure](json-structure/adoc-api-user-list-structure.json)
-- [JSONStructure](json-structure/adoc-api-role-structure.json)
-- [JSONStructure](json-structure/adoc-api-role-list-structure.json)
-- [Example](examples/adoc-api-alert-example.json)
-- [Example](examples/adoc-api-alert-list-example.json)
-- [Example](examples/adoc-api-data-quality-rule-example.json)
-- [Example](examples/adoc-api-dataset-example.json)
-- [Example](examples/adoc-api-lineage-graph-example.json)
-- [Example](examples/adoc-api-pipeline-job-example.json)
-- [Example](examples/adoc-api-user-example.json)
-- [Example](examples/adoc-api-role-example.json)
+- [acceldata-mcp.yml](https://apis.io/servers/acceldata/acceldata-mcp-yml/)
 
-## Common Properties
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Acceldata Agentic Access](https://apis.io/agentic-access/acceldata/acceldata-agentic-access/)
+
+#### JSON Schema (17)
+
+The data models the API reads and writes.
+
+- [AcknowledgeAlertRequest](https://apis.io/schemas/acceldata/adoc-api-acknowledge-alert-request/)
+- [Alert](https://apis.io/schemas/acceldata/adoc-api-alert/)
+- [AlertList](https://apis.io/schemas/acceldata/adoc-api-alert-list/)
+- [CreateDataQualityRuleRequest](https://apis.io/schemas/acceldata/adoc-api-create-data-quality-rule-request/)
+- [DataQualityRule](https://apis.io/schemas/acceldata/adoc-api-data-quality-rule/)
+- [DataQualityRuleList](https://apis.io/schemas/acceldata/adoc-api-data-quality-rule-list/)
+- [Dataset](https://apis.io/schemas/acceldata/adoc-api-dataset/)
+- [DatasetList](https://apis.io/schemas/acceldata/adoc-api-dataset-list/)
+- [ErrorResponse](https://apis.io/schemas/acceldata/adoc-api-error-response/)
+- [LineageGraph](https://apis.io/schemas/acceldata/adoc-api-lineage-graph/)
+- [LineageNode](https://apis.io/schemas/acceldata/adoc-api-lineage-node/)
+- [PipelineJob](https://apis.io/schemas/acceldata/adoc-api-pipeline-job/)
+- [PipelineJobList](https://apis.io/schemas/acceldata/adoc-api-pipeline-job-list/)
+- [Role](https://apis.io/schemas/acceldata/adoc-api-role/)
+- [RoleList](https://apis.io/schemas/acceldata/adoc-api-role-list/)
+- [User](https://apis.io/schemas/acceldata/adoc-api-user/)
+- [UserList](https://apis.io/schemas/acceldata/adoc-api-user-list/)
+
+#### JSON Structure (17)
+
+Data models expressed in JSON Structure.
+
+- [Adoc Api Acknowledge Alert Request Structure](https://apis.io/json-structure/acceldata/adoc-api-acknowledge-alert-request-structure/)
+- [Adoc Api Alert List Structure](https://apis.io/json-structure/acceldata/adoc-api-alert-list-structure/)
+- [Adoc Api Alert Structure](https://apis.io/json-structure/acceldata/adoc-api-alert-structure/)
+- [Adoc Api Create Data Quality Rule Request Structure](https://apis.io/json-structure/acceldata/adoc-api-create-data-quality-rule-request-structure/)
+- [Adoc Api Data Quality Rule List Structure](https://apis.io/json-structure/acceldata/adoc-api-data-quality-rule-list-structure/)
+- [Adoc Api Data Quality Rule Structure](https://apis.io/json-structure/acceldata/adoc-api-data-quality-rule-structure/)
+- [Adoc Api Dataset List Structure](https://apis.io/json-structure/acceldata/adoc-api-dataset-list-structure/)
+- [Adoc Api Dataset Structure](https://apis.io/json-structure/acceldata/adoc-api-dataset-structure/)
+- [Adoc Api Error Response Structure](https://apis.io/json-structure/acceldata/adoc-api-error-response-structure/)
+- [Adoc Api Lineage Graph Structure](https://apis.io/json-structure/acceldata/adoc-api-lineage-graph-structure/)
+- [Adoc Api Lineage Node Structure](https://apis.io/json-structure/acceldata/adoc-api-lineage-node-structure/)
+- [Adoc Api Pipeline Job List Structure](https://apis.io/json-structure/acceldata/adoc-api-pipeline-job-list-structure/)
+- [Adoc Api Pipeline Job Structure](https://apis.io/json-structure/acceldata/adoc-api-pipeline-job-structure/)
+- [Adoc Api Role List Structure](https://apis.io/json-structure/acceldata/adoc-api-role-list-structure/)
+- [Adoc Api Role Structure](https://apis.io/json-structure/acceldata/adoc-api-role-structure/)
+- [Adoc Api User List Structure](https://apis.io/json-structure/acceldata/adoc-api-user-list-structure/)
+- [Adoc Api User Structure](https://apis.io/json-structure/acceldata/adoc-api-user-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Acceldata Adoc Api Context](https://apis.io/jsonld/acceldata/acceldata-adoc-api-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Acceldata Vocabulary](https://apis.io/vocabularies/acceldata/acceldata-vocabulary/)
+
+#### Examples (17)
+
+Example requests and responses.
+
+- [Adoc Api Acknowledge Alert Request Example](https://apis.io/examples/acceldata/adoc-api-acknowledge-alert-request-example/)
+- [Adoc Api Alert Example](https://apis.io/examples/acceldata/adoc-api-alert-example/)
+- [Adoc Api Alert List Example](https://apis.io/examples/acceldata/adoc-api-alert-list-example/)
+- [Adoc Api Create Data Quality Rule Request Example](https://apis.io/examples/acceldata/adoc-api-create-data-quality-rule-request-example/)
+- [Adoc Api Data Quality Rule Example](https://apis.io/examples/acceldata/adoc-api-data-quality-rule-example/)
+- [Adoc Api Data Quality Rule List Example](https://apis.io/examples/acceldata/adoc-api-data-quality-rule-list-example/)
+- [Adoc Api Dataset Example](https://apis.io/examples/acceldata/adoc-api-dataset-example/)
+- [Adoc Api Dataset List Example](https://apis.io/examples/acceldata/adoc-api-dataset-list-example/)
+- [Adoc Api Error Response Example](https://apis.io/examples/acceldata/adoc-api-error-response-example/)
+- [Adoc Api Lineage Graph Example](https://apis.io/examples/acceldata/adoc-api-lineage-graph-example/)
+- [Adoc Api Lineage Node Example](https://apis.io/examples/acceldata/adoc-api-lineage-node-example/)
+- [Adoc Api Pipeline Job Example](https://apis.io/examples/acceldata/adoc-api-pipeline-job-example/)
+- [Adoc Api Pipeline Job List Example](https://apis.io/examples/acceldata/adoc-api-pipeline-job-list-example/)
+- [Adoc Api Role Example](https://apis.io/examples/acceldata/adoc-api-role-example/)
+- [Adoc Api Role List Example](https://apis.io/examples/acceldata/adoc-api-role-list-example/)
+- [Adoc Api User Example](https://apis.io/examples/acceldata/adoc-api-user-example/)
+- [Adoc Api User List Example](https://apis.io/examples/acceldata/adoc-api-user-list-example/)
+
+#### Collections (8)
+
+Postman and Open Collection request collections.
+
+- [Acceldata - Data Observability Cloud Alerts API](https://apis.io/collections/acceldata/open-acceldata-alerts-api/)
+- [Acceldata - Data Observability Cloud Alerts Data Quality Rules API](https://apis.io/collections/acceldata/open-acceldata-data-quality-rules-api/)
+- [Acceldata - Data Observability Cloud Alerts Datasets API](https://apis.io/collections/acceldata/open-acceldata-datasets-api/)
+- [Acceldata - Data Observability Cloud Alerts Lineage API](https://apis.io/collections/acceldata/open-acceldata-lineage-api/)
+- [Acceldata - Data Observability Cloud Alerts Pipeline Jobs API](https://apis.io/collections/acceldata/open-acceldata-pipeline-jobs-api/)
+- [Acceldata - Data Observability Cloud Alerts Roles API](https://apis.io/collections/acceldata/open-acceldata-roles-api/)
+- [Acceldata - Data Observability Cloud Alerts Users API](https://apis.io/collections/acceldata/open-acceldata-users-api/)
+- [Acceldata - Data Observability Cloud API](https://apis.io/collections/acceldata/postman-acceldata-adoc-api/)
+
+#### Overlays (3)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Acceldata Administration Overlay](https://apis.io/overlays/acceldata/acceldata-administration-overlay/)
+- [Acceldata Catalog Overlay](https://apis.io/overlays/acceldata/acceldata-catalog-overlay/)
+- [Acceldata Tags Overlay](https://apis.io/overlays/acceldata/acceldata-tags-overlay/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Acceldata — jsonschema rules](https://apis.io/rules/acceldata/acceldata-jsonschema-spectral-rules/)
+- [Acceldata API Rules](https://apis.io/rules/acceldata/acceldata-spectral-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Acceldata Authentication](https://apis.io/security/acceldata/acceldata-authentication/)
+- [Acceldata Domain Security](https://apis.io/security/acceldata/acceldata-domain-security/)
+- [Acceldata Trust Center](https://apis.io/security/acceldata/acceldata-trust-center/)
+- [Acceldata Vulnerability Disclosure](https://apis.io/security/acceldata/acceldata-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Acceldata Scopes](https://apis.io/scopes/acceldata/acceldata-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Acceldata Plans Pricing](https://apis.io/plans/acceldata/acceldata-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Acceldata Rate Limits](https://apis.io/rate-limits/acceldata/acceldata-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Acceldata Finops](https://apis.io/finops/acceldata/acceldata-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.acceldata.io/)
-- [Portal](https://accounts.acceldata.app/login)
 - [Documentation](https://docs.acceldata.io/)
-- [GettingStarted](https://docs.acceldata.io/api/introduction)
+- [Getting started](https://docs.acceldata.io/api/introduction)
+- [API reference](https://documentation.acceldata.io/api)
 - [Pricing](https://www.acceldata.io/pricing)
+- [Sign up](https://www.acceldata.io/free-trial)
+- [Support](https://acceldatatechnology.my.site.com/s/login/)
 - [Blog](https://www.acceldata.io/blog)
-- [PrivacyPolicy](https://www.acceldata.io/privacy-policy)
-- [TermsOfService](https://www.acceldata.io/terms-of-use)
-- [SpectralRules](rules/acceldata-spectral-rules.yml)
-- [NaftikoCapability](capabilities/data-observability.yaml)
-- [Vocabulary](vocabulary/acceldata-vocabulary.yaml)
-- [JSON-LD](json-ld/acceldata-adoc-api-context.jsonld)
+- [Terms of service](https://www.acceldata.io/terms-of-use)
+- [Privacy policy](https://www.acceldata.io/privacy-policy)
+- [GitHub](https://github.com/acceldata-io)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| Agentic Data Management | AI-powered agents that proactively detect issues, trace root causes, and automate data quality remediation workflows |
-| Data Quality Monitoring | Multi-variate anomaly detection, column-level profiling, and proactive monitoring across all data platforms |
-| Data Lineage | End-to-end data lineage visualization with schema change management and column-level impact analysis |
-| Pipeline Health Monitoring | Real-time SLA monitoring, bottleneck identification, and root cause analysis for data pipelines |
-| Data Cost Management | Visibility into data spending, budget optimization, chargebacks, and cost forecasting across cloud environments |
-| Business Notebook | Natural language interface with contextual memory for querying data quality and observability insights |
-| Agent Studio | Low-code environment for building and deploying custom AI agents for data management workflows |
-| BYOLLM Support | Bring Your Own Large Language Model for enterprise-controlled AI inference within data operations |
-| xLake Reasoning Engine | Exabyte-scale, AI-aware processing engine supporting cloud hyperscalers and on-premises deployments |
+**Kin Score 63.5** — strong · rubric 0.25.0 · scored 2026-10-23
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 59.2 |
+| Contract governance | 45.5 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 41.1 |
+| Access clarity | 92.1 |
 
-| Name | Description |
-|------|-------------|
-| Data Quality Assurance | Continuously monitor and automatically remediate data quality issues across cloud and hybrid environments |
-| Cloud Migration Validation | Validate data completeness, consistency, and accuracy during cloud migration projects |
-| AI and LLM Data Readiness | Ensure data pipelines produce clean, reliable, and AI-ready datasets for training and inference |
-| Cost Optimization and FinOps | Identify and reduce wasteful data pipeline and infrastructure costs with granular usage analytics |
-| Data Reconciliation | Automatically detect and resolve discrepancies between source and target systems across platforms |
-| Compliance and Data Governance | Track data lineage and access patterns to support regulatory compliance and data governance programs |
+**Agent readiness 52.9** — agent-ready (gated down from agent-native)
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
 
-| Name | Description |
-|------|-------------|
-| Snowflake | Native integration for monitoring Snowflake data quality, query performance, and cost optimization |
-| Databricks | Integration for observing Databricks lakehouse pipelines, job health, and data quality |
-| AWS | Support for AWS data services including S3, Redshift, Glue, EMR, and Athena |
-| Google Cloud Platform | Integration with GCP data services including BigQuery, Dataflow, and Cloud Storage |
-| Microsoft Azure | Integration with Azure Synapse, Azure Data Factory, and Azure Data Lake Storage |
-| Hadoop / Apache | Dedicated Pulse product for Hadoop ecosystem monitoring including HDFS, YARN, Hive, and Spark |
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
 
-## Artifacts
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/acceldata/](https://apis.io/providers/acceldata/).
 
-Machine-readable API specifications organized by format.
+## How this profile is made
 
-### OpenAPI
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-- [Acceldata Adoc Api](openapi/acceldata-adoc-api.yaml)
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Acceldata: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-### JSON Schema
+## Open an issue
 
-- [Adoc Api Acknowledge Alert Request](json-schema/adoc-api-acknowledge-alert-request-schema.json)
-- [Adoc Api Alert List](json-schema/adoc-api-alert-list-schema.json)
-- [Adoc Api Alert](json-schema/adoc-api-alert-schema.json)
-- [Adoc Api Create Data Quality Rule Request](json-schema/adoc-api-create-data-quality-rule-request-schema.json)
-- [Adoc Api Data Quality Rule List](json-schema/adoc-api-data-quality-rule-list-schema.json)
-- [Adoc Api Data Quality Rule](json-schema/adoc-api-data-quality-rule-schema.json)
-- [Adoc Api Dataset List](json-schema/adoc-api-dataset-list-schema.json)
-- [Adoc Api Dataset](json-schema/adoc-api-dataset-schema.json)
-- [Adoc Api Error Response](json-schema/adoc-api-error-response-schema.json)
-- [Adoc Api Lineage Graph](json-schema/adoc-api-lineage-graph-schema.json)
-- [Adoc Api Lineage Node](json-schema/adoc-api-lineage-node-schema.json)
-- [Adoc Api Pipeline Job List](json-schema/adoc-api-pipeline-job-list-schema.json)
-- [Adoc Api Pipeline Job](json-schema/adoc-api-pipeline-job-schema.json)
-- [Adoc Api Role List](json-schema/adoc-api-role-list-schema.json)
-- [Adoc Api Role](json-schema/adoc-api-role-schema.json)
-- [Adoc Api User List](json-schema/adoc-api-user-list-schema.json)
-- [Adoc Api User](json-schema/adoc-api-user-schema.json)
-
-### JSON Structure
-
-- [Adoc Api Acknowledge Alert Request](json-structure/adoc-api-acknowledge-alert-request-structure.json)
-- [Adoc Api Alert List](json-structure/adoc-api-alert-list-structure.json)
-- [Adoc Api Alert](json-structure/adoc-api-alert-structure.json)
-- [Adoc Api Create Data Quality Rule Request](json-structure/adoc-api-create-data-quality-rule-request-structure.json)
-- [Adoc Api Data Quality Rule List](json-structure/adoc-api-data-quality-rule-list-structure.json)
-- [Adoc Api Data Quality Rule](json-structure/adoc-api-data-quality-rule-structure.json)
-- [Adoc Api Dataset List](json-structure/adoc-api-dataset-list-structure.json)
-- [Adoc Api Dataset](json-structure/adoc-api-dataset-structure.json)
-- [Adoc Api Error Response](json-structure/adoc-api-error-response-structure.json)
-- [Adoc Api Lineage Graph](json-structure/adoc-api-lineage-graph-structure.json)
-- [Adoc Api Lineage Node](json-structure/adoc-api-lineage-node-structure.json)
-- [Adoc Api Pipeline Job List](json-structure/adoc-api-pipeline-job-list-structure.json)
-- [Adoc Api Pipeline Job](json-structure/adoc-api-pipeline-job-structure.json)
-- [Adoc Api Role List](json-structure/adoc-api-role-list-structure.json)
-- [Adoc Api Role](json-structure/adoc-api-role-structure.json)
-- [Adoc Api User List](json-structure/adoc-api-user-list-structure.json)
-- [Adoc Api User](json-structure/adoc-api-user-structure.json)
-
-### JSON-LD
-
-- [Acceldata Adoc Api Context](json-ld/acceldata-adoc-api-context.jsonld)
-
-## Capabilities
-
-Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
-
-### Shared Per-API Definitions
-
-- [acceldata-adoc-api](capabilities/shared/acceldata-adoc-api.yaml) — 9 operations for Acceldata Data Observability Cloud API shared capability for
-
-### Workflow Capabilities
-
-| Workflow | APIs Combined | Tools | Persona |
-|----------|--------------|-------|---------|
-| [data-observability](capabilities/data-observability.yaml) | acceldata-adoc-api | 6 | Data Engineer, Data Analyst |
-
-## Vocabulary
-
-- [Acceldata Vocabulary](vocabulary/acceldata-vocabulary.yaml) — Unified taxonomy mapping 7 resources, 5 actions, 1 workflows, and 4 personas across operational (OpenAPI) and capability (Naftiko) dimensions
-
-## Rules
-
-- [Acceldata Spectral Rules](rules/acceldata-spectral-rules.yml) — 25 rules enforcing Acceldata API conventions
-
-## Maintainers
-
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/acceldata/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
