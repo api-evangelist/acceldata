@@ -1,0 +1,74 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.acceldata.io/pricing
+sources:
+- https://www.acceldata.io/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: negotiated
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+published: false
+note: Pricing page lists named tiers but no numeric prices; all say Contact Sales (one offers a 30-Day
+  Free Trial).
+plan_count: 4
+plans:
+- name: ADOC - Data Reliability PRO
+  price_text: Contact Sales
+  period: none
+  included_quota: Anomaly Detection, Profiling, Freshness, Schema Drift, Automated Data Classification,
+    BI Toll Lineage and DQ, Out of the Box DQ Rules and Policies, Monitors and Alerts, AI Copilot
+- name: ADOC - Data Reliability ENTERPRISE
+  price_text: Contact Sales
+  period: none
+  included_quota: 'All of PRO Features Plus: Reconciliation, RBAC & Enterprise Readiness, Pipeline Monitoring,
+    SDK, Reporting, Direct API Access to Meta Data'
+- name: ADOC - Cost Optimization PRO
+  price_text: Start Free Trial
+  period: none
+  included_quota: Cost Metrics & Trends, Query Studio, Dashboards, Alerts & Monitors
+- name: ADOC - Cost Optimization ENTERPRISE
+  price_text: Contact Sales
+  period: none
+  included_quota: 'All of PRO Features Plus: Automated Actions, Chargeback Showback, Training, Advanced
+    Support, AI Copilot, Geographic Data Centers, Direct API Access to Meta Data'
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: ADOC - Data Reliability PRO
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: ADOC - Data Reliability ENTERPRISE
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: ADOC - Cost Optimization PRO
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: ADOC - Cost Optimization ENTERPRISE
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
