@@ -39,7 +39,7 @@ plans:
   included_quota: 'All of PRO Features Plus: Automated Actions, Chargeback Showback, Training, Advanced
     Support, AI Copilot, Geographic Data Centers, Direct API Access to Meta Data'
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models: []
   units: []
