@@ -29,6 +29,12 @@ artifacts:
   authentication/acceldata-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/acceldata-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -83,8 +89,14 @@ artifacts:
   conventions/acceldata-conventions.yml:
     method: searched
     evidence: declared in the artifact
+  data-license/acceldata-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/acceldata-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  eligibility/acceldata-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/acceldata-problem-types.yml:
     method: derived
@@ -149,6 +161,12 @@ artifacts:
   heartbeat/2026-11-02.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-06.yml:
+    method: unknown
+    evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -156,6 +174,186 @@ artifacts:
     method: searched
     evidence: declared in the artifact
   json-ld/acceldata-adoc-api-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-add-values-to-key-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-api-key-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-api-keys-response-object-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-activity-info-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-comment-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-label-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-tag-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-tag-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-tag-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-udfvariable-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-udfvariable-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-asset-udfvariable-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-assign-client-role-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-associate-tags-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-associate-tags-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-create-service-user-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-create-tag-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-create-user-group-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-custom-asset-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-data-cadence-rule-rule-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-data-drift-execution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-data-drift-executions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-data-drift-rule-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-data-drift-rule-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-edit-user-group-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-execution-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-executions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-forgot-password-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-group-details-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-groups-list-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-incremental-strategies-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-label-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-policy-execution-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-policy-schedule-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-profile-anomaly-rule-rule-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-profile-anomaly-rule-rule-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-reconciliation-execution-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-reconciliation-executions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-reconciliation-rule-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-reconciliation-rules-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-rule-config-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-rule-tag-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-rule-tag-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-sample-data-api-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-sample-data-with-transform-udfs-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-schedule-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-schema-drift-rule-executions-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-schema-drift-rule-rule-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-schema-drift-rule-rule-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-search-key-values-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-service-user-api-key-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-service-user-list-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-service-user-roles-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-service-user-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-status-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-tag-detail-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-tag-response-proto-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-tag-values-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/acceldata-update-sql-view-request-schema.json:
     method: unknown
     evidence: no authorship recorded
   json-schema/adoc-api-acknowledge-alert-request-schema.json:
@@ -263,7 +461,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -330,6 +528,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/acceldata-lifecycle.yml:
@@ -485,6 +686,9 @@ artifacts:
   postman/acceldata-adoc-api.postman_collection.json:
     method: unknown
     evidence: no authorship recorded
+  privacy/acceldata-privacy-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
   rate-limits/acceldata-rate-limits.yml:
     method: searched
     evidence: declared in the artifact
@@ -520,6 +724,9 @@ artifacts:
     evidence: declared in the artifact
   sla/acceldata-sla.yml:
     method: generated
+    evidence: declared in the artifact
+  terms/acceldata-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   vocabulary/acceldata-vocabulary.yaml:
     method: unknown
