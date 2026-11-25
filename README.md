@@ -139,27 +139,36 @@ Which operations an agent can call, which act, and which need a human in the loo
 
 - [Acceldata Agentic Access](https://apis.io/agentic-access/acceldata/acceldata-agentic-access/)
 
-#### JSON Schema (17)
+#### JSON Schema (77)
 
 The data models the API reads and writes.
 
-- [AcknowledgeAlertRequest](https://apis.io/schemas/acceldata/adoc-api-acknowledge-alert-request/)
-- [Alert](https://apis.io/schemas/acceldata/adoc-api-alert/)
-- [AlertList](https://apis.io/schemas/acceldata/adoc-api-alert-list/)
-- [CreateDataQualityRuleRequest](https://apis.io/schemas/acceldata/adoc-api-create-data-quality-rule-request/)
-- [DataQualityRule](https://apis.io/schemas/acceldata/adoc-api-data-quality-rule/)
-- [DataQualityRuleList](https://apis.io/schemas/acceldata/adoc-api-data-quality-rule-list/)
-- [Dataset](https://apis.io/schemas/acceldata/adoc-api-dataset/)
-- [DatasetList](https://apis.io/schemas/acceldata/adoc-api-dataset-list/)
-- [ErrorResponse](https://apis.io/schemas/acceldata/adoc-api-error-response/)
-- [LineageGraph](https://apis.io/schemas/acceldata/adoc-api-lineage-graph/)
-- [LineageNode](https://apis.io/schemas/acceldata/adoc-api-lineage-node/)
-- [PipelineJob](https://apis.io/schemas/acceldata/adoc-api-pipeline-job/)
-- [PipelineJobList](https://apis.io/schemas/acceldata/adoc-api-pipeline-job-list/)
-- [Role](https://apis.io/schemas/acceldata/adoc-api-role/)
-- [RoleList](https://apis.io/schemas/acceldata/adoc-api-role-list/)
-- [User](https://apis.io/schemas/acceldata/adoc-api-user/)
-- [UserList](https://apis.io/schemas/acceldata/adoc-api-user-list/)
+- [AddValuesToKeyRequest](https://apis.io/schemas/acceldata/acceldata-add-values-to-key-request/)
+- [ApiKeyResponse](https://apis.io/schemas/acceldata/acceldata-api-key-response/)
+- [ApiKeysResponseObject](https://apis.io/schemas/acceldata/acceldata-api-keys-response-object/)
+- [io.ad.catalog.api.model.AssetActivityInfo](https://apis.io/schemas/acceldata/acceldata-asset-activity-info/)
+- [io.ad.catalog.api.model.AssetCommentResponse](https://apis.io/schemas/acceldata/acceldata-asset-comment-response/)
+- [io.ad.catalog.api.model.AssetLabelRequest](https://apis.io/schemas/acceldata/acceldata-asset-label-request/)
+- [io.ad.catalog.api.model.AssetTag](https://apis.io/schemas/acceldata/acceldata-asset-tag/)
+- [io.ad.catalog.api.model.AssetTagRequest](https://apis.io/schemas/acceldata/acceldata-asset-tag-request/)
+- [io.ad.catalog.api.model.AssetTagResponse](https://apis.io/schemas/acceldata/acceldata-asset-tag-response/)
+- [io.ad.catalog.api.model.AssetUDFVariable](https://apis.io/schemas/acceldata/acceldata-asset-udfvariable/)
+- [io.ad.catalog.api.model.AssetUDFVariableRequest](https://apis.io/schemas/acceldata/acceldata-asset-udfvariable-request/)
+- [io.ad.catalog.api.model.AssetUDFVariableResponse](https://apis.io/schemas/acceldata/acceldata-asset-udfvariable-response/)
+- [AssignClientRoleRequest](https://apis.io/schemas/acceldata/acceldata-assign-client-role-request/)
+- [AssociateTagsRequest](https://apis.io/schemas/acceldata/acceldata-associate-tags-request/)
+- [AssociateTagsResponse](https://apis.io/schemas/acceldata/acceldata-associate-tags-response/)
+- [CreateServiceUserRequest](https://apis.io/schemas/acceldata/acceldata-create-service-user-request/)
+- [CreateTagRequest](https://apis.io/schemas/acceldata/acceldata-create-tag-request/)
+- [CreateUserGroupRequest](https://apis.io/schemas/acceldata/acceldata-create-user-group-request/)
+- [io.ad.catalog.api.model.CustomAssetResponse](https://apis.io/schemas/acceldata/acceldata-custom-asset-response/)
+- [DataCadenceRule.RuleResponse](https://apis.io/schemas/acceldata/acceldata-data-cadence-rule-rule-response/)
+- [DataDrift.Execution](https://apis.io/schemas/acceldata/acceldata-data-drift-execution/)
+- [DataDrift.ExecutionsResponse](https://apis.io/schemas/acceldata/acceldata-data-drift-executions-response/)
+- [DataDrift.RuleRequest](https://apis.io/schemas/acceldata/acceldata-data-drift-rule-request/)
+- [DataDrift.RuleResponse](https://apis.io/schemas/acceldata/acceldata-data-drift-rule-response/)
+- [EditUserGroupRequest](https://apis.io/schemas/acceldata/acceldata-edit-user-group-request/)
+- …and 52 more published on APIs.io
 
 #### JSON Structure (17)
 
@@ -296,18 +305,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 63.5** — strong · rubric 0.25.0 · scored 2026-10-23
+**Kin Score 67.3** — exemplar · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 80.0 |
-| Contract quality | 59.2 |
+| Contract quality | 61.9 |
 | Contract governance | 45.5 |
-| Operational transparency | 36.8 |
-| Developer ergonomics | 41.1 |
-| Access clarity | 92.1 |
+| Operational transparency | 35.7 |
+| Developer ergonomics | 62.5 |
+| Access clarity | 87.2 |
 
-**Agent readiness 52.9** — agent-ready (gated down from agent-native)
+**Agent readiness 51.8** — agent-ready (gated down from agent-native)
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -332,6 +341,10 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Agentic Commerce | — |
 | Pagination Ratio | — |
 | Operation Distinctiveness | distinct |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
 **Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
 
